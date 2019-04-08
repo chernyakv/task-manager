@@ -8,15 +8,15 @@
   <form [formGroup]="newProjectForm">
     <div class="form-group">
       <label>Project Code</label>
-      <input class="form-control" formControlName="projectCode" [ngClass]="{'is-invalid': f.projectCode.errors }"/>
-      <div *ngIf="f.projectCode.errors" class="invalid-feedback">
+      <input class="form-control" formControlName="projectCode" [ngClass]="{'is-invalid': submmited && f.projectCode.errors }"/>
+      <div *ngIf="submmited && f.projectCode.errors" class="invalid-feedback">
         <div *ngIf="f.projectCode.errors.required">>>required</div>
       </div>
     </div>
     <div class="form-group">
       <label>Summary</label>
-      <textarea class="form-control" formControlName="summary" [ngClass]="{'is-invalid': f.summary.errors }"></textarea>
-      <div *ngIf="f.summary.errors" class="invalid-feedback">
+      <textarea class="form-control" formControlName="summary" [ngClass]="{'is-invalid': submmited && f.summary.errors }"></textarea>
+      <div *ngIf="submmited && f.summary.errors" class="invalid-feedback">
           <div *ngIf="f.summary.errors.required">>>required</div>
       </div>
     </div>    

@@ -1,4 +1,4 @@
-package com.netcracker.edu.fapi.message;
+package com.chernyak.fapi.message;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

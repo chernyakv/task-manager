@@ -10,6 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class NewUserModalComponent implements OnInit {
 
   newUserForm : FormGroup;
+  submmited = false;
 
   constructor(private formBuilder: FormBuilder,
     private modalRef: BsModalRef) { 
@@ -29,8 +30,8 @@ export class NewUserModalComponent implements OnInit {
     return this.newUserForm.controls;
   }
 
-  onSubmit() {
-    console.log("log");
+  _onSubmit() {
+    this.submmited = true;
   }
 
 }

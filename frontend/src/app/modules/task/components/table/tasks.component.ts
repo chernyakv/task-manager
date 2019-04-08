@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NewUserModalComponent } from '../modals/new-user-modal/new-user-modal.component';
 import { NewProjectModalComponent } from '../modals/new-project-modal/new-project-modal.component';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { User } from 'src/app/modules/user/models/User';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-tasks',
@@ -13,6 +15,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 export class TasksComponent implements OnInit {
   
   public modalRef: BsModalRef;
+  public currentUser: String;
 
   constructor(
     private modalService: BsModalService,
@@ -20,7 +23,8 @@ export class TasksComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
+    this.currentUser = this.authenticationService.currentUserValue;
+    console.log(this.currentUser);    
   }
 
   public _openUserModal(){   

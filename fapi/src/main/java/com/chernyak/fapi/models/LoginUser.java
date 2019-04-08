@@ -1,4 +1,4 @@
-package com.netcracker.edu.fapi.models;
+package com.chernyak.fapi.models;
 
 //Model for user login process
 public class LoginUser {

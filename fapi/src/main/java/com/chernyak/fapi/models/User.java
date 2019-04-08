@@ -1,7 +1,7 @@
-package com.netcracker.edu.fapi.models;
+package com.chernyak.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.netcracker.edu.fapi.models.enums.UserRole;
+import com.chernyak.fapi.models.enums.UserRole;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {

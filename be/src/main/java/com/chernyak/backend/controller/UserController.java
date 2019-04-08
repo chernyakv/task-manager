@@ -35,6 +35,11 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @PostMapping("")
+    public User saveUser(@RequestBody User user) {
+        return userService.save(user);
+    }
+
 
 
     @GetMapping(value = "/all")

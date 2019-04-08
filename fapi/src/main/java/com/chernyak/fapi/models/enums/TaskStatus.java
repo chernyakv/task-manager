@@ -1,4 +1,4 @@
-package com.netcracker.edu.fapi.models.enums;
+package com.chernyak.fapi.models.enums;
 
 public enum TaskStatus {
     OPEN,

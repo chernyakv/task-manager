@@ -1,4 +1,4 @@
-package com.netcracker.edu.fapi.security;
+package com.chernyak.fapi.security;
 
 public class SecurityJwtConstants {
 
