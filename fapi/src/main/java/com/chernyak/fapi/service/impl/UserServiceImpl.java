@@ -1,5 +1,6 @@
 package com.chernyak.fapi.service.impl;
 
+
 import com.chernyak.fapi.models.User;
 import com.chernyak.fapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.Array;
 import java.util.*;
 
-@Service("customUserDetailsService")
+@Service
 public class UserServiceImpl implements  UserDetailsService, UserService {
 
-    @Value("${backend.server.url}api/user")
+    @Value("${backend.server.url}api/v1/users")
     private String backendServerUrl;
 
     @Autowired
@@ -32,19 +34,33 @@ public class UserServiceImpl implements  UserDetailsService, UserService {
     }
 
     @Override
+    public User deleteUser(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.delete(backendServerUrl + "/" + id);
+        return null;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), getAuthority(user));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user));
     }
 
     @Override
     public List<User> getAll() {
         RestTemplate restTemplate = new RestTemplate();
-        User[] usersResponse = restTemplate.getForObject(backendServerUrl + "/all", User[].class);
-        return  Arrays.asList(usersResponse);
+        User[] usersResponse = restTemplate.getForObject(backendServerUrl, User[].class);
+        return Arrays.asList(usersResponse);
+    }
+
+    @Override
+    public List<User> getPage(int page, int size, String sort) {
+        RestTemplate restTemplate = new RestTemplate();
+        User[] usersResponse = restTemplate.getForObject(backendServerUrl + "/page?" + "page=" + page + "&size=" + size + "&sort=" + sort , User[].class);
+        return Arrays.asList(usersResponse);
     }
 
     @Override
@@ -59,5 +75,6 @@ public class UserServiceImpl implements  UserDetailsService, UserService {
         authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
         return authorities;
     }
+
 
 }

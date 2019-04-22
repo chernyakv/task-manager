@@ -2,6 +2,7 @@ package com.chernyak.backend.entity;
 
 import com.chernyak.backend.entity.enums.TaskPriority;
 import com.chernyak.backend.entity.enums.TaskStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,60 +12,43 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "TASKS")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Task {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@Table(name = "tasks")
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Task extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PROJECT_ID")
+    @JoinColumn(name = "project_id")
     private Project projectId;
 
-    @Column(name = "PRIORITY")
+    @Column(name = "priority")
     @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
-    @Column(name = "STATUS")
+    @Column(name = "task_status")
     @Enumerated(EnumType.STRING)
-    private TaskStatus status;
+    private TaskStatus taskStatus;
 
-    @Column(name = "CREATE_DATE")
-    private Date createDate;
-
-    @Column(name = "UPDATE_DATE")
-    private Date updateDate;
-
-    @Column(name = "DUE_DATE")
+    @Column(name = "due_date")
     private Date dueDate;
 
-    @Column(name = "ESTIMATION")
+    @Column(name = "estimation")
     private Date estimation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REPORTER_ID")
+    @JoinColumn(name = "reporter_id")
     private User reporterId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ASSIGNEE_ID")
+    @JoinColumn(name = "assignee_id")
     private User assigneeId;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "TICKET_CODE")
+    @Column(name = "ticket_code")
     private String ticketCode;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    @JsonIgnore
     public Project getProjectId() {
         return projectId;
     }
@@ -81,28 +65,12 @@ public class Task {
         this.priority = priority;
     }
 
-    public TaskStatus getStatus() {
-        return status;
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
     }
 
-    public void setStatus(TaskStatus status) {
-        this.status = status;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setTaskStatus(TaskStatus status) {
+        this.taskStatus = status;
     }
 
     public Date getDueDate() {
@@ -121,6 +89,7 @@ public class Task {
         this.estimation = estimation;
     }
 
+    @JsonIgnore
     public User getReporterId() {
         return reporterId;
     }
@@ -128,7 +97,7 @@ public class Task {
     public void setReporterId(User reporterId) {
         this.reporterId = reporterId;
     }
-
+    @JsonIgnore
     public User getAssigneeId() {
         return assigneeId;
     }

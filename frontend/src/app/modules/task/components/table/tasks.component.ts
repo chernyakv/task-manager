@@ -1,11 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NewUserModalComponent } from '../modals/new-user-modal/new-user-modal.component';
-import { NewProjectModalComponent } from '../modals/new-project-modal/new-project-modal.component';
+
+
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { User } from 'src/app/modules/user/models/User';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { NewProjectModalComponent } from 'src/app/modules/project/components/new-project-modal/new-project-modal.component';
 
 @Component({
   selector: 'app-tasks',
@@ -15,7 +16,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class TasksComponent implements OnInit {
   
   public modalRef: BsModalRef;
-  public currentUser: String;
+  public currentUser: string;
+  public username: string;
 
   constructor(
     private modalService: BsModalService,
@@ -23,22 +25,21 @@ export class TasksComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.currentUser = this.authenticationService.currentUserValue;
-    console.log(this.currentUser);    
-  }
+    //this.currentUser = this.authenticationService.currentUserValue.token.toString();
+    //const helper = new JwtHelperService();
 
-  public _openUserModal(){   
-    this.modalRef = this.modalService.show(NewUserModalComponent);
-  }
+    //const decodedToken = helper.decodeToken(this.currentUser);
+    //this.username = decodedToken.sub;
+       
+  }  
 
   public _openProjectModal(){   
     this.modalRef = this.modalService.show(NewProjectModalComponent);
   }
 
-  public onSubmit(){
-    this.modalRef.hide();
-    console.log("123");    
-  }
+  
+
+ 
 
   public logOut(){    
     this.authenticationService.logout();  

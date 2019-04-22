@@ -33,14 +33,6 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-
-    @PostMapping(value = "/signin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginForm loginRequest) {
-        User user = userService.getByUsername(loginRequest.getUsername());
-
-        return ResponseEntity.ok(user);
-    }
-
     @PostMapping(value = "/generate-token")
     public  ResponseEntity<?> signin(@RequestBody LoginForm loginUser){
         final Authentication authentication = authenticationManager.authenticate(

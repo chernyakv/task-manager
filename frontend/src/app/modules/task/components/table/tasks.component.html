@@ -1,17 +1,14 @@
 <div class="table-wrapper">
   <div class="table-title">
     <div class="row">
-      	<div class="col-sm-7">
-            <a href="#" class="btn btn-primary" (click)="_openUserModal()"><span>New User</span></a>
+      	<div class="col-sm-7">           
 				    <a href="#" class="btn btn-primary"><span>New Task</span></a>
             <a href="#" class="btn btn-primary" (click)="_openProjectModal()"><span>New Project</span></a>           					
         </div>       
         <div class="col-sm-3">                      
-            <h2>User <b>{{currentUser.username}}</b></h2>                    
-        </div>	
-        <div class="col-sm-2 justify-content-end">
-            <a href="#" class="btn btn-primary" (click)="logOut()"><span>Logout</span></a>   
-        </div>			
+            <h2>User <b>{{username}}</b></h2>                    
+        </div>
+       		
     </div>
   </div>
   <table class="table table-hover">

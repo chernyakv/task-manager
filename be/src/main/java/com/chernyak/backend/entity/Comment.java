@@ -9,35 +9,20 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "COMMENTS")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Comment {
+@Table(name = "comments")
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Comment extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "UPDATE_DATE")
-    private Date updateDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AUTHOR_ID")
+    @JoinColumn(name = "author_id")
     private User author;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TASK_ID")
+    @JoinColumn(name = "task_id")
     private Task task;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDescription() {
         return description;
@@ -45,14 +30,6 @@ public class Comment {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     public User getAuthor() {

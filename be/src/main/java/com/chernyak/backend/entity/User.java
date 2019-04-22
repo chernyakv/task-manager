@@ -1,55 +1,48 @@
 package com.chernyak.backend.entity;
 
-import com.chernyak.backend.entity.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 
 @Entity
-@Table(name = "USERS")
-@JsonIgnoreProperties ({"hibernateLazyInitializer", "handler"})
-public class User {
+@Table(name = "users")
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class User extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "username", unique = true)
+    private String username;
 
-    @Column(name = "LOGIN")
-    private String login;
-
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "USER_ROLE")
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-
-    @Column(name = "FIRST_NAME")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
-    public String getLogin() {
-        return login;
+    //@Column(name = "lastSession")
+    //private Date lastSession;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private List<Role> roles;
+
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
@@ -84,14 +77,11 @@ public class User {
         this.password = password;
     }
 
-    public UserRole getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
-    public  User(){
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

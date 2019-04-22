@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     @Bean
@@ -25,8 +25,28 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping(value = "/page")
+    public List<User> getPage(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort) {
+        return userService.getPage(page, size, sort);
+    }
+
     @GetMapping(value = "")
     public List<User> getAllUsers(){
-        return userService.getAll();
+            return userService.getAll();
+    }
+
+    @PostMapping(value = "")
+    public ResponseEntity<?> save(@RequestBody User user) {
+        userService.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?>  delete(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

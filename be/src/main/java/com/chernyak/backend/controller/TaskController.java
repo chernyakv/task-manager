@@ -14,26 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/api/v1/tasks")
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<List<Task>> getUser(@PathVariable(name = "id") Long id){
-        if(id == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
 
-        List<Task> tasks = this.taskService.getTaskByAsigneeId(id);
-
-        if(tasks == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
-    }
 
 
 }

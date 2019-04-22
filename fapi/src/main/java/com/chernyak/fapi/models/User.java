@@ -3,23 +3,26 @@ package com.chernyak.fapi.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.chernyak.fapi.models.enums.UserRole;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     private Long id;
-    private String login;
+    private String username;
     private String password;
-    private UserRole role;
+    private String role;
     private String firstName;
     private String lastName;
     private String email;
 
-    public String getLogin() {
-        return login;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Long getId() {
@@ -62,12 +65,12 @@ public class User {
         this.password = password;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setRole(String roles) {
+        this.role = roles;
     }
 
     public  User(){

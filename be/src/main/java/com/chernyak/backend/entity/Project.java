@@ -8,32 +8,20 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "PROJECTS")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Project {
+@Table(name = "projects")
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Project extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(name = "PROJECT_CODE")
+    @Column(name = "project_code")
     private String projectCode;
 
-    @Column(name = "SUMMARY")
+    @Column(name = "summary")
     private String summary;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "MANAGER_ID")
+    @JoinColumn(name = "manager_id")
     private User manager;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getProjectCode() {
         return projectCode;

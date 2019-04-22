@@ -8,28 +8,35 @@
   <form [formGroup]="newUserForm">
     <div class="form-group">
       <label>First Name</label>
-      <input class="form-control" formControlName="firstName" [ngClass]="{'is-invalid': submmited && f.firstName.errors }"/>
+      <input class="form-control" formControlName="firstName"   [(ngModel)]="editableUser.firstName" [ngClass]="{'is-invalid': submmited && f.firstName.errors }"/>
       <div *ngIf="submmited && f.firstName.errors" class="invalid-feedback">
         <div *ngIf="f.firstName.errors.required">>>required</div>
       </div>
     </div>
     <div class="form-group">
       <label>Last Name</label>
-      <input class="form-control" formControlName="lastName" [ngClass]="{'is-invalid': submmited && f.lastName.errors }"/>
+      <input class="form-control" formControlName="lastName"  [(ngModel)]="editableUser.lastName" [ngClass]="{'is-invalid': submmited && f.lastName.errors }"/>
       <div *ngIf="submmited && f.lastName.errors" class="invalid-feedback">
           <div *ngIf="f.lastName.errors.required">>>required</div>
       </div>
     </div>
     <div class="form-group">
+        <label>Email</label>
+        <input class="form-control" formControlName="email"  [(ngModel)]="editableUser.email" [ngClass]="{'is-invalid': submmited && f.email.errors }"/>
+        <div *ngIf="submmited && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">>>required</div>
+        </div>
+      </div>
+    <div class="form-group">
       <label>Login</label>
-      <input class="form-control" formControlName="login" [ngClass]="{'is-invalid': submmited && f.login.errors }"/>
+      <input class="form-control" formControlName="login"  [(ngModel)]="editableUser.username" [ngClass]="{'is-invalid': submmited && f.login.errors }"/>
       <div *ngIf="submmited && f.login.errors" class="invalid-feedback">
           <div *ngIf="f.login.errors.required">>>required</div>
       </div>
     </div>
     <div class="form-group">
       <label>Password</label>
-      <input type="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': submmited && f.password.errors }"/>
+      <input type="password" class="form-control" formControlName="password" [(ngModel)]="editableUser.password" [ngClass]="{'is-invalid': submmited && f.password.errors }"/>
       <div *ngIf="submmited && f.password.errors" class="invalid-feedback">
           <div *ngIf="f.password.errors.required">>>required</div>
           <div *ngIf="f.password.errors.minlength">must be a least 6 characters</div>          
@@ -37,10 +44,10 @@
     </div>
     <div class="form-group">
       <label for="inputState">Role</label>
-      <select class="form-control">
-        <option selected>Developer</option>
-        <option>Project manager</option>
-        <option>Tester</option>
+      <select class="form-control" formControlName="role">
+        <option value="DEVELOPER">Developer</option>
+        <option value="PROJECT_MANAGER">Project manager</option>
+        <option value="TESTER">Tester</option>
       </select>
     </div>
   </form>

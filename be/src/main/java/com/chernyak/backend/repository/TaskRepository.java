@@ -6,6 +6,5 @@ import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    Iterable<Task> getTasksByAssigneeId(Long id);
-
+    Iterable<Task> getTasksByAssigneeId(User user);
 }
