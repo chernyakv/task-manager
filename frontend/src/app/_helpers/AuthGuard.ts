@@ -16,22 +16,15 @@ export class AuthGuard implements CanActivate {
         
         const token = this.authenticationService.tokenValue;        
         
-        if (token) {
-            const helper = new JwtHelperService();
-            const decodedToken = helper.decodeToken(token.token.toString());
-            console.log(decodedToken);
-            const role = decodedToken.scopes.substring(5);
-            
+        if (token) {            
+            const role = this.authenticationService.currentUsersRole;            
             
             if (route.data.roles && route.data.roles.indexOf(role) === -1) {
-                // role not authorised so redirect to home page
-                this.router.navigate(['/']);
+                this.router.navigate(['/login']);
                 return false;
             }
             return true;  
-
-        }   
-       
+        }       
         
         this.router.navigate(['/login']);
         return false;

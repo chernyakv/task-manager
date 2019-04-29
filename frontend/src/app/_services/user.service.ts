@@ -15,6 +15,10 @@ export class UserService {
     return this.http.get<User[]>(`${environment.apiUrl}/api/v1/users`);
   }
 
+  getByProjectId(id: string): Observable<User[]> {
+    return this.http.get<User[]>(`${environment.apiUrl}/api/v1/users/getByProjectId/` + id);
+  }
+
   getUsersPage(currentPage: number, pageSize: number, sort: string): Observable<User[]> {
     return this.http.get<User[]>(`${environment.apiUrl}/api/v1/users/page?page=${currentPage}&size=${pageSize}&sort=${sort}`);
   }

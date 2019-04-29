@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @MappedSuperclass
@@ -18,13 +19,22 @@ public class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreatedDate
     @Column(name = "created", nullable = false, updatable = false)
-    private Date created;
+    private Long created;
 
-    @LastModifiedDate
     @Column(name = "updated", nullable = false)
-    private Date updated;
+    private Long updated;
+
+    @PrePersist
+    public void prePersist() {
+        this.created = System.currentTimeMillis();
+        this.updated = System.currentTimeMillis();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updated = System.currentTimeMillis();
+    }
 
     public Long getId() {
         return id;
@@ -34,19 +44,19 @@ public class BaseEntity {
         this.id = id;
     }
 
-    public Date getCreated() {
+    public Long getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(Long created) {
        this.created = created;
     }
 
-    public Date getUpdated() {
+    public Long getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(Long updated) {
         this.updated = updated;
     }
 }

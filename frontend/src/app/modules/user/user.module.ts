@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { UsersOnTheProjectTableComponent } from './components/users-on-the-project-table/users-on-the-project-table.component';
 
 
 
@@ -14,7 +15,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 @NgModule({
   declarations: [
     UsersComponent,
-    NewUserModalComponent],
+    NewUserModalComponent,
+    UsersOnTheProjectTableComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,   
@@ -24,7 +26,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     HttpClientModule,
     PaginationModule.forRoot(),   
   ],
-  exports: [UsersComponent],
+  exports: [UsersComponent, UsersOnTheProjectTableComponent],
   entryComponents:[NewUserModalComponent]
 })
 export class UserModule { }

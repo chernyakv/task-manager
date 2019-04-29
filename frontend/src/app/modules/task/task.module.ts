@@ -6,8 +6,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, BsDatepickerModule, PaginationModule } from 'ngx-bootstrap';
 import { NewProjectModalComponent } from '../project/components/new-project-modal/new-project-modal.component';
+import { NewTaskModalComponent } from './components/new-task-modal/new-task-modal.component';
+import { TasksOnTheProjectTableComponent } from './components/tasks-on-the-project-table/tasks-on-the-project-table.component';
 
 
 
@@ -16,7 +18,8 @@ import { NewProjectModalComponent } from '../project/components/new-project-moda
   declarations: [      
     TasksComponent,
     TaskDetailComponent,
-    NewProjectModalComponent      
+    NewTaskModalComponent,
+    TasksOnTheProjectTableComponent     
   ],
   imports: [
     CommonModule,
@@ -24,10 +27,12 @@ import { NewProjectModalComponent } from '../project/components/new-project-moda
     RouterModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule    
+    ReactiveFormsModule,
+    BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(), 
   ],
-  exports: [TasksComponent, TaskDetailComponent],
-  entryComponents:[NewProjectModalComponent]
+  exports: [TasksComponent, TaskDetailComponent, TasksOnTheProjectTableComponent],
+  entryComponents:[NewTaskModalComponent]
   
 })
 export class TaskModule { }

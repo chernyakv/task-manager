@@ -57,6 +57,13 @@ public class UserServiceImpl implements  UserDetailsService, UserService {
     }
 
     @Override
+    public List<User> getByProjectId(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        User[] usersResponse = restTemplate.getForObject(backendServerUrl + "/getByProjectId/" + id.toString() , User[].class);
+        return Arrays.asList(usersResponse);
+    }
+
+    @Override
     public List<User> getPage(int page, int size, String sort) {
         RestTemplate restTemplate = new RestTemplate();
         User[] usersResponse = restTemplate.getForObject(backendServerUrl + "/page?" + "page=" + page + "&size=" + size + "&sort=" + sort , User[].class);

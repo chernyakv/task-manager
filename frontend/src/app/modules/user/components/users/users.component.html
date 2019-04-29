@@ -2,42 +2,45 @@
   <div class="table-title" >
     <div class="row align-items-center mt-10 mb-10">
         <div class="col-sm-7">              
-          <button type="button" class="btn btn-primary" (click)="_openUserModal()">+ Add User</button>                    					
+          <button *ngIf="isProjectManager" type="button" class="btn btn-primary" (click)="_openUserModal()">+ Add User</button>                    					
         </div>                 			
     </div>
   </div>
   <table class="table table-hover">
-      <thead>
-        <tr>
-          <td>Id</td>
-          <td>Username</td>
-          <td>First Name</td>
-          <td>Last Name</td>
-          <td>Email</td>          
-          <td>Role</td>      
-          <td>Action</td>
-        </tr>     
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users | async">
-            <td class="align-middle">{{user.id}}</td>
-            <td class="align-middle">{{user.username}}</td>
-            <td class="align-middle">{{user.firstName}}</td>
-            <td class="align-middle">{{user.lastName}}</td>
-            <td class="align-middle">{{user.email}}</td>            
-            <td class="align-middle">{{user.role}}</td>                  
-            <td class="align-middle"> 
-              <button type="button" class="btn btn-success" (click)="deleteUser(user.id)">Delete</button>              
-            </td>
-        </tr>
-      </tbody>
-     
+    <thead>
+      <tr>
+        <td>Id</td>
+        <td>Username</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Email</td>          
+        <td>Role</td>      
+        <td>Action</td>
+      </tr>     
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users | async" (click)="_testLog(user)">
+          <td class="align-middle">{{user.id}}</td>
+          <td class="align-middle">{{user.username}}</td>
+          <td class="align-middle">{{user.firstName}}</td>
+          <td class="align-middle">{{user.lastName}}</td>
+          <td class="align-middle">{{user.email}}</td>            
+          <td class="align-middle">{{user.role}}</td>                  
+          <td class="align-middle"> 
+            <button type="button" class="btn btn-success btn-sm" (click)="deleteUser(user.id)">Delete</button>              
+          </td>
+      </tr>
+    </tbody>     
   </table>
-
-
 </div>
 <div class="row">
   <div class="col-xs-12 col-12">
-    <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+    <pagination
+     [itemsPerPage]="pageSize"
+     [totalItems]="totalItems"
+     [(ngModel)]="currentPage"
+     (pageChanged)="pageChanged($event)"
+     [maxSize]="5">
+    </pagination>
   </div>
 </div>

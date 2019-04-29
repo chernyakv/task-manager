@@ -7,51 +7,35 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 import { User } from 'src/app/modules/user/models/User';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NewProjectModalComponent } from 'src/app/modules/project/components/new-project-modal/new-project-modal.component';
+import { Observable } from 'rxjs';
+import { Task } from '../../models/Task';
+import { TaskService } from 'src/app/_services/task.service';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.less']
 })
-export class TasksComponent implements OnInit {
-  
+export class TasksComponent implements OnInit { 
+
+  public tasks: Observable<Task[]>;
   public modalRef: BsModalRef;
   public currentUser: string;
   public username: string;
 
   constructor(
     private modalService: BsModalService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private tasksService: TaskService
   ) {}
 
-  ngOnInit() {
-    //this.currentUser = this.authenticationService.currentUserValue.token.toString();
-    //const helper = new JwtHelperService();
+  ngOnInit() {     
+    this.tasks = this.tasksService.getAllByUsername(this.authenticationService.currentUsername);
+  } 
 
-    //const decodedToken = helper.decodeToken(this.currentUser);
-    //this.username = decodedToken.sub;
-       
-  }  
-
-  public _openProjectModal(){   
-    this.modalRef = this.modalService.show(NewProjectModalComponent);
-  }
-
-  
-
- 
-
-  public logOut(){    
-    this.authenticationService.logout();  
-    location.reload(true);
-  }
  
 
   public _closeModal(){
     this.modalRef.hide();
-  }
-
-  
-
-  
+  }  
 }

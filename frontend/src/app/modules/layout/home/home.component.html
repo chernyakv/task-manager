@@ -1,16 +1,15 @@
 <div class="containter">
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" href="#">Projects</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Users</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Tasks</a>
-    </li>
-  </ul>
-  <app-tasks></app-tasks>
+  <tabset>
+    <tab heading="Tasks">
+      <app-tasks></app-tasks>
+    </tab>
+    <tab  *ngIf="isProjectManager" heading="Users">
+      <app-users></app-users>
+    </tab>
+    <tab  *ngIf="isProjectManager" heading="Projects">
+      <app-projects-table></app-projects-table>
+    </tab>
+  </tabset>  
 </div>
 
 

@@ -12,6 +12,7 @@ import { HeaderComponent } from './header/header.component';
 import { UserModule } from '../user/user.module';
 import { FooterComponent } from './footer/footer.component';
 import { ProjectModule } from '../project/project.module';
+import { TabsModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -24,10 +25,13 @@ import { ProjectModule } from '../project/project.module';
   imports: [    
     CommonModule,
     TaskModule,
+    ProjectModule,
     ReactiveFormsModule,
-    UserModule
+    UserModule,
+    TabsModule.forRoot()
   ],  
   exports:[HeaderComponent, LoginComponent, HomeComponent, FooterComponent],
   providers: [UserService, AuthenticationService]
+  
 })
 export class LayoutModule { }

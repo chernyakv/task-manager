@@ -17,15 +17,26 @@ export class UsersComponent implements OnInit {
   
   public modalRef: BsModalRef;
   public users: Observable<User[]>;
-  public users1: User[];
 
-  public pageSize = 7;
+  public pageSize = 8;
   public currentPage = 0;
-  public totalItems = 14;
+  public totalItems = 9;
+
+  isProjectManager = true;
 
 
   constructor(private userService: UserService,
     private modalService: BsModalService) { }
+
+  
+  public _openUserModal(user: User){        
+    this.modalRef = this.modalService.show(NewUserModalComponent);
+    //this.modalRef.content.editableUser = user;    
+  }
+
+  public _testLog(user: User) {
+    console.log(user.username);
+  }
 
   updateUsesr() {
     this.users = this.userService.getUsersPage(this.currentPage,this.pageSize,"TEST");    
@@ -37,20 +48,11 @@ export class UsersComponent implements OnInit {
         this.updateUsesr();
       });;
     }
-  }
+  }  
 
-  public _openUserModal(user: User){ 
-    console.log(user);     
-    this.modalRef = this.modalService.show(NewUserModalComponent);
-    //this.modalRef.content.editableUser = user;    
-  }
-
-  pageChanged(event: any): void {
-    
-    this.currentPage = event.page - 1;
-    console.log(this.currentPage);
-    this.updateUsesr();
-    
+  pageChanged(event: any): void {    
+    this.currentPage = event.page - 1;    
+    this.updateUsesr();    
   }
 
   ngOnInit() {

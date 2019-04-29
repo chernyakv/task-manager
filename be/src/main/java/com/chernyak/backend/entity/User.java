@@ -27,6 +27,10 @@ public class User extends BaseEntity {
     @Column(name = "email")
     private String email;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prject_id")
+    private Project project;
+
     //@Column(name = "lastSession")
     //private Date lastSession;
 

@@ -29,10 +29,10 @@ public class Task extends BaseEntity {
     private TaskStatus taskStatus;
 
     @Column(name = "due_date")
-    private Date dueDate;
+    private Long dueDate;
 
     @Column(name = "estimation")
-    private Date estimation;
+    private Long estimation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reporter_id")
@@ -44,6 +44,9 @@ public class Task extends BaseEntity {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "ticket_code")
     private String ticketCode;
@@ -73,19 +76,19 @@ public class Task extends BaseEntity {
         this.taskStatus = status;
     }
 
-    public Date getDueDate() {
+    public Long getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(Long dueDate) {
         this.dueDate = dueDate;
     }
 
-    public Date getEstimation() {
+    public Long getEstimation() {
         return estimation;
     }
 
-    public void setEstimation(Date estimation) {
+    public void setEstimation(Long estimation) {
         this.estimation = estimation;
     }
 
@@ -120,5 +123,13 @@ public class Task extends BaseEntity {
 
     public void setTicketCode(String ticketCode) {
         this.ticketCode = ticketCode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

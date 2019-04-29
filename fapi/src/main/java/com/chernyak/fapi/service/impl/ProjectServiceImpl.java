@@ -23,9 +23,32 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Project delete(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.delete(backendServerUrl + "/" + id);
+        return null;
+    }
+
+    @Override
+    public Project getById(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        Project project =  restTemplate.getForObject(backendServerUrl + "/" + id, Project.class);
+        return project;
+    }
+
+    @Override
+    public List<Project> getPage(int page, int size, String sort) {
+        RestTemplate restTemplate = new RestTemplate();
+        Project[] usersResponse = restTemplate.getForObject(backendServerUrl + "/page?" + "page=" + page + "&size=" + size + "&sort=" + sort , Project[].class);
+        return Arrays.asList(usersResponse);
+    }
+
+    @Override
     public List<Project> getAll() {
         RestTemplate restTemplate = new RestTemplate();
         Project[] projectsResponse = restTemplate.getForObject(backendServerUrl, Project[].class);
         return Arrays.asList(projectsResponse);
     }
+
+
 }

@@ -33,6 +33,11 @@ public class UserController {
         return userService.getPage(page, size, sort);
     }
 
+    @GetMapping(value = "/getByProjectId/{id}")
+    public List<User> getByProjectId(@PathVariable Long id){
+        return userService.getByProjectId(id);
+    }
+
     @GetMapping(value = "")
     public List<User> getAllUsers(){
             return userService.getAll();

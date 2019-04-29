@@ -1,14 +1,9 @@
 <div class="table-wrapper">
   <div class="table-title">
     <div class="row">
-      	<div class="col-sm-7">           
-				    <a href="#" class="btn btn-primary"><span>New Task</span></a>
-            <a href="#" class="btn btn-primary" (click)="_openProjectModal()"><span>New Project</span></a>           					
-        </div>       
-        <div class="col-sm-3">                      
-            <h2>User <b>{{username}}</b></h2>                    
-        </div>
-       		
+      <div class="col-sm-7">           
+                     					
+      </div>             		
     </div>
   </div>
   <table class="table table-hover">
@@ -17,49 +12,28 @@
           <td>Project Code</td>
           <td>Task</td>
           <td>Priority</td>
-          <td>Status</td>
-          <td>Created</td>
-          <td>Updated</td>
+          <td>Status</td>         
           <td>Due Date</td>
-          <td>Estimation</td>
-          <td>Assignee</td>
-          <td>Description</td>
+          <td>Estimation</td>          
+          <td>Title</td>
           <td>Action</td>
         </tr>     
       </thead>
       <tbody>
-        <tr>
-          <td>XXXX-YYY</td>
-          <td>7777</td>
-          <td>Normal</td>
-          <td>In Progress</td>
-          <td>10/10/2018</td>
-          <td>10/10/2019</td>
-          <td>10/10/2019</td>
+        <tr *ngFor="let task of tasks | async">
+          <td>{{task.projectId}}</td>
+          <td><a [routerLink]="['/task-details', task.id]">{{task.id}}</a></td>
+          <td>{{task.priority}}</td>
+          <td>{{task.taskStatus}}</td>
+          <td>{{task.dueDate | date}}</td>
           <td>8h</td>
-          <td>Chernyak</td>
-          <td>Create new class</td>
+          <td>{{task.title}}</td>
           <td>
             <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
             <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
           </td>
         </tr>
-        <tr>
-            <td>XXXX-YYY</td>
-            <td>7777</td>
-            <td>Normal</td>
-            <td>In Progress</td>
-            <td>10/10/2018</td>
-            <td>10/10/2019</td>
-            <td>10/10/2019</td>
-            <td>8h</td>
-            <td>Chernyak</td>
-            <td>Create new class</td>
-            <td>
-              <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-            </td>
-          </tr>
+       
       </tbody>
   </table>
 </div>

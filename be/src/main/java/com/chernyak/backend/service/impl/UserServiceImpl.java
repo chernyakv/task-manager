@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllWithoutProject() {
+        return  userRepository.findAllByProjectIsNull();
+    }
+
+    @Override
     public User save(User user) {
         if(user.getRoles()!=null){
             user.getRoles().forEach(role->
@@ -66,6 +71,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAll() {
         List<User> result = userRepository.findAll();
+        return result;
+    }
+
+    @Override
+    public List<User> getByProjectId(Long id) {
+        List<User> result = userRepository.findByProjectId(id);
         return result;
     }
 

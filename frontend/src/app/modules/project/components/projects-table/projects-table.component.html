@@ -1,0 +1,42 @@
+<div class="table-wrapper">
+  <div class="table-title">
+    <div class="row">
+      <div class="col-sm-7">
+          <button type="button" class="btn btn-primary" (click)="_openProjectModal()">New Project</button>             					
+      </div>           
+    </div>
+  </div>
+  <table  class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <td>ID</td>
+        <td>Project Code</td>        
+        <td>Summary</td>
+        <td>Manager</td>       
+        <td>Action</td>
+      </tr>     
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of projects | async">
+        <td class="align-middle">{{project.id}}</td>
+        <td class="align-middle"><a [routerLink]="['/project-details', project.id]">{{project.projectCode}}</a></td>
+        <td class="align-middle">{{project.summary}}</td>
+        <td class="align-middle">{{project.manager}}</td>                  
+        <td class="align-middle"> 
+          <button type="button" class="btn btn-success " (click)="_deleteProject(project.id)">Delete</button>              
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col-xs-12 col-12">
+      <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  
+  
+  

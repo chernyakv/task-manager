@@ -63,4 +63,54 @@ public class ProjectController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ProjectDto> getById(@PathVariable Long id){
+
+        Project project = projectService.getById(id);
+
+
+        if(project == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        ProjectDto projectDto = dtoConverter.fromProject(project);
+
+        return new ResponseEntity<>(projectDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/page")
+    public ResponseEntity<List<ProjectDto>> findPage(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort) {
+
+        List<Project> pageUsers = projectService.getPage(page, size, sort).getContent();
+
+        if(pageUsers == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        List<ProjectDto> result = new ArrayList<ProjectDto>();
+        pageUsers.forEach(project -> {
+            ProjectDto projectDto = dtoConverter.fromProject(project);
+            result.add(projectDto);
+        });
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public  ResponseEntity<?> deleteProject(@PathVariable Long id) {
+
+        if(id == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        projectService.delete(id);
+
+        return  new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

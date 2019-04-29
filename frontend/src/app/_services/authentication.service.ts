@@ -29,6 +29,12 @@ export class AuthenticationService {
         return decodedToken.sub;          
     }
 
+    public get currentUsersRole(): string {
+        const helper = new JwtHelperService();
+        const decodedToken = helper.decodeToken(this.tokenSubject.value.token.toString());        
+        return decodedToken.scopes.substring(5);
+    }
+
     login(username: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/token/generate-token`, { username, password })
             .pipe(map(token => {

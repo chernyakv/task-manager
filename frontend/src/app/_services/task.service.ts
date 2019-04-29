@@ -3,26 +3,32 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../modules/user/models/User';
+import { Task } from '../modules/task/models/Task';
 
 
 
 @Injectable({ providedIn: 'root' })
-export class UserService {
+export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiUrl}/api/v1/users`);
+  getAllByUsername(username: String): Observable<Task[]> {
+    return this.http.get<Task[]>(`${environment.apiUrl}/api/v1/tasks/getByAssigneeUsername/` + username);
+  }  
+
+  getAllByProjectId(projectId: String, currentPage: number, pageSize: number, sort: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/tasks/getByProjectId/${projectId}?page=${currentPage}&size=${pageSize}&sort=${sort}`);
   }
 
-  deleteUser(id: string): Observable<void> {
-    
-    return this.http.delete<void>(`${environment.apiUrl}/api/v1/users/` + id);    
+  getById(id: string): Observable<Task> {    
+    return this.http.get<Task>(`${environment.apiUrl}/api/v1/tasks/` + id);    
   }
 
-  saveUser(user: User): Observable<User> {
-    return this.http.post<User>(`${environment.apiUrl}/api/v1/users`, user);
+  saveTask(task: Task): Observable<Task> {
+    return this.http.post<Task>(`${environment.apiUrl}/api/v1/tasks`, task);
   }
 
-
+  updateTask(task: Task): Observable<Task> {
+    return this.http.put<Task>(`${environment.apiUrl}/api/v1/tasks`, task);
+  }
 }

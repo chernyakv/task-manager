@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
-
 
     private UserService userService;
     private DtoConverter dtoConverter;
@@ -53,6 +53,23 @@ public class UserController {
     public ResponseEntity<List<UserDto>> findAll(){
 
         List<User> users = userService.getAll();
+
+        if(users == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        List<UserDto> result = users.stream()
+                .map(user -> dtoConverter.fromUser(user))
+                .collect(Collectors.toList());
+
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getByProjectId/{id}")
+    public ResponseEntity<List<UserDto>> getByProjectId(@PathVariable Long id){
+
+        List<User> users = userService.getByProjectId(id);
 
         if(users == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
