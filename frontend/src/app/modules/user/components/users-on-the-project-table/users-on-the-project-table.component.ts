@@ -14,16 +14,19 @@ export class UsersOnTheProjectTableComponent implements OnInit {
 
   @Input() project: Project;
 
-  public users: Observable<User[]>;
+  public users: User[];
 
-  public pageSize = 8;
+  public pageSize = 10;
   public currentPage = 0;
-  public totalItems = 9;
+  public totalItems;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.users = this.userService.getByProjectId(this.project.id);
+    this.userService.getAllByProjectId(this.project.id, this.currentPage,this.pageSize, "id").subscribe(data => {
+      this.users = data.content;
+      this.totalItems = data.totalElements;      
+    })
   }
 
   _openUserModal() {

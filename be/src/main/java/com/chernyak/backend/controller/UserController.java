@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,92 +35,81 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id){
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
 
         if(id == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        User result = this.userService.findById(id);
+        Optional<User> result = this.userService.getUserById(id);
 
-        if(result == null) {
+        if(result.isPresent()) {
+            return new ResponseEntity<>(dtoConverter.fromUser(result.get()), HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping(value = "")
-    public ResponseEntity<List<UserDto>> findAll(){
+    @GetMapping(value = "/username/{username}")
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
 
-        List<User> users = userService.getAll();
-
-        if(users == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        List<UserDto> result = users.stream()
-                .map(user -> dtoConverter.fromUser(user))
-                .collect(Collectors.toList());
-
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/getByProjectId/{id}")
-    public ResponseEntity<List<UserDto>> getByProjectId(@PathVariable Long id){
-
-        List<User> users = userService.getByProjectId(id);
-
-        if(users == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        List<UserDto> result = new ArrayList<UserDto>();
-        users.forEach(user -> {
-            UserDto userDto = dtoConverter.fromUser(user);
-            result.add(userDto);
-        });
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/page")
-    public ResponseEntity<List<UserDto>> findPage(
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "size") int size,
-            @RequestParam(value = "sort") String sort) {
-
-        List<User> pageUsers = userService.getPage(page, size, sort).getContent();
-
-        if(pageUsers == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        List<UserDto> result = new ArrayList<UserDto>();
-        pageUsers.forEach(user -> {
-            UserDto userDto = dtoConverter.fromUser(user);
-            result.add(userDto);
-        });
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/getByUsername/{username}")
-    public ResponseEntity<UserDto> getByUsername(@PathVariable String username) {
         if(username == null){
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        User user = userService.findByUsername(username);
+        Optional<User> result = this.userService.getUserByUsername(username);
 
-        if(user == null) {
-            return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if(result.isPresent()) {
+            return new ResponseEntity<>(dtoConverter.fromUser(result.get()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(value = "")
+    public ResponseEntity<Page<UserDto>> getAllUsers(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort){
+
+        Page<User> users = userService.getAllUsers(page, size, sort);
+
+        if(users == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        UserDto userDto = dtoConverter.fromUser(user);
+        return new ResponseEntity<>(users.map(user->dtoConverter.fromUser(user)), HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    @GetMapping(value = "/byProject/{id}")
+    public ResponseEntity<Page<UserDto>> getAllUsersByProject(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort,
+            @PathVariable Long id){
+
+        Page<User> users = userService.getAllUsersByProject(page, size, sort, id);
+
+        if(users == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(users.map(user->dtoConverter.fromUser(user)), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/withoutProject")
+    public ResponseEntity<Page<UserDto>> getAllUsersWithoutProject(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort) {
+
+        Page<User> users = userService.getAllUsersWithoutProject(page, size, sort);
+
+        if(users == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(users.map(user->dtoConverter.fromUser(user)), HttpStatus.OK);
     }
 
     @PostMapping(value = "")
@@ -129,17 +119,14 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        User user = dtoConverter.toUser(userDto);
-
         try{
-            userService.save(user);
+            userService.saveUser(dtoConverter.toUser(userDto));
         }
         catch (DataIntegrityViolationException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "{id}")
@@ -149,9 +136,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        User user = dtoConverter.toUser(userDto);
-
-        userService.update(user);
+        userService.saveUser(dtoConverter.toUser(userDto));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -163,7 +148,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        userService.delete(id);
+        userService.deleteUser(id);
 
         return  new ResponseEntity<>(HttpStatus.OK);
     }

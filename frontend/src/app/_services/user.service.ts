@@ -11,17 +11,17 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiUrl}/api/v1/users`);
+  getAllUsers(currentPage: number, pageSize: number, sort: string ): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/users/?page=${currentPage}&size=${pageSize}&sort=${sort}`);
   }
 
-  getByProjectId(id: string): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiUrl}/api/v1/users/getByProjectId/` + id);
+  getAllByProjectId(id: string, currentPage: number, pageSize: number, sort: string ): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/users/byProject/${id}?page=${currentPage}&size=${pageSize}&sort=${sort}`);
   }
 
-  getUsersPage(currentPage: number, pageSize: number, sort: string): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiUrl}/api/v1/users/page?page=${currentPage}&size=${pageSize}&sort=${sort}`);
-  }
+  getAllWithoutProject(currentPage: number, pageSize: number, sort: string ): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/users/withoutProject?page=${currentPage}&size=${pageSize}&sort=${sort}`);
+  }  
 
   deleteUser(id: string): Observable<void> {    
     return this.http.delete<void>(`${environment.apiUrl}/api/v1/users/` + id);    

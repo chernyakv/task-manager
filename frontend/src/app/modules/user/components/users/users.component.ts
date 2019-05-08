@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit {
 
   public pageSize = 8;
   public currentPage = 0;
-  public totalItems = 9;
+  public totalItems;
 
   isProjectManager = true;
 
@@ -39,7 +39,11 @@ export class UsersComponent implements OnInit {
   }
 
   updateUsesr() {
-    this.users = this.userService.getUsersPage(this.currentPage,this.pageSize,"TEST");    
+    this.userService.getAllUsers(this.currentPage,this.pageSize,"id").subscribe(data => {
+      this.users = data.content;
+      this.totalItems = data.totalElements;
+    })  
+    console.log(this.currentPage);
   }
 
   deleteUser(id:string) {

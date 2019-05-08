@@ -16,10 +16,10 @@ export class TasksOnTheProjectTableComponent implements OnInit {
 
   @Input() project: Project;
 
-  public tasks: Observable<Task[]>;
+  public tasks: Task[];
   public modalRef: BsModalRef;
 
-  public pageSize = 8;
+  public pageSize = 10;
   public currentPage = 0;
   public totalItems = 0;
   
@@ -57,7 +57,7 @@ export class TasksOnTheProjectTableComponent implements OnInit {
   }
 
   updateTasks(){
-    this.tasksService.getAllByProjectId(this.project.id, this.currentPage, this.pageSize, 'asd').subscribe(data=>{
+    this.tasksService.getAllByProjectId(this.project.id, this.currentPage, this.pageSize, 'id').subscribe(data=>{
       this.tasks = data.content;
       this.totalItems = data.totalElements;
     })

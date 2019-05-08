@@ -1,4 +1,4 @@
-<div class="table-wrapper">
+<div *ngIf="tasks.length" class="table-wrapper">
   <div class="table-title">
     <div class="row">
       <div class="col-sm-7">           
@@ -20,23 +20,35 @@
         </tr>     
       </thead>
       <tbody>
-        <tr *ngFor="let task of tasks | async">
+        <tr *ngFor="let task of tasks">
           <td>{{task.projectId}}</td>
           <td><a [routerLink]="['/task-details', task.id]">{{task.id}}</a></td>
           <td>{{task.priority}}</td>
           <td>{{task.taskStatus}}</td>
-          <td>{{task.dueDate | date}}</td>
+          <td>{{task.dueDate | date:'MM/dd/yy'}}</td>
           <td>8h</td>
           <td>{{task.title}}</td>
           <td>
             <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
             <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
           </td>
-        </tr>
-       
+        </tr>       
       </tbody>
   </table>
+  <div class="row">
+      <div class="col-xs-12 col-12">
+        <pagination
+         [itemsPerPage]="pageSize"
+         [totalItems]="totalItems"
+         [(ngModel)]="currentPage"
+         (pageChanged)="pageChanged($event)"
+         [maxSize]="5">
+        </pagination>
+      </div>
+  </div>
 </div>
+
+
 
 
 

@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    Iterable<Task> getTasksByAssigneeId(User user);
-    Iterable<Task> getTasksByProjectId(Project project);
-    Page<Task> findTaskByProjectId(Project project, Pageable pageable);
+    Page<Task> findAllByAssigneeId(Pageable pageable, User user);
+    Page<Task> findAllByProjectIdId(Pageable pageable, Long id);
 }

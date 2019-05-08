@@ -3,22 +3,14 @@ package com.chernyak.backend.service;
 import com.chernyak.backend.entity.Task;
 import org.springframework.data.domain.Page;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskService {
-    List<Task> getTaskByAsigneeId(Long id);
-
-    Task getById(Long id);
-
-    List<Task> getTaskByAsigneeUsername(String username);
-
-    List<Task> getTasksByProjectId(String projectId);
-
-    Task save(Task task);
-
-    Task update(Task task);
-
-    void delete(Long id);
-
-    Page<Task> getTasksByProjectId1(Long id, int page, int count, String sort);
+    Optional<Task> getTaskById(Long id);
+    Page<Task> getTaskByAsigneeUsername(int page, int count, String sort, String username);
+    Page<Task> getTasksByProjectId(int page, int count, String sort, Long projectId);
+    Task saveTask(Task task);
+    void deleteTask(Long id);
 }

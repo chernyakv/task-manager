@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/projects")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProjectController {
 
     ProjectService projectService;
@@ -20,6 +21,11 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
+    @GetMapping(value = "{id}")
+    public ResponseEntity<Project> getById(@PathVariable Long id){
+        Project project = projectService.getById(id);
+        return new ResponseEntity<>(project, HttpStatus.OK);
+    }
     @PostMapping(value = "")
     public ResponseEntity<?> save(@RequestBody Project project) {
         projectService.save(project);
@@ -30,12 +36,6 @@ public class ProjectController {
     public ResponseEntity<List<Project>> getAll(){
         List<Project> projects = projectService.getAll();
         return new ResponseEntity<>(projects, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "{id}")
-    public ResponseEntity<Project> getById(@PathVariable Long id){
-        Project project = projectService.getById(id);
-        return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
     @GetMapping(value = "/page")

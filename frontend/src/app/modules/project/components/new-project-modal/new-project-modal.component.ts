@@ -31,6 +31,7 @@ export class NewProjectModalComponent implements OnInit {
     this.newProjectForm = this.formBuilder.group({
       projectCode: ['', Validators.required],
       summary: ['', Validators.required],
+      name: ['', Validators.required]
     })
   }
 
@@ -40,6 +41,7 @@ export class NewProjectModalComponent implements OnInit {
 
   _onSubmit() {
     this.submmited = true;
+    
 
     if(this.newProjectForm.valid){
       this.project.manager = this.authenticationService.currentUsername;

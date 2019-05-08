@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -31,50 +33,30 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getTaskByAsigneeId(Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        return (List<Task>)taskRepository.getTasksByAssigneeId(user);
+    public Optional<Task> getTaskById(Long id) {
+        return taskRepository.findById(id);
     }
 
     @Override
-    public List<Task> getTaskByAsigneeUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        return (List<Task>)taskRepository.getTasksByAssigneeId(user);
+    public Page<Task> getTaskByAsigneeUsername(int page, int count, String sort, String username) {
+        Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
+        Optional<User> user = userRepository.findByUsername(username);
+        return taskRepository.findAllByAssigneeId(pageRequest, user.get());
     }
 
     @Override
-    public List<Task> getTasksByProjectId(String projectId) {
-        Project project = projectRepository.findById(Long.parseLong(projectId)).orElse(null);
-        return (List<Task>)taskRepository.getTasksByProjectId(project);
+    public Page<Task> getTasksByProjectId(int page, int count, String sort, Long id) {
+        Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
+        return taskRepository.findAllByProjectIdId(pageRequest, id);
     }
 
     @Override
-    public Task save(Task task) {
-        Task savedTast = taskRepository.save(task);
-
-        return savedTast;
+    public Task saveTask(Task task) {
+        return taskRepository.save(task);
     }
 
     @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public Task getById(Long id) {
-        return taskRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public Task update(Task task) {
-        Task savedTask = taskRepository.save(task);
-        return savedTask;
-    }
-
-    @Override
-    public Page<Task> getTasksByProjectId1(Long id, int page, int count, String sort) {
-        Pageable pageRequest = PageRequest.of(page, count);
-        Project project = projectRepository.findById(id).orElse(null);
-        return taskRepository.findTaskByProjectId(project, pageRequest);
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
     }
 }

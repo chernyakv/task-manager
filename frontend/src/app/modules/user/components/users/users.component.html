@@ -6,7 +6,7 @@
         </div>                 			
     </div>
   </div>
-  <table class="table table-hover">
+  <table class="table table-hover table-bordered ">
     <thead>
       <tr>
         <td>Id</td>
@@ -19,7 +19,7 @@
       </tr>     
     </thead>
     <tbody>
-      <tr *ngFor="let user of users | async" (click)="_testLog(user)">
+      <tr *ngFor="let user of users" (click)="_testLog(user)">
           <td class="align-middle">{{user.id}}</td>
           <td class="align-middle">{{user.username}}</td>
           <td class="align-middle">{{user.firstName}}</td>

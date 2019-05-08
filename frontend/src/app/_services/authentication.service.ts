@@ -48,10 +48,8 @@ export class AuthenticationService {
             }));
     }
 
-    logout() {
-              
+    logout() {              
         localStorage.removeItem('token');
-        this.tokenSubject.next(null);
-       
+        this.tokenSubject.next(null);       
     }
 }

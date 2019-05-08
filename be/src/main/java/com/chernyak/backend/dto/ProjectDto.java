@@ -13,6 +13,7 @@ public class ProjectDto {
     private String manager;
     private String projectCode;
     private String summary;
+    private String name;
 
 
     public Long getId() {
@@ -37,6 +38,14 @@ public class ProjectDto {
 
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSummary() {

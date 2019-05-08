@@ -1,5 +1,6 @@
 package com.chernyak.backend.repository;
 
+import com.chernyak.backend.entity.Project;
 import com.chernyak.backend.entity.User;
 
 import org.springframework.data.domain.Page;
@@ -8,16 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public interface UserRepository extends JpaRepository<User, Long > {
-
-    User findByUsername(String username);
-
+    Optional<User> findByUsername(String username);
     Page<User> findAll(Pageable pageable);
-
-    List<User> findAllByProjectIsNull();
-
-    List<User> findByProjectId(Long id);
-
+    Page<User> findAllByProjectId(Pageable pageable, Long id);
+    Page<User> findAllByProjectIsNull(Pageable pageable);
 }

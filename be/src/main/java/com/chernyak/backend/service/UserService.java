@@ -1,19 +1,18 @@
 package com.chernyak.backend.service;
 
+import com.chernyak.backend.entity.Project;
 import com.chernyak.backend.entity.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
-
-    Page<User> getPage(int page, int count, String sort);
-    User findById(Long id);
-    User findByUsername(String username);
-    User save(User user);
-    void delete(Long id);
-    List<User> getAll();
-    List<User> getByProjectId(Long id);
-    User update(User user);
-    List<User> getAllWithoutProject();
+    Optional<User> getUserById(Long id);
+    Optional<User> getUserByUsername(String username);
+    Page<User> getAllUsers(int page, int count, String sort);
+    Page<User> getAllUsersByProject(int page, int count, String sort, Long projectId);
+    Page<User> getAllUsersWithoutProject(int page, int count, String sort);
+    User saveUser(User user);
+    void deleteUser(Long id);
 }

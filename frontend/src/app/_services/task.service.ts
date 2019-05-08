@@ -12,12 +12,12 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getAllByUsername(username: String): Observable<Task[]> {
-    return this.http.get<Task[]>(`${environment.apiUrl}/api/v1/tasks/getByAssigneeUsername/` + username);
+  getAllByUsername(username: String, currentPage: number, pageSize: number, sort: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/tasks/byUsername/${username}?page=${currentPage}&size=${pageSize}&sort=${sort}`);
   }  
 
   getAllByProjectId(projectId: String, currentPage: number, pageSize: number, sort: string): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/api/v1/tasks/getByProjectId/${projectId}?page=${currentPage}&size=${pageSize}&sort=${sort}`);
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/tasks/byProject/${projectId}?page=${currentPage}&size=${pageSize}&sort=${sort}`);
   }
 
   getById(id: string): Observable<Task> {    

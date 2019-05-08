@@ -6,9 +6,10 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface TaskService {
-    Task update(Task task);
-    Task getById(Long id);
-    Task save(Task task);
-    List<Task> getAllByUsername(String username);
-    Object getAllByProjectId(String projectId, int page, int size, String sort);
+    Task getTaskById(Long id);
+    Object getAllTasksByUsername(int page, int count, String sort, String username);
+    Object getAllTasksByProjectId(int page, int count, String sort, Long projectId);
+    Task saveTask(Task task);
+    Task updateTask(Task task);
+    void deleteTask(Long id);
 }

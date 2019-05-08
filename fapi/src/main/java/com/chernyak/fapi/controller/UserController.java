@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     @Bean
@@ -25,28 +26,44 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/page")
-    public List<User> getPage(
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "size") int size,
-            @RequestParam(value = "sort") String sort) {
-        return userService.getPage(page, size, sort);
+    @GetMapping(value = "/{id}")
+    public  ResponseEntity<User> getUserById(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getByProjectId/{id}")
-    public List<User> getByProjectId(@PathVariable Long id){
-        return userService.getByProjectId(id);
+    @GetMapping(value = "/username/{username}")
+    public  ResponseEntity<User> getUserById(@PathVariable String username) {
+        return new ResponseEntity<>(userService.getUserByUsername(username), HttpStatus.OK);
     }
 
     @GetMapping(value = "")
-    public List<User> getAllUsers(){
-            return userService.getAll();
+    public ResponseEntity<Object>  getAllUsers(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort) {
+        return new ResponseEntity<>(userService.getAllUsers(page, size, sort), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/byProject/{id}")
+    public ResponseEntity<Object>  getAllUsersByProject(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort,
+            @PathVariable Long id) {
+        return new ResponseEntity<>(userService.getAllUsersByProject(page, size, sort, id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/withoutProject")
+    public ResponseEntity<Object>  getAllUsersWithoutProject(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort) {
+        return new ResponseEntity<>(userService.getAllUsersWithoutProject(page, size, sort), HttpStatus.OK);
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<?> save(@RequestBody User user) {
-        userService.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

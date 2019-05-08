@@ -12,7 +12,7 @@ import { HeaderComponent } from './header/header.component';
 import { UserModule } from '../user/user.module';
 import { FooterComponent } from './footer/footer.component';
 import { ProjectModule } from '../project/project.module';
-import { TabsModule } from 'ngx-bootstrap';
+import { TabsModule, BsDropdownModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,8 @@ import { TabsModule } from 'ngx-bootstrap';
     ProjectModule,
     ReactiveFormsModule,
     UserModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],  
   exports:[HeaderComponent, LoginComponent, HomeComponent, FooterComponent],
   providers: [UserService, AuthenticationService]

@@ -18,7 +18,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 export class NewTaskModalComponent implements OnInit {
 
   projectId: any;  
-  users: Observable<User[]>;  
+  users: User[];  
   task: Task; 
   newTaskForm : FormGroup;
   submmited = false;
@@ -32,7 +32,9 @@ export class NewTaskModalComponent implements OnInit {
   }
 
   ngOnInit() {    
-    this.users = this.userService.getByProjectId(this.projectId);   
+    this.userService.getAllByProjectId(this.projectId, 0, 10, "id").subscribe(data => {
+      this.users = data.content;
+    })   
     this.task = new Task();
 
     this.newTaskForm = this.formBuilder.group({

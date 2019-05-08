@@ -13,7 +13,7 @@ import { UserService } from 'src/app/_services/user.service';
 export class NewUserModalComponent implements OnInit {
 
   editableUser: User = new User();  
-  newUserForm : FormGroup;
+  form : FormGroup;
   submmited = false;
 
   constructor(private formBuilder: FormBuilder,
@@ -29,30 +29,29 @@ export class NewUserModalComponent implements OnInit {
       this.editableUser = new User();
     }
     
-    this.newUserForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       login: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      
+      password: ['', [Validators.required, Validators.minLength(6)]],      
       role: ['']
     })
     
   }
 
   get f() {
-    return this.newUserForm.controls;
+    return this.form.controls;
   }
 
   _onSubmit() {
-    this.editableUser.role = this.newUserForm.controls.role.value;
-    console.log(this.editableUser);
-    this.userService.saveUser(this.editableUser).subscribe(() => {
-      
-    });
     this.submmited = true;
-    this.modalRef.hide();
+    if(this.form.valid){
+      this.editableUser.role = this.form.controls.role.value;  
+      this.userService.saveUser(this.editableUser).subscribe(() => {      
+      });
+      this.modalRef.hide();
+    }
   }
 
 }

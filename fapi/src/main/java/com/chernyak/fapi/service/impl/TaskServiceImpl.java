@@ -17,36 +17,41 @@ public class TaskServiceImpl implements TaskService {
     private String backendServerUrl;
 
     @Override
-    public Task save(Task task) {
+    public Task getTaskById(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(backendServerUrl + "/" + id, Task.class);
+    }
+
+    @Override
+    public Object getAllTasksByUsername(int page, int size, String sort, String username) {
+        RestTemplate restTemplate = new RestTemplate();
+        Object taskResponse = restTemplate.getForObject(backendServerUrl + "/byAssignee/" + username + "?" + "page=" + page + "&size=" + size + "&sort=" + sort, Object.class);
+        return  taskResponse;
+    }
+
+    @Override
+    public Object getAllTasksByProjectId(int page, int size, String sort, Long projectId) {
+        RestTemplate restTemplate = new RestTemplate();
+        Object taskResponse = restTemplate.getForObject(backendServerUrl + "/byProject/" + projectId + "?" + "page=" + page + "&size=" + size + "&sort=" + sort, Object.class);
+        return  taskResponse;
+    }
+
+    @Override
+    public Task saveTask(Task task) {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForEntity(backendServerUrl, task, Task.class).getBody();
     }
 
     @Override
-    public Task update(Task task) {
+    public Task updateTask(Task task) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.put(backendServerUrl, task, Task.class);
         return  null;
     }
 
     @Override
-    public List<Task> getAllByUsername(String username) {
+    public void deleteTask(Long id) {
         RestTemplate restTemplate = new RestTemplate();
-        Task[] taskResponse = restTemplate.getForObject(backendServerUrl + "/getByAssigneeUsername/" + username, Task[].class);
-        return  Arrays.asList(taskResponse);
-    }
-
-    @Override
-    public Object getAllByProjectId(String projectId, int page, int size, String sort) {
-        RestTemplate restTemplate = new RestTemplate();
-        Object taskResponse = restTemplate.getForObject(backendServerUrl + "/page/" + projectId + "?" + "page=" + page + "&size=" + size + "&sort=" + sort, Object.class);
-        return  taskResponse;
-    }
-
-    @Override
-    public Task getById(Long id) {
-        RestTemplate restTemplate = new RestTemplate();
-        Task task =  restTemplate.getForObject(backendServerUrl + "/" + id, Task.class);
-        return task;
+        restTemplate.delete(backendServerUrl + "/" + id);
     }
 }

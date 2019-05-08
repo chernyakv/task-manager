@@ -1,6 +1,7 @@
 package com.chernyak.fapi.security;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,6 +50,7 @@ public class JwtTokenProvider implements Serializable {
         final String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(SecurityJwtConstants.AUTHORITIES_KEY, authorities)
@@ -58,9 +60,18 @@ public class JwtTokenProvider implements Serializable {
                 .compact();
     }
 
+    public String generateRefreshToken(Authentication authentication) {
+        return  Jwts.builder()
+                .setSubject(authentication.getName())
+                .signWith(SignatureAlgorithm.HS256, SecurityJwtConstants.SIGNING_KEY)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityJwtConstants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
+                .compact();
+    }
+
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String userName = getUsernameFromToken(token);
-        return userName.equals(userDetails.getUsername()) && !isTokenExpired(token);
+         final String userName = getUsernameFromToken(token);
+         return userName.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     public UsernamePasswordAuthenticationToken getAuthentication(final String token, final Authentication existingAuthentication, UserDetails userDetails) {

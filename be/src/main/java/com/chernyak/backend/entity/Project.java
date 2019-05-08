@@ -16,6 +16,9 @@ public class Project extends BaseEntity {
     @Column(name = "project_code")
     private String projectCode;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "summary")
     private String summary;
 
@@ -23,14 +26,20 @@ public class Project extends BaseEntity {
     @JoinColumn(name = "manager_id")
     private User manager;
 
-
-
     public String getProjectCode() {
         return projectCode;
     }
 
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSummary() {

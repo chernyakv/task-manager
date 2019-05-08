@@ -4,6 +4,7 @@ public class Project {
 
     private Long id;
     private String projectCode;
+    private String name;
     private String summary;
     private String manager;
 
@@ -21,6 +22,14 @@ public class Project {
 
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSummary() {

@@ -12,7 +12,14 @@
       <div *ngIf="submmited && f.projectCode.errors" class="invalid-feedback">
         <div *ngIf="f.projectCode.errors.required">>>required</div>
       </div>
-    </div>
+    </div>   
+    <div class="form-group">
+      <label>Project Name</label>
+      <input class="form-control" formControlName="name" [(ngModel)]="project.name" [ngClass]="{'is-invalid': submmited && f.name.errors }"/>
+      <div *ngIf="submmited && f.name.errors" class="invalid-feedback">
+        <div *ngIf="f.name.errors.required">>>required</div>
+      </div>
+    </div>    
     <div class="form-group">
       <label>Summary</label>
       <textarea class="form-control" formControlName="summary" [(ngModel)]="project.summary" [ngClass]="{'is-invalid': submmited && f.summary.errors }"></textarea>

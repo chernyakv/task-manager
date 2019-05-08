@@ -1,8 +1,100 @@
 <div class="container" *ngIf="ready">
-  <p>
-    {{task.description}}
-   
-  </p>
-  <div class="btn btn btn-primary" (click)="_inProgressClick()">In progress</div>
-  
+  <div  class="row">
+    <div class="col-md-12">
+      <div class="card">    
+        <div class="card-header">
+          <small>{{project.name}} / {{project.projectCode}}</small>
+          <div class="task-title">{{task.title}}</div>
+        </div>      
+        <div class="card-body">          
+          <div class="row">
+            <div class="col-md-6">             
+              <p class="task-info-header">People</p>
+              <hr> 
+              <div class="row">
+                <div class="col-md-4 label">Reoprter:</div>
+                <div class="col-md-8">{{task.reporter}}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 label">Assignee:</div>
+                <div class="col-md-8">{{task.assignee}}</div>
+              </div>  
+              <p class="task-info-header">Details</p>
+              <hr>
+              <div class="row">
+                <div class="col-md-4 label">Priority:</div>
+                <div class="col-md-8">{{task.priority}}</div>
+              </div> 
+              <div class="row">
+                <div class="col-md-4 label">Status:</div>
+                <div class="col-md-8">{{task.taskStatus}}</div>
+              </div>                          
+            </div>           
+            <div class="col-md-6">
+              <p class="task-info-header">Dates and Times</p>
+              <hr> 
+              <div class="row">
+                <div class="col-md-4 label">Create:</div>
+                <div class="col-md-8">{{task.created | date : "medium"}}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 label">Update:</div>
+                <div class="col-md-8">{{task.updated | date : "medium"}}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 label">Due date:</div>
+                <div class="col-md-8">{{task.dueDate | date : "medium"}}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 label">Estimation:</div>
+                <div class="col-md-8">{{task.estimation | date : "medium"}}</div>
+              </div>                         
+            </div>
+          </div>  
+          <div class="row">
+            <div class="col-md-12">
+              <p class="task-info-header">Description</p>
+              <hr> 
+              {{task.description}}
+            </div>
+          </div>  
+          <div class="row">            
+            <div class="col-md-6" style="overflow:scroll; height:180px;" >
+                <ul class="media-list">
+                    <li class="media" *ngFor="let comment of comments">                        
+                        <div class="media-body">
+                            <span class="text-muted pull-right">
+                                <small class="text-muted">{{comment.created | date}}</small>
+                            </span>
+                            <strong class="text-success">@{{comment.author}}</strong>
+                            <p>
+                              {{comment.description}}
+                            </p>
+                        </div>
+                    </li>                    
+                </ul>
+            </div>
+
+            <div class="col-md-6">  
+                <textarea class="form-control" [(ngModel)]="text"></textarea>   
+                <div class="btn btn btn-primary" (click)="_submitClick()">Submit</div>         
+            </div>                    
+          </div>              
+        </div>        
+      </div>
+      <div [ngSwitch]="role" *ngIf="itMyTask">
+        <div class="card-footer justify-content-end" *ngSwitchCase="'DEVELOPER'" >
+          <div [ngSwitch]="task.taskStatus">
+            <div *ngSwitchCase="'OPEN'" class="btn btn btn-primary" (click)="_inProgressClick()">In progress</div>
+            <div *ngSwitchCase="'IN_PROGRESS'" class="btn btn btn-primary" (click)="_readyForTestClick()">Ready for test</div>
+          </div>          
+        </div>
+        <div class="card-footer" *ngSwitchCase="'TESTER'">
+          <div class="btn btn btn-primary" (click)="_closedClick()">CLOSED</div>
+          <div class="btn btn btn-primary" (click)="_reopenClick()">REOPEN</div>
+        </div>     
+      </div>             
+    </div>    
+  </div>   
 </div>
+
