@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class ProjectController {
 
-    ProjectService projectService;
+    private ProjectService projectService;
 
     @Autowired
     public ProjectController(ProjectService projectService) {
@@ -22,34 +22,31 @@ public class ProjectController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Project> getById(@PathVariable Long id){
-        Project project = projectService.getById(id);
-        return new ResponseEntity<>(project, HttpStatus.OK);
-    }
-    @PostMapping(value = "")
-    public ResponseEntity<?> save(@RequestBody Project project) {
-        projectService.save(project);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Project> getProjectById(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectById(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "")
-    public ResponseEntity<List<Project>> getAll(){
-        List<Project> projects = projectService.getAll();
-        return new ResponseEntity<>(projects, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/page")
-    public ResponseEntity<List<Project>> getPage(
+    @GetMapping
+    public Object getAllProjects(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
             @RequestParam(value = "sort") String sort) {
-        List<Project> projects = projectService.getPage(page, size, sort);
-        return new ResponseEntity<>(projects, HttpStatus.OK);
+        return projectService.getAllProjects(page, size, sort);
+    }
+
+    @PostMapping(value = "")
+    public ResponseEntity<Project> saveProject(@RequestBody Project project) {
+        return new ResponseEntity<>(projectService.saveProject(project), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "")
+    public ResponseEntity<Project> updateProject(@RequestBody Project project) {
+        return new ResponseEntity<>(projectService.updateProject(project), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?>  delete(@PathVariable Long id) {
-        projectService.delete(id);
+    public ResponseEntity<?>  deleteProject(@PathVariable Long id) {
+        projectService.deleteProject(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

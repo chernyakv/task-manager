@@ -20,8 +20,8 @@ export class ProjectService {
     return this.http.get<Project[]>(`${environment.apiUrl}/api/v1/projects`);
   } 
 
-  getProjectsPage(currentPage: number, pageSize: number, sort: string): Observable<Project[]> {
-    return this.http.get<Project[]>(`${environment.apiUrl}/api/v1/projects/page?page=${currentPage}&size=${pageSize}&sort=${sort}`);
+  getProjectsPage(currentPage: number, pageSize: number, sort: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/projects?page=${currentPage}&size=${pageSize}&sort=${sort}`);
   }
 
   deleteProject(id: string): Observable<void> {    

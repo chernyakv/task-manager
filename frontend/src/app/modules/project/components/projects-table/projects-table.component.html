@@ -17,7 +17,7 @@
       </tr>     
     </thead>
     <tbody>
-      <tr *ngFor="let project of projects | async">
+      <tr *ngFor="let project of projects">
         <td class="align-middle">{{project.id}}</td>
         <td class="align-middle"><a [routerLink]="['/project-details', project.id]">{{project.projectCode}}</a></td>
         <td class="align-middle">{{project.name}}</td>
@@ -30,7 +30,13 @@
   </table>
   <div class="row">
     <div class="col-xs-12 col-12">
-      <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+      <pagination
+       [itemsPerPage]="pageSize"
+       [totalItems]="totalItems"
+       [(ngModel)]="currentPage"
+       (pageChanged)="pageChanged($event)"
+       [maxSize]="5">
+      </pagination>
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './modules/layout/layout.module';
-import { BsModalService, BsDropdownModule, ModalModule, TooltipModule, PaginationModule } from 'ngx-bootstrap';
+import { BsModalService, BsDropdownModule, ModalModule, TooltipModule, PaginationModule, TypeaheadModule } from 'ngx-bootstrap';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -21,9 +21,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    HttpClientModule
-    
+    TypeaheadModule.forRoot(),       
+    HttpClientModule    
   ],
   providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

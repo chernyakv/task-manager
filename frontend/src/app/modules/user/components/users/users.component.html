@@ -19,7 +19,7 @@
       </tr>     
     </thead>
     <tbody>
-      <tr *ngFor="let user of users" (click)="_testLog(user)">
+      <tr *ngFor="let user of users">
           <td class="align-middle">{{user.id}}</td>
           <td class="align-middle">{{user.username}}</td>
           <td class="align-middle">{{user.firstName}}</td>
@@ -27,7 +27,7 @@
           <td class="align-middle">{{user.email}}</td>            
           <td class="align-middle">{{user.role}}</td>                  
           <td class="align-middle"> 
-            <button type="button" class="btn btn-success btn-sm" (click)="deleteUser(user.id)">Delete</button>              
+            <button type="button" class="btn btn-success btn-sm" (click)="_deleteUser(user.id)">Delete</button>              
           </td>
       </tr>
     </tbody>     
@@ -39,7 +39,7 @@
      [itemsPerPage]="pageSize"
      [totalItems]="totalItems"
      [(ngModel)]="currentPage"
-     (pageChanged)="pageChanged($event)"
+     (pageChanged)="_pageChanged($event)"
      [maxSize]="5">
     </pagination>
   </div>

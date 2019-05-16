@@ -48,8 +48,7 @@
       <div class="form-group">
         <label for="inputState">Assignee</label>
         <select class="form-control" formControlName="assignee">
-          <option *ngFor="let user of users" [value]="user.username">{{user.username}}</option>
-          
+          <option *ngFor="let user of users" [value]="user.username">{{user.username}}</option>          
         </select>
       </div>
     </form>

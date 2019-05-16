@@ -7,15 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
-
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     @Autowired
     public ProjectServiceImpl(ProjectRepository projectRepository) {
@@ -23,31 +24,23 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project save(Project project) {
-        Project savedProject = projectRepository.save(project);
-
-        return savedProject;
+    public Optional<Project> getProjectById(Long id) {
+        return projectRepository.findById(id);
     }
 
     @Override
-    public Page<Project> getPage(int page, int count, String sort) {
-        Pageable pageRequest = PageRequest.of(page, count);
+    public Page<Project> getAllProjects(int page, int count, String sort) {
+        Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
         return projectRepository.findAll(pageRequest);
     }
 
     @Override
-    public List<Project> getAll() {
-        List<Project> projects = projectRepository.findAll();
-        return projects;
+    public Project saveProject(Project project) {
+        return projectRepository.save(project);
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteProject(Long id) {
         projectRepository.deleteById(id);
-    }
-
-    @Override
-    public Project getById(Long id) {
-        return projectRepository.findById(id).orElse(null);
     }
 }

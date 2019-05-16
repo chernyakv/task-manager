@@ -5,16 +5,23 @@ import com.chernyak.backend.dto.DtoConverter;
 import com.chernyak.backend.dto.TaskDto;
 import com.chernyak.backend.dto.UserDto;
 import com.chernyak.backend.entity.Task;
+import com.chernyak.backend.entity.enums.TaskStatus;
 import com.chernyak.backend.service.TaskService;
 import com.chernyak.backend.service.UserService;
 import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -122,3 +129,4 @@ public class TaskController {
         return  new ResponseEntity<>(HttpStatus.OK);
     }
 }
+

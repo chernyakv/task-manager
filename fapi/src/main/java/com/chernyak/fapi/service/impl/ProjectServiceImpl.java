@@ -17,38 +17,34 @@ public class ProjectServiceImpl implements ProjectService {
     private String backendServerUrl;
 
     @Override
-    public Project save(Project project) {
+    public Project getProjectById(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(backendServerUrl + "/" + id, Project.class);
+    }
+
+    @Override
+    public Object getAllProjects(int page, int size, String sort) {
+        RestTemplate restTemplate = new RestTemplate();
+        Object projectResponse = restTemplate.getForObject(backendServerUrl + "?page=" + page + "&size=" + size + "&sort=" + sort, Object.class);
+        return  projectResponse;
+    }
+
+    @Override
+    public Project saveProject(Project project) {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForEntity(backendServerUrl, project, Project.class).getBody();
     }
 
     @Override
-    public Project delete(Long id) {
+    public Project updateProject(Project project) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put(backendServerUrl, project, Project.class);
+        return  null;
+    }
+
+    @Override
+    public void deleteProject(Long id) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(backendServerUrl + "/" + id);
-        return null;
     }
-
-    @Override
-    public Project getById(Long id) {
-        RestTemplate restTemplate = new RestTemplate();
-        Project project =  restTemplate.getForObject(backendServerUrl + "/" + id, Project.class);
-        return project;
-    }
-
-    @Override
-    public List<Project> getPage(int page, int size, String sort) {
-        RestTemplate restTemplate = new RestTemplate();
-        Project[] usersResponse = restTemplate.getForObject(backendServerUrl + "/page?" + "page=" + page + "&size=" + size + "&sort=" + sort , Project[].class);
-        return Arrays.asList(usersResponse);
-    }
-
-    @Override
-    public List<Project> getAll() {
-        RestTemplate restTemplate = new RestTemplate();
-        Project[] projectsResponse = restTemplate.getForObject(backendServerUrl, Project[].class);
-        return Arrays.asList(projectsResponse);
-    }
-
-
 }

@@ -7,6 +7,9 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 import { CommentService } from 'src/app/_services/comment.service';
 import { ProjectService } from 'src/app/_services/project.service';
 import { Project } from 'src/app/modules/project/models/Project';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { AddFileModalComponent } from 'src/app/modules/file/component/add-file-modal/add-file-modal.component';
+import { projectionDef } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-task-detail',
@@ -17,6 +20,7 @@ export class TaskDetailComponent implements OnInit {
 
   task: Task;
   project: Project;
+  public modalRef: BsModalRef;
   ready: boolean = false;
   role: string;
   itMyTask: boolean;
@@ -28,7 +32,8 @@ export class TaskDetailComponent implements OnInit {
     private commentService: CommentService,
     private projectService: ProjectService,
     private taskService: TaskService,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private modalService: BsModalService,) {
     
   } 
 
@@ -90,6 +95,15 @@ export class TaskDetailComponent implements OnInit {
 
     })
     this.updateComments();
+  }
+
+  _openFileModal() {  
+    
+    const initialState = {     
+      taskId: this.task.id,
+      projectId: this.task.projectId
+    };
+    this.modalRef = this.modalService.show(AddFileModalComponent, {initialState});      
   }
 
 }

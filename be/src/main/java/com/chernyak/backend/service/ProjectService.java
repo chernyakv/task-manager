@@ -4,18 +4,11 @@ import com.chernyak.backend.entity.Project;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProjectService {
-
-    Page<Project> getPage(int page, int count, String sort);
-
-    Project save(Project project);
-
-    void delete(Long id);
-
-    Project getById(Long id);
-
-    List<Project> getAll();
-
-
+    Optional<Project> getProjectById(Long id);
+    Page<Project> getAllProjects(int page, int count, String sort);
+    Project saveProject(Project project);
+    void deleteProject(Long id);
 }

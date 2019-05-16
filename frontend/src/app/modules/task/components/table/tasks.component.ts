@@ -10,6 +10,7 @@ import { NewProjectModalComponent } from 'src/app/modules/project/components/new
 import { Observable } from 'rxjs';
 import { Task } from '../../models/Task';
 import { TaskService } from 'src/app/_services/task.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tasks',
@@ -28,6 +29,7 @@ export class TasksComponent implements OnInit {
   public totalItems = 0;
 
   constructor(
+    private router: Router,
     private modalService: BsModalService,
     private authenticationService: AuthenticationService,
     private tasksService: TaskService
@@ -46,10 +48,15 @@ export class TasksComponent implements OnInit {
     this.tasksService.getAllByUsername(this.authenticationService.currentUsername, this.currentPage, this.pageSize, 'id').subscribe(data => {
       this.tasks = data.content;
       this.totalItems = data.totalElements;
-      console.log(this.tasks);
+      console.log(this.tasks.length);
     })
     console.log(this.authenticationService.tokenValue)
 
+  }
+  
+  taskOpen(taskId: string){
+    console.log(taskId);
+    this.router.navigate(['/task-details', taskId]);
   }
 
  

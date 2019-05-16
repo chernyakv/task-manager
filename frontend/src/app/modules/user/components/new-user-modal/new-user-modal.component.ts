@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../models/User';
@@ -15,6 +15,7 @@ export class NewUserModalComponent implements OnInit {
   editableUser: User = new User();  
   form : FormGroup;
   submmited = false;
+  addUser: EventEmitter<User> = new EventEmitter<User>();
 
   constructor(private formBuilder: FormBuilder,
     private modalRef: BsModalRef,
@@ -47,9 +48,8 @@ export class NewUserModalComponent implements OnInit {
   _onSubmit() {
     this.submmited = true;
     if(this.form.valid){
-      this.editableUser.role = this.form.controls.role.value;  
-      this.userService.saveUser(this.editableUser).subscribe(() => {      
-      });
+      this.editableUser.role = this.form.controls.role.value; 
+      this.addUser.emit(this.editableUser);     
       this.modalRef.hide();
     }
   }

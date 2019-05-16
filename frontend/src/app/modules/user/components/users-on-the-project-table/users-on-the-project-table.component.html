@@ -2,7 +2,15 @@
   <div class="table-title" >
     <div class="row align-items-center mt-10 mb-10">
         <div class="col-sm-7">              
-          <button type="button" class="btn btn-primary" (click)="_openUserModal()">Add User</button>                    					
+            <input [(ngModel)]="asyncSelected"
+            [typeaheadAsync]="true"
+            [typeahead]="dataSource"
+            (typeaheadLoading)="changeTypeaheadLoading($event)"
+            (typeaheadOnSelect)="typeaheadOnSelect($event)"
+            [typeaheadOptionsLimit]="7"
+            typeaheadOptionField="name"
+            placeholder="Add user to projects"
+            class="form-control">                             					
         </div>                 			
     </div>
   </div>

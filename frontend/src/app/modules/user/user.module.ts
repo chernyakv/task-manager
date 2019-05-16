@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { UsersOnTheProjectTableComponent } from './components/users-on-the-project-table/users-on-the-project-table.component';
+import { TypeaheadModule } from 'ngx-bootstrap';
 
 
 
@@ -24,7 +25,8 @@ import { UsersOnTheProjectTableComponent } from './components/users-on-the-proje
     BrowserModule,
     RouterModule,  
     HttpClientModule,
-    PaginationModule.forRoot(),   
+    PaginationModule.forRoot(),
+    TypeaheadModule.forRoot(),   
   ],
   exports: [UsersComponent, UsersOnTheProjectTableComponent],
   entryComponents:[NewUserModalComponent]

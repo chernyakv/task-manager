@@ -12,12 +12,12 @@ import { NewProjectModalComponent } from '../new-project-modal/new-project-modal
 })
 export class ProjectsTableComponent implements OnInit {
 
-  public projects: Observable<Project[]>;
+  public projects: Project[];
   public modalRef: BsModalRef;
   
-  public pageSize = 6;
+  public pageSize = 8;
   public currentPage = 0;
-  public totalItems = 6;
+  public totalItems;
 
   constructor(private projectService: ProjectService,
     private modalService: BsModalService,) { }
@@ -32,7 +32,10 @@ export class ProjectsTableComponent implements OnInit {
   }
 
   updateProjects() {
-    this.projects = this.projectService.getProjectsPage(this.currentPage, this.pageSize, "asd");
+    this.projectService.getProjectsPage(this.currentPage, this.pageSize, "id").subscribe(data => {
+      this.projects = data.content;
+      this.totalItems = data.totalElements;
+    })
   }
 
   _deleteProject(id:string) {
@@ -44,7 +47,10 @@ export class ProjectsTableComponent implements OnInit {
   }
 
   public _openProjectModal(){   
-    this.modalRef = this.modalService.show(NewProjectModalComponent);
+    this.modalRef = this.modalService.show(NewProjectModalComponent); 
+    this.modalRef.content.onHide.subscribe(() => {
+      this.updateProjects();
+    })   
   }
 
 }

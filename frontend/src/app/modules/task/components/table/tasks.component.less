@@ -1,5 +1,4 @@
-.table-wrapper{
-    
+.table-wrapper{    
     background: #fff;    
     margin: 10px 0;
     border-radius: px;
@@ -12,22 +11,31 @@
     }
 
     table{
-        font-size: 0.8rem;
+        margin-top: 1rem;
+        font-size: 1rem;
+
         td{
-            padding: 0.1rem;
+            padding: 0.3rem;
             vertical-align: middle;
         }
-        td:first-child{
-            border-right-style: solid; /* Стиль линии */
-            border-right-width: 1px; 
+        td:first-child{            
             width: 60px;
-        }
-        td:last-child{
-            border-left-style: solid; /* Стиль линии */
-            border-left-width: 1px; 
-        }
+        } 
 
-       
-       
+        tr:hover{
+            border: 3px solid paleturquoise;
+        }      
     }
+}
+
+.priority-high{
+    color: #FC581C;
+}
+
+.priority-low{
+    color: #31CE11;
+}
+
+.priority-medium{
+    color: #FFD23E;
 }

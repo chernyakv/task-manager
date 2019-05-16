@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import {  } from 'rxjs/operators';
+import { } from 'rxjs/operators';
 
 import { User } from '../../models/User';
 import { UserService } from 'src/app/_services/user.service';
@@ -14,12 +14,12 @@ import { NewUserModalComponent } from '../new-user-modal/new-user-modal.componen
 })
 export class UsersComponent implements OnInit {
 
-  
+
   public modalRef: BsModalRef;
   public users: Observable<User[]>;
 
   public pageSize = 8;
-  public currentPage = 0;
+  public currentPage = 1;
   public totalItems;
 
   isProjectManager = true;
@@ -28,39 +28,37 @@ export class UsersComponent implements OnInit {
   constructor(private userService: UserService,
     private modalService: BsModalService) { }
 
-  
-  public _openUserModal(user: User){        
-    this.modalRef = this.modalService.show(NewUserModalComponent);
-    //this.modalRef.content.editableUser = user;    
+  ngOnInit() {
+    this.updateUsers();
   }
 
-  public _testLog(user: User) {
-    console.log(user.username);
-  }
-
-  updateUsesr() {
-    this.userService.getAllUsers(this.currentPage,this.pageSize,"id").subscribe(data => {
+  updateUsers() {
+    this.userService.getAllUsers(this.currentPage - 1, this.pageSize, "id").subscribe(data => {
       this.users = data.content;
       this.totalItems = data.totalElements;
-    })  
-    console.log(this.currentPage);
-  }
-
-  deleteUser(id:string) {
-    if(confirm("Are you sure you want to delete this ?")){      
-      this.userService.deleteUser(id).subscribe((res) => {
-        this.updateUsesr();
-      });;
-    }
+      console.log(this.currentPage);
+    })
   }  
 
-  pageChanged(event: any): void {    
-    this.currentPage = event.page - 1;    
-    this.updateUsesr();    
+  public _openUserModal(user: User) {
+    this.modalRef = this.modalService.show(NewUserModalComponent);
+    this.modalRef.content.addUser.subscribe(data => {
+      this.userService.saveUser(data).subscribe(() => {
+        this.updateUsers();
+      });
+    })
   }
 
-  ngOnInit() {
-    this.updateUsesr();
+  public _deleteUser(id: string) {
+    if (confirm("Are you sure you want to delete this ?")) {
+      this.userService.deleteUser(id).subscribe((res) => {
+        this.updateUsers();
+      });;
+    }
   }
 
+  public _pageChanged(event: any): void {
+    this.currentPage = event.page;
+    this.updateUsers();
+  }
 }

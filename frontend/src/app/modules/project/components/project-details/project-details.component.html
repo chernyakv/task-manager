@@ -1,26 +1,26 @@
-<div *ngIf="ready"  class="containter">  
-  <div  class="row">
+<div *ngIf="ready" class="containter">
+  <div class="row">
     <div class="col-md-3">
-      <div class="card">    
+      <div class="card">
         <div class="card-header">
           {{project.projectCode}}
-        </div>      
-        <div class="card-body">
-          {{project.summary}}          
         </div>
-      </div>    
+        <div class="card-body">
+          {{project.summary}}
+        </div>
+      </div>
     </div>
     <div *ngIf="ready" class="col-md-9">
       <tabset>
         <tab heading="Tasks">
-          <app-tasks-on-the-project-table [project]="project">            
+          <app-tasks-on-the-project-table [project]="project">
           </app-tasks-on-the-project-table>
         </tab>
         <tab heading="Users">
-          <app-users-on-the-project-table  [project]="project">
+          <app-users-on-the-project-table [project]="project">
           </app-users-on-the-project-table>
-        </tab>       
-      </tabset>    
+        </tab>
+      </tabset>
     </div>
   </div>
 </div>

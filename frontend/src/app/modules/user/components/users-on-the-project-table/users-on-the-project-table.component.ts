@@ -1,9 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from 'src/app/_services/user.service';
 import { User } from '../../models/User';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { projection } from '@angular/core/src/render3';
 import { Project } from 'src/app/modules/project/models/Project';
+import { mergeMap } from 'rxjs/operators';
+import { TypeaheadMatch } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-users-on-the-project-table',
@@ -11,6 +13,13 @@ import { Project } from 'src/app/modules/project/models/Project';
   styleUrls: ['./users-on-the-project-table.component.less']
 })
 export class UsersOnTheProjectTableComponent implements OnInit {
+
+
+  asyncSelected: string;
+  typeaheadLoading: boolean;
+  typeaheadNoResults: boolean;
+  dataSource: Observable<User[]>;
+
 
   @Input() project: Project;
 
@@ -20,13 +29,28 @@ export class UsersOnTheProjectTableComponent implements OnInit {
   public currentPage = 0;
   public totalItems;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) { 
+    this.dataSource = Observable.create((observer: any) => {
+      // Runs on every search
+      observer.next(this.asyncSelected);
+    })
+      .pipe(
+        mergeMap((token: string) => this.getStatesAsObservable(token))
+      );
+  }
 
   ngOnInit() {
-    this.userService.getAllByProjectId(this.project.id, this.currentPage,this.pageSize, "id").subscribe(data => {
+    //this.userService.getAllByProjectId(this.project.id, this.currentPage,this.pageSize, "id").subscribe(data => {
+    //  this.users = data.content;
+    //  this.totalItems = data.totalElements;      
+    //})
+
+    this.userService.getAllWithoutProject(this.currentPage,this.pageSize, "id").subscribe(data => {
       this.users = data.content;
       this.totalItems = data.totalElements;      
     })
+
+    
   }
 
   _openUserModal() {
@@ -34,6 +58,17 @@ export class UsersOnTheProjectTableComponent implements OnInit {
   }
 
 
-
-
+  getStatesAsObservable(token: string): Observable<User[]> {
+    const query = new RegExp(token, 'i');
+ 
+    return of(
+      this.users.filter((state: User) => {
+        return query.test(state.username);
+      })
+    );
+  }
+ 
+  changeTypeaheadLoading(e: boolean): void {
+    this.typeaheadLoading = e;
+  }
 }

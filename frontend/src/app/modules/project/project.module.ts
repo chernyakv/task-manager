@@ -29,6 +29,7 @@ import { NewTaskModalComponent } from '../task/components/new-task-modal/new-tas
     HttpClientModule,
     PaginationModule.forRoot(),
     TabsModule.forRoot()
+    
   ],
   exports: [ProjectsTableComponent],
   entryComponents: [

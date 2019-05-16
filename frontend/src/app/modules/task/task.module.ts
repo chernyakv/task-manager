@@ -10,6 +10,8 @@ import { ModalModule, BsDatepickerModule, PaginationModule } from 'ngx-bootstrap
 import { NewProjectModalComponent } from '../project/components/new-project-modal/new-project-modal.component';
 import { NewTaskModalComponent } from './components/new-task-modal/new-task-modal.component';
 import { TasksOnTheProjectTableComponent } from './components/tasks-on-the-project-table/tasks-on-the-project-table.component';
+import { FileModule } from '../file/file.module';
+import { AddFileModalComponent } from '../file/component/add-file-modal/add-file-modal.component';
 
 
 
@@ -22,6 +24,7 @@ import { TasksOnTheProjectTableComponent } from './components/tasks-on-the-proje
     TasksOnTheProjectTableComponent     
   ],
   imports: [
+    FileModule,
     CommonModule,
     BrowserModule,
     RouterModule,
@@ -32,7 +35,7 @@ import { TasksOnTheProjectTableComponent } from './components/tasks-on-the-proje
     PaginationModule.forRoot(), 
   ],
   exports: [TasksComponent, TaskDetailComponent, TasksOnTheProjectTableComponent],
-  entryComponents:[NewTaskModalComponent]
+  entryComponents:[NewTaskModalComponent, AddFileModalComponent]
   
 })
 export class TaskModule { }

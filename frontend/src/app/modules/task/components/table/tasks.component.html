@@ -1,56 +1,42 @@
-<div *ngIf="tasks.length" class="table-wrapper">
-  <div class="table-title">
-    <div class="row">
-      <div class="col-sm-7">           
-                     					
-      </div>             		
-    </div>
-  </div>
-  <table class="table table-hover">
-      <thead>
-        <tr>
-          <td>Project Code</td>
-          <td>Task</td>
-          <td>Priority</td>
-          <td>Status</td>         
-          <td>Due Date</td>
-          <td>Estimation</td>          
-          <td>Title</td>
-          <td>Action</td>
-        </tr>     
-      </thead>
-      <tbody>
-        <tr *ngFor="let task of tasks">
-          <td>{{task.projectId}}</td>
-          <td><a [routerLink]="['/task-details', task.id]">{{task.id}}</a></td>
-          <td>{{task.priority}}</td>
-          <td>{{task.taskStatus}}</td>
-          <td>{{task.dueDate | date:'MM/dd/yy'}}</td>
-          <td>8h</td>
-          <td>{{task.title}}</td>
-          <td>
-            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-          </td>
-        </tr>       
-      </tbody>
-  </table>
-  <div class="row">
+<div class="table-wrapper">
+  
+      <table class="table table-responsive-sm">
+        <thead>
+          <tr>
+            <td>Task</td>
+            <td>Title</td>
+            <td>Priority</td>
+            <td>Status</td>
+            <td>Due Date</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of tasks" (click)="taskOpen(task.id)">
+            <td>{{task.id}}</td>
+            <td>{{task.title}} </td>
+            <td>
+              <span class="badge ">
+                <i [ngClass]="{        
+                    'text-danger icon-long-arrow-up' : task.priority === 'CRITICAL',
+                    'text-warning icon-long-arrow-up' : task.priority === 'NORMAL'
+                  }"></i>
+                {{task.priority}}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="{
+                'badge-success' : task.taskStatus === 'OPEN',
+                'badge-primary' : task.taskStatus === 'IN_PROGRESS',
+                'priority-emergency' : task.taskStatus === 'READY_FOR_TEST'
+              }">{{task.taskStatus}}</span>
+            </td>
+            <td>{{task.dueDate | date:'MM/dd/yy'}}</td>
+          </tr>
+        </tbody>
+      </table>
       <div class="col-xs-12 col-12">
-        <pagination
-         [itemsPerPage]="pageSize"
-         [totalItems]="totalItems"
-         [(ngModel)]="currentPage"
-         (pageChanged)="pageChanged($event)"
-         [maxSize]="5">
+        <pagination [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"
+          [maxSize]="5">
         </pagination>
       </div>
-  </div>
 </div>
-
-
-
-
-
-
-
