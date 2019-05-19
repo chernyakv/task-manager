@@ -8,8 +8,10 @@
             <div class="task-title">{{task.title}}</div>
           </div>
           <div class="col-md-6">
-            <small>{{project.name}} / {{project.projectCode}}</small>
-            <div class="task-title">{{task.title}}</div>
+            <div class="btn-group" role="group" aria-label="First group">
+              <button type="button" class="btn btn-primary" (click)="_editTask(task)"><i class="icon-edit"></i></button>
+              <button type="button" class="btn btn-primary" (click)="_openFileModal()"><i class="icon-paper-clip"></i></button>
+            </div>            
           </div>
         </div>
       </div>
@@ -66,10 +68,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <p class="task-info-header">Attachments</p>
-            <button (click)="_openFileModal()">
-              <i class="icon-paper-clip"></i>
-            </button>
+            <p class="task-info-header">Attachments</p>            
             <div class="attachments" style="min-height: 100px">
               <app-file-list [taskId]="task.id" [projectId]="task.projectId">
               </app-file-list>
@@ -77,7 +76,8 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6" style="">
+          <div class="col-md-6">
+            <p class="task-info-header">Comments</p>
             <ul class="media-list">
               <li class="media" *ngFor="let comment of comments">
                 <div class="media-body">

@@ -65,7 +65,7 @@ public class JwtTokenProvider implements Serializable {
                 .setSubject(authentication.getName())
                 .signWith(SignatureAlgorithm.HS256, SecurityJwtConstants.SIGNING_KEY)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + SecurityJwtConstants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityJwtConstants.REFRESH_TOKEN_VALIDITY_SECONDS * 1000))
                 .compact();
     }
 
@@ -79,6 +79,14 @@ public class JwtTokenProvider implements Serializable {
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
         final Claims claims = claimsJws.getBody();
         final Collection<? extends  GrantedAuthority> authorities = Arrays.stream(claims.get(SecurityJwtConstants.AUTHORITIES_KEY).toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
+    }
+
+    public UsernamePasswordAuthenticationToken getAuthentication(String aut, UserDetails userDetails) {
+
+        final Collection<? extends  GrantedAuthority> authorities = Arrays.stream(aut.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);

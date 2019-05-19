@@ -11,6 +11,10 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${environment.apiUrl}/api/v1/users/username/${username}`);
+  }
+
   getAllUsers(currentPage: number, pageSize: number, sort: string ): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/api/v1/users/?page=${currentPage}&size=${pageSize}&sort=${sort}`);
   }

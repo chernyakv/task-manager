@@ -9,6 +9,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { UsersOnTheProjectTableComponent } from './components/users-on-the-project-table/users-on-the-project-table.component';
 import { TypeaheadModule } from 'ngx-bootstrap';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { InlineEditorModule } from '../inline-editor/inline-editor.module';
+
 
 
 
@@ -17,7 +20,8 @@ import { TypeaheadModule } from 'ngx-bootstrap';
   declarations: [
     UsersComponent,
     NewUserModalComponent,
-    UsersOnTheProjectTableComponent],
+    UsersOnTheProjectTableComponent,
+    UserDetailComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,   
@@ -25,10 +29,12 @@ import { TypeaheadModule } from 'ngx-bootstrap';
     BrowserModule,
     RouterModule,  
     HttpClientModule,
+    InlineEditorModule,
     PaginationModule.forRoot(),
-    TypeaheadModule.forRoot(),   
+    TypeaheadModule.forRoot(),  
+    
   ],
-  exports: [UsersComponent, UsersOnTheProjectTableComponent],
+  exports: [UsersComponent, UsersOnTheProjectTableComponent, UserDetailComponent],
   entryComponents:[NewUserModalComponent]
 })
 export class UserModule { }

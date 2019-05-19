@@ -14,8 +14,10 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
             if ([401, 403].indexOf(err.status) !== -1) {  
-                console.log(err.status)                            
-                this.authenticationService.logout();
+                this.authenticationService.refreshToken(this.authenticationService.tokenValue.refreshToken).subscribe(data=>{
+                    location.reload(true);
+                })                          
+                //this.authenticationService.logout();
                 //location.reload(true);
             }
             

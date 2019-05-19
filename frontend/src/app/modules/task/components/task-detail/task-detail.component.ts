@@ -10,6 +10,7 @@ import { Project } from 'src/app/modules/project/models/Project';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { AddFileModalComponent } from 'src/app/modules/file/component/add-file-modal/add-file-modal.component';
 import { projectionDef } from '@angular/core/src/render3';
+import { NewTaskModalComponent } from '../new-task-modal/new-task-modal.component';
 
 @Component({
   selector: 'app-task-detail',
@@ -70,6 +71,16 @@ export class TaskDetailComponent implements OnInit {
     this.task.taskStatus = "IN_PROGRESS";
     this.taskService.updateTask(this.task).subscribe(() => {     
     });
+  }
+
+  _editTask(editableTask: Task){
+    const initialState = {     
+      projectId: this.project.id,
+      task: editableTask,
+      editMode: true
+    };
+    this.modalRef = this.modalService.show(NewTaskModalComponent, {initialState});
+    this.modalRef.content.project = this.project; 
   }
 
   _readyForTestClick(){

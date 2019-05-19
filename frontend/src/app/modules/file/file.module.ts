@@ -5,12 +5,15 @@ import { FileUploaderComponent } from './component/file-uploader/file-uploader.c
 import { AddFileModalComponent } from './component/add-file-modal/add-file-modal.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FileDropModule } from 'ngx-file-drop';
+import { FileSizePipe } from 'src/app/pipes/file-size.pipe';
 
 @NgModule({
   declarations: [
     FileListComponent,
     FileUploaderComponent,
-    AddFileModalComponent
+    AddFileModalComponent,
+    FileSizePipe
+   
   ],
   imports: [
     CommonModule,

@@ -31,6 +31,7 @@ public class FileServiceImpl implements FileService {
         try {
             Path filePath = path.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
+
             if(resource.exists()) {
                 return resource;
             } else {
@@ -61,7 +62,6 @@ public class FileServiceImpl implements FileService {
         if(! new File(uploadsDir).exists()){
             try{
                 new File(uploadsDir).mkdirs();
-
             }
             catch(SecurityException se){
                 //handle it

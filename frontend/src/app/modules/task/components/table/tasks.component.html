@@ -1,42 +1,41 @@
 <div class="table-wrapper">
-  
-      <table class="table table-responsive-sm">
-        <thead>
-          <tr>
-            <td>Task</td>
-            <td>Title</td>
-            <td>Priority</td>
-            <td>Status</td>
-            <td>Due Date</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let task of tasks" (click)="taskOpen(task.id)">
-            <td>{{task.id}}</td>
-            <td>{{task.title}} </td>
-            <td>
-              <span class="badge ">
-                <i [ngClass]="{        
+  <table class="table table-responsive-sm">
+    <thead>
+      <tr>
+        <td>Task</td>
+        <td>Title</td>
+        <td>Priority</td>
+        <td>Status</td>
+        <td>Due Date</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks" (click)="taskOpen(task.id)">
+        <td>{{task.id}}</td>
+        <td>{{task.title}} </td>
+        <td>
+          <span class="badge ">
+            <i [ngClass]="{        
                     'text-danger icon-long-arrow-up' : task.priority === 'CRITICAL',
                     'text-warning icon-long-arrow-up' : task.priority === 'NORMAL'
                   }"></i>
-                {{task.priority}}
-              </span>
-            </td>
-            <td>
-              <span class="badge" [ngClass]="{
+            {{task.priority}}
+          </span>
+        </td>
+        <td>
+          <span class="badge" [ngClass]="{
                 'badge-success' : task.taskStatus === 'OPEN',
                 'badge-primary' : task.taskStatus === 'IN_PROGRESS',
                 'priority-emergency' : task.taskStatus === 'READY_FOR_TEST'
               }">{{task.taskStatus}}</span>
-            </td>
-            <td>{{task.dueDate | date:'MM/dd/yy'}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="col-xs-12 col-12">
-        <pagination [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"
-          [maxSize]="5">
-        </pagination>
-      </div>
+        </td>
+        <td>{{task.dueDate | date:'MM/dd/yy'}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="col-xs-12 col-12">
+    <pagination [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"
+      [maxSize]="5">
+    </pagination>
+  </div>
 </div>

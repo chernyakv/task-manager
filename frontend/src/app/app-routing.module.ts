@@ -6,7 +6,7 @@ import { AuthGuard } from './_helpers/AuthGuard';
 import { AdminComponent } from './modules/layout/admin/admin.component';
 import { ProjectDetailsComponent } from './modules/project/components/project-details/project-details.component';
 import { TaskDetailComponent } from './modules/task/components/task-detail/task-detail.component';
-
+import { UserDetailComponent } from './modules/user/components/user-detail/user-detail.component';
 
 
 
@@ -34,6 +34,10 @@ const routes: Routes = [
   {
     path: 'task-details/:id',
     component: TaskDetailComponent
+  },
+  {
+    path: 'user-details/:username',
+    component: UserDetailComponent
   },
   { path: '**', redirectTo: '' }
 

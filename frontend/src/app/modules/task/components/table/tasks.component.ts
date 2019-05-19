@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.less']
 })
-export class TasksComponent implements OnInit { 
+export class TasksComponent implements OnInit {
 
   public tasks: Task[];
   public modalRef: BsModalRef;
@@ -35,33 +35,28 @@ export class TasksComponent implements OnInit {
     private tasksService: TaskService
   ) {}
 
-  ngOnInit() {     
+  ngOnInit() {
     this.updateTasks();
-  } 
-
-  pageChanged(event: any): void {    
-    this.currentPage = event.page - 1;    
-    this.updateTasks();    
   }
 
-  updateTasks(){
+  pageChanged(event: any): void {
+    this.currentPage = event.page - 1;
+    this.updateTasks();
+  }
+
+  updateTasks() {
     this.tasksService.getAllByUsername(this.authenticationService.currentUsername, this.currentPage, this.pageSize, 'id').subscribe(data => {
       this.tasks = data.content;
       this.totalItems = data.totalElements;
       console.log(this.tasks.length);
-    })
-    console.log(this.authenticationService.tokenValue)
-
+    });
   }
-  
-  taskOpen(taskId: string){
-    console.log(taskId);
+
+  taskOpen(taskId: string) {
     this.router.navigate(['/task-details', taskId]);
   }
 
- 
-
-  public _closeModal(){
+  public _closeModal() {
     this.modalRef.hide();
-  }  
+  }
 }

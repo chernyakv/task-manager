@@ -1,0 +1,36 @@
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-md-6">
+      <div class="profile-info-row">
+        <div class="profile-info-name">Username</div>
+        <div class="profile-info-value">
+          <app-input-editor [data]='user.username' (focusOut)='saveUsername($event)'></app-input-editor>
+        </div>
+      </div>
+      <div class="profile-info-row">
+        <div class="profile-info-name">First Name</div>
+        <div class="profile-info-value">
+          <span>{{user.firstName}}</span>
+        </div>
+      </div>
+      <div class="profile-info-row">
+        <div class="profile-info-name">Last Name</div>
+        <div class="profile-info-value">
+          <span>{{user.lastName}}</span>
+        </div>
+      </div>
+      <div class="profile-info-row">
+        <div class="profile-info-name">Email</div>
+        <div class="profile-info-value">
+          <span>{{user.email}}</span>
+        </div>
+      </div>
+      <div class="profile-info-row">
+        <div class="profile-info-name">Role</div>
+        <div class="profile-info-value">
+          <span>{{user.role}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

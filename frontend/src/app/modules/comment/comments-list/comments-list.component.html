@@ -1,0 +1,15 @@
+<div class="div">
+  <ul class="media-list">
+    <li class="media" *ngFor="let comment of comments">
+      <div class="media-body">
+        <span class="text-muted pull-right">
+          <small class="text-muted">{{comment.created | date}}</small>
+        </span>
+        <strong class="text-success">@{{comment.author}}</strong>
+        <p>
+          {{comment.description}}
+        </p>
+      </div>
+    </li>
+  </ul>
+</div>

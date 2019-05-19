@@ -8,6 +8,10 @@ import { BsModalService, BsDropdownModule, ModalModule, TooltipModule, Paginatio
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {InputEditorModule} from 'angular-inline-editors';
+import { SelectEditorModule } from 'angular-inline-editors';
+import { FileSizePipe } from './pipes/file-size.pipe';
+
 
 
 @NgModule({
@@ -21,12 +25,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    TypeaheadModule.forRoot(),       
-    HttpClientModule    
+    TypeaheadModule.forRoot(),
+    InputEditorModule.forRoot(),
+    SelectEditorModule.forRoot(),
+    HttpClientModule
   ],
   providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }        
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
 
   bootstrap: [AppComponent]
