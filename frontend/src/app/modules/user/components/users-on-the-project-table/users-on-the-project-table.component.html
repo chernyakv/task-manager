@@ -2,16 +2,13 @@
   <div class="table-title" >
     <div class="row align-items-center mt-10 mb-10">
         <div class="col-sm-7">              
-            <input [(ngModel)]="asyncSelected"
-            [typeaheadAsync]="true"
-            [typeahead]="dataSource"
-            (typeaheadLoading)="changeTypeaheadLoading($event)"
-            (typeaheadOnSelect)="typeaheadOnSelect($event)"
-            [typeaheadOptionsLimit]="7"
-            typeaheadOptionField="name"
-            placeholder="Add user to projects"
+            <input [(ngModel)]="selectedUser"
+            [typeahead]="usersWithoutProject"
+            typeaheadOptionField="username"
+            [typeaheadItemTemplate]="customItemTemplate"
             class="form-control">                             					
-        </div>                 			
+        </div> 
+        <button type="button" class="btn btn-success btn-sm" (click)="_addUser()">Add to this project</button>               			
     </div>
   </div>
   <table class="table table-hover">
@@ -48,3 +45,7 @@
     </pagination>
   </div>
 </div>
+
+<ng-template #customItemTemplate let-model="item" let-index="index">
+  <h5>{{model.firstName}} {{model.lastName}}</h5>
+</ng-template>

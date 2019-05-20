@@ -23,7 +23,9 @@ export class UsersOnTheProjectTableComponent implements OnInit {
 
   @Input() project: Project;
 
+  public selectedUser: string;
   public users: User[];
+  public usersWithoutProject: User[];
 
   public pageSize = 10;
   public currentPage = 0;
@@ -40,17 +42,29 @@ export class UsersOnTheProjectTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.userService.getAllByProjectId(this.project.id, this.currentPage,this.pageSize, "id").subscribe(data => {
-    //  this.users = data.content;
-    //  this.totalItems = data.totalElements;      
-    //})
-
-    this.userService.getAllWithoutProject(this.currentPage,this.pageSize, "id").subscribe(data => {
+    this.userService.getAllByProjectId(this.project.id, this.currentPage,this.pageSize, "id").subscribe(data => {
       this.users = data.content;
       this.totalItems = data.totalElements;      
-    })
+    })   
 
-    
+    this.userService.getAllWithoutProject(this.currentPage,this.pageSize, "id").subscribe(data => {
+      this.usersWithoutProject = data.content;
+      this.totalItems = data.totalElements;      
+    })  
+  }
+
+  _addUser(){
+    this.userService.getUserByUsername(this.selectedUser).subscribe(data => {
+      const user = data;
+      user.projectId = this.project.id;
+      this.userService.saveUser(user).subscribe(data=>{
+        this.userService.getAllByProjectId(this.project.id, this.currentPage,this.pageSize, "id").subscribe(data => {
+          this.users = data.content;
+          this.totalItems = data.totalElements;      
+        })
+      })
+
+    })
   }
 
   _openUserModal() {

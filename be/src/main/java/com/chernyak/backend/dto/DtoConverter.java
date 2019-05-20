@@ -65,6 +65,10 @@ public class DtoConverter {
         user.setLastName(userDto.getLastName());
         List<Role> roles = new ArrayList<Role>();
         roles.add(roleRepository.findByName(userDto.getRole()));
+        if(userDto.getProjectId() != null)
+        {
+            user.setProject(projectRepository.findById(Long.parseLong(userDto.getProjectId())).orElse(null));
+        }
         user.setRoles(roles);
         return user;
     }
@@ -78,6 +82,10 @@ public class DtoConverter {
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setRole(user.getRoles().get(0).getName());
+        if(user.getProject() != null) {
+            userDto.setProjectId(user.getProject().getId().toString());
+        }
+
         return userDto;
     }
 

@@ -15,6 +15,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String projectId;
 
 
     public String getUsername() {
@@ -71,6 +72,14 @@ public class User {
 
     public void setRole(String roles) {
         this.role = roles;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public  User(){

@@ -88,4 +88,12 @@ public class User extends BaseEntity {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 }

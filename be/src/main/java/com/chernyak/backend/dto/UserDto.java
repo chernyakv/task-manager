@@ -11,6 +11,7 @@ public class UserDto {
     private String lastName;
     private String email;
     private String role;
+    private String projectId;
 
     public Long getId() {
         return id;
@@ -66,5 +67,13 @@ public class UserDto {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 }
