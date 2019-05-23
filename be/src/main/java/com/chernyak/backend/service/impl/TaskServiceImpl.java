@@ -52,6 +52,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task saveTask(Task task) {
+        if(task.getTicketCode() == null) {
+            Optional<Project> project = projectRepository.findById(task.getProjectId().getId());
+            if(!project.isPresent()){
+                throw new RuntimeException("Project not found");
+            }
+            task.setTicketCode(project.get().getProjectCode() + "-" + taskRepository.countByProjectId(project.get()));
+        }
         return taskRepository.save(task);
     }
 

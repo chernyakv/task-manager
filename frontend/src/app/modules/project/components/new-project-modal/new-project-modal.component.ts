@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Project } from '../../models/Project';
-import { ProjectService } from 'src/app/_services/project.service';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { ProjectService } from 'src/app/services/project.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({

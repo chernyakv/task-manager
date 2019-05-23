@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TasksComponent } from './components/table/tasks.component';
+import { TasksTableComponent } from './components/tasks-table/tasks-table.component';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -18,7 +18,7 @@ import { AddFileModalComponent } from '../file/component/add-file-modal/add-file
 
 @NgModule({
   declarations: [      
-    TasksComponent,
+    TasksTableComponent,
     TaskDetailComponent,
     NewTaskModalComponent,
     TasksOnTheProjectTableComponent     
@@ -34,7 +34,7 @@ import { AddFileModalComponent } from '../file/component/add-file-modal/add-file
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(), 
   ],
-  exports: [TasksComponent, TaskDetailComponent, TasksOnTheProjectTableComponent],
+  exports: [TasksTableComponent, TaskDetailComponent, TasksOnTheProjectTableComponent],
   entryComponents:[NewTaskModalComponent, AddFileModalComponent]
   
 })

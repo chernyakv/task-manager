@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { } from 'rxjs/operators';
 
 import { User } from '../../models/User';
-import { UserService } from 'src/app/_services/user.service';
+import { UserService } from 'src/app/services/user.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { NewUserModalComponent } from '../new-user-modal/new-user-modal.component';
 
@@ -30,13 +30,14 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.updateUsers();
+    
   }
 
   updateUsers() {
     this.userService.getAllUsers(this.currentPage - 1, this.pageSize, "id").subscribe(data => {
       this.users = data.content;
+      
       this.totalItems = data.totalElements;
-      console.log(this.currentPage);
     })
   }  
 

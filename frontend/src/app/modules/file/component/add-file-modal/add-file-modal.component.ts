@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
-import { FileService } from 'src/app/_services/file.service';
+import { FileService } from 'src/app/services/file.service';
 import { BsModalRef } from 'ngx-bootstrap';
 
 
@@ -13,6 +13,7 @@ export class AddFileModalComponent implements OnInit {
 
   @Input() taskId: string;
   @Input() projectId: string;
+  @Output() uploadFiles: EventEmitter<File[]> = new EventEmitter<File[]>();
 
   public uploadedFiles: UploadFile[] = [];
   public files: File[] = [];
@@ -49,11 +50,7 @@ export class AddFileModalComponent implements OnInit {
   }
 
   _addFiles(): void {
-    for(const file of this.files){
-      this.fileService.saveFile(file, this.taskId, this.projectId).subscribe(()=>{
-            
-      }) 
-    }
+    this.uploadFiles.emit(this.files);
     this._closeModal();
   }
 

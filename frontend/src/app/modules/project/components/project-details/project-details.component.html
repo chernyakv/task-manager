@@ -1,19 +1,23 @@
-<div *ngIf="ready" class="containter">
+<div *ngIf="ready" class="test container-fluid pt-3">
   <div class="row">
     <div class="col-md-3">
       <div class="card">
         <div class="card-header">
-          {{project.projectCode}}
+          <div class="modal-title pull-left">#{{project.projectCode}}</div>
+          <button type="button" class=" btn pull-right">Edit</button>
         </div>
         <div class="card-body">
           {{project.summary}}
         </div>
       </div>
+      <button class="btn btn-primary m-2" (click)="_openTaskModal()">New Task</button>
+      <button class="btn btn-primary m-2">Add user</button>
+
     </div>
     <div *ngIf="ready" class="col-md-9">
       <tabset>
         <tab heading="Tasks">
-          <app-tasks-on-the-project-table [project]="project">
+          <app-tasks-on-the-project-table [project]="project">            
           </app-tasks-on-the-project-table>
         </tab>
         <tab heading="Users">

@@ -1,5 +1,5 @@
 <div class="table-wrapper">
-  <table class="table table-responsive-sm">
+  <table class="table table-responsive-sm table-borderless">
     <thead>
       <tr>
         <td>Task</td>
@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let task of tasks" (click)="taskOpen(task.id)">
-        <td>{{task.id}}</td>
+        <td>{{task.ticketCode}}</td>
         <td>{{task.title}} </td>
         <td>
           <span class="badge ">
@@ -24,18 +24,19 @@
         </td>
         <td>
           <span class="badge" [ngClass]="{
-                'badge-success' : task.taskStatus === 'OPEN',
-                'badge-primary' : task.taskStatus === 'IN_PROGRESS',
-                'priority-emergency' : task.taskStatus === 'READY_FOR_TEST'
+            'badge-success' : task.taskStatus === 'OPEN',
+            'badge-primary' : task.taskStatus === 'IN_PROGRESS',
+            'badge-warning' : task.taskStatus === 'READY_FOR_TEST',
+            'badge-danger' : task.taskStatus === 'CLOSED'
               }">{{task.taskStatus}}</span>
         </td>
-        <td>{{task.dueDate | date:'MM/dd/yy'}}</td>
+        <td>{{task.dueDate | date:'MMM d'}}</td>
       </tr>
     </tbody>
   </table>
   <div class="col-xs-12 col-12">
-    <pagination [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"
-      [maxSize]="5">
+    <pagination class="pagination-sm" [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="currentPage"
+      (pageChanged)="pageChanged($event)" [maxSize]="5">
     </pagination>
   </div>
 </div>

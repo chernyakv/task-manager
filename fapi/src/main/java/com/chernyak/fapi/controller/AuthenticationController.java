@@ -6,9 +6,11 @@ import com.chernyak.fapi.models.JwtToken;
 import com.chernyak.fapi.models.User;
 import com.chernyak.fapi.security.JwtTokenProvider;
 import com.chernyak.fapi.service.UserService;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,10 +57,14 @@ public class AuthenticationController {
                     loginUser.getPassword()
                 )
         );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        final String token = tokenProvider.generateToken(authentication);
-        final String refreshToken = tokenProvider.generateRefreshToken(authentication);
-        return ResponseEntity.ok(new JwtToken(token, refreshToken));
+        try{
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            final String token = tokenProvider.generateToken(authentication);
+            final String refreshToken = tokenProvider.generateRefreshToken(authentication);
+            return ResponseEntity.ok(new JwtToken(token, refreshToken));
+        } catch (ExpiredJwtException e) {
+            return  new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @PostMapping(value = "/refresh-token")

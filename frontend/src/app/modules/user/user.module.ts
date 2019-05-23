@@ -12,10 +12,6 @@ import { TypeaheadModule } from 'ngx-bootstrap';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { InlineEditorModule } from '../inline-editor/inline-editor.module';
 
-
-
-
-
 @NgModule({
   declarations: [
     UsersComponent,
@@ -24,15 +20,15 @@ import { InlineEditorModule } from '../inline-editor/inline-editor.module';
     UserDetailComponent],
   imports: [
     CommonModule,
-    ReactiveFormsModule,   
+    ReactiveFormsModule,
     FormsModule,
     BrowserModule,
-    RouterModule,  
+    RouterModule,
     HttpClientModule,
     InlineEditorModule,
     PaginationModule.forRoot(),
-    TypeaheadModule.forRoot(),  
-    
+    TypeaheadModule.forRoot(),
+
   ],
   exports: [UsersComponent, UsersOnTheProjectTableComponent, UserDetailComponent],
   entryComponents:[NewUserModalComponent]

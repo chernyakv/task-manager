@@ -1,9 +1,7 @@
 <label class="btn btn-default">
     <input type="file" (change)="selectFile($event)">
 </label>
-<button>
-    <i class="icon-paper-clip"></i>
-</button>
+
 
 
 <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>

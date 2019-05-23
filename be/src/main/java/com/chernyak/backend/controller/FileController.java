@@ -2,8 +2,10 @@ package com.chernyak.backend.controller;
 
 import com.chernyak.backend.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import org.springframework.web.util.UriComponents;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -30,42 +33,41 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @PostMapping("/file")
+    @PostMapping
     public ResponseEntity<?> uploadFile(
             @RequestParam(value = "file") MultipartFile file,
             @RequestParam(value = "taskId") String taskId,
             @RequestParam(value = "projectId") String projectId, HttpServletRequest request)  throws IOException {
-        //String fileName = fileStorageService.storeFile(file);
-        fileService.saveFile(file, taskId, projectId);
-        return null;
+
+        try{
+            fileService.saveFile(file, taskId, projectId);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        catch (IOException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<String>> files( @RequestParam(value = "taskId") String taskId,
-                                               @RequestParam(value = "projectId") String projectId,
-                                               HttpServletRequest request) {
+    public ResponseEntity<List<String>> files(@RequestParam(value = "taskId") String taskId,
+                                              @RequestParam(value = "projectId") String projectId,
+                                              HttpServletRequest request) {
+
         List<String> fileNames = fileService.allFiles(taskId, projectId);
 
-
-        final List<String> uriComponents = fileNames.stream()
-                .map(fileName -> MvcUriComponentsBuilder.fromMethodName(FileController.class, "file", fileName, taskId, projectId, request).build())
-                .map(UriComponents::toString)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok().body(uriComponents);
+        return ResponseEntity.ok().body(fileNames);
     }
 
-    @GetMapping("/file/{fileName:.+}")
+    @GetMapping("/{fileName:.+}")
     public ResponseEntity<Resource> file(@PathVariable String fileName, @RequestParam(value = "taskId") String taskId,
-                                         @RequestParam(value = "projectId") String projectId, HttpServletRequest request) {
+                                         @RequestParam(value = "projectId") String projectId, HttpServletRequest request) throws IOException {
 
         String uploadsDir = "./files/" + projectId + "/" + taskId + "/";
-        Path path = Paths.get(uploadsDir);
-
-        // Load file as Resource
+        Path path = Paths.get(uploadsDir  + fileName );
+        byte[] data = Files.readAllBytes(path);
+        path = Paths.get(uploadsDir);
         Resource resource = fileService.loadFileAsResource(fileName, path);
 
-        // Try to determine file's content type
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
@@ -73,7 +75,6 @@ public class FileController {
 
         }
 
-        // Fallback to the default content type if type could not be determined
         if (contentType == null) {
             contentType = "application/octet-stream";
         }
@@ -81,7 +82,7 @@ public class FileController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
+                .body(new ByteArrayResource(data));
     }
 
 

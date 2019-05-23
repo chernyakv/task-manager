@@ -11,7 +11,7 @@
         <button type="button" class="btn btn-success btn-sm" (click)="_addUser()">Add to this project</button>               			
     </div>
   </div>
-  <table class="table table-hover">
+  <table class="table table-hover table-borderless">
       <thead>
         <tr>
           <td>Id</td>
@@ -47,5 +47,5 @@
 </div>
 
 <ng-template #customItemTemplate let-model="item" let-index="index">
-  <h5>{{model.firstName}} {{model.lastName}}</h5>
+  <h5>{{model.firstName}} {{model.lastName}}({{model.role}})</h5>
 </ng-template>

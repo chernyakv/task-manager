@@ -14,4 +14,5 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long>, JpaSpecificationExecutor<Task> {
     Page<Task> findAllByAssigneeId(Pageable pageable, User user);
     Page<Task> findAllByProjectIdId(Pageable pageable, Long id);
+    Long countByProjectId(Project project);
 }

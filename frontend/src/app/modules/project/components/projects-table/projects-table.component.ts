@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Project } from '../../models/Project';
-import { ProjectService } from 'src/app/_services/project.service';
+import { ProjectService } from 'src/app/services/project.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { NewProjectModalComponent } from '../new-project-modal/new-project-modal.component';
 

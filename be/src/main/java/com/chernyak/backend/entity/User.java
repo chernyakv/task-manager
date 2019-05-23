@@ -1,8 +1,10 @@
 package com.chernyak.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
 
@@ -13,18 +15,26 @@ import java.util.List;
 public class User extends BaseEntity {
 
     @Column(name = "username", unique = true)
+    @Size(min = 3, max = 20, message = "Username size must be between 3 and 20 symbols")
+    @NotBlank(message = "Username is required")
     private String username;
 
     @Column(name = "password")
     private String password;
 
     @Column(name = "first_name")
+    @Size(min = 3, max = 20, message = "First name size must be between 3 and 20 symbols")
+    @NotBlank(message = "First name is required")
     private String firstName;
 
     @Column(name = "last_name")
+    @Size(min = 3, max = 20, message = "Last name size must be between 3 and 20 symbols")
+    @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
+    @Email(message = "Incorrect email format")
+    @NotBlank(message = "Email is required")
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,7 +43,7 @@ public class User extends BaseEntity {
 
     //@Column(name = "lastSession")
     //private Date lastSession;
-
+    @NotNull(message = "User role is required")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},

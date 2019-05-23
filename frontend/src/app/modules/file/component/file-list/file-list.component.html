@@ -1,12 +1,8 @@
-<div class="box" style="display:inline-block">
+<div class="box">
     <div *ngFor="let file of files">
         <div class="div">
-          <a href="{{file}}"><i class="icon-file icon-3x"></i></a>
-          
-          
-          
-        </div>  
-      
+          <a href="javascript:void(0);" (click)="_onClick(file)"><i class="icon-file icon-3x"></i></a>         
+        </div>     
     </div>
 
 </div>

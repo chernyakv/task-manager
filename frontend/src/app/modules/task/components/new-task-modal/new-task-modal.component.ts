@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UserService } from 'src/app/_services/user.service';
+import { UserService } from 'src/app/services/user.service';
 import { BsModalRef } from 'ngx-bootstrap';
 import { User } from 'src/app/modules/user/models/User';
 import { Observable } from 'rxjs';
 import { Task } from '../../models/Task';
 import { Project } from 'src/app/modules/project/models/Project';
-import { TaskService } from 'src/app/_services/task.service';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { TaskService } from 'src/app/services/task.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 
 @Component({

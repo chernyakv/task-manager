@@ -1,54 +1,44 @@
 <div class="table-wrapper">
-  <div class="table-title">
-    <div class="row">
-      <div class="col-sm-7">           
-        <button type="button" class="btn btn-primary" (click)="_openTaskModal()">New Task</button>              					
-      </div>             		
-    </div>
-  </div>
-  <table class="table table-hover">
+  <table class="table table-hover table-borderless">
     <thead>
-      <tr>          
-        <td>ID</td>
-        <td>Priority</td>
-        <td>Status</td>         
-        <td>Due Date</td>
-        <td>Estimation</td>          
+      <tr>
+        <td>Task</td>
         <td>Title</td>
-        <td>Action</td>
-      </tr>     
+        <td>Priority</td>
+        <td>Status</td>
+        <td>Due Date</td>
+      </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let task of tasks">        
-        <td><a [routerLink]="['/task-details', task.id]">{{task.id}}</a></td>
-        <td>{{task.priority}}</td>
-        <td>{{task.taskStatus}}</td>
-        <td>{{task.dueDate | date}}</td>
+      <tr *ngFor="let task of tasks" (click)="taskOpen(task.id)">
         <td>{{task.id}}</td>
-        <td>{{task.title}}</td>
+        <td>{{task.title}} </td>
         <td>
-          <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-          <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+          <span class="badge ">
+            <i [ngClass]="{        
+                'text-danger icon-long-arrow-up' : task.priority === 'CRITICAL',
+                'text-warning icon-long-arrow-up' : task.priority === 'NORMAL'
+                }"></i>
+            {{task.priority}}
+          </span>
         </td>
+        <td>
+          <span class="badge" [ngClass]="{
+                    'badge-success' : task.taskStatus === 'OPEN',
+                    'badge-primary' : task.taskStatus === 'IN_PROGRESS',
+                    'badge-warning' : task.taskStatus === 'READY_FOR_TEST',
+                    'badge-danger' : task.taskStatus === 'CLOSED'
+                  }">{{task.taskStatus}}</span>
+        </td>
+        <td>{{task.dueDate | date:'MM/dd/yy'}}</td>
       </tr>
-     
     </tbody>
   </table>
 </div>
 <div class="row">
-    <div class="col-xs-12 col-12">
-      <pagination
-       [itemsPerPage]="pageSize"
-       [totalItems]="totalItems"
-       [(ngModel)]="currentPage"
-       (pageChanged)="pageChanged($event)"
-       [maxSize]="5">
-      </pagination>
-    </div>
+  <div class="col-xs-12 col-12">
+    <pagination class="pagination-sm" [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="currentPage"
+      (pageChanged)="pageChanged($event)" [maxSize]="5">
+    </pagination>
   </div>
-  
-  
-  
-  
-  
-  
+</div>

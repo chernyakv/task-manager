@@ -1,18 +1,16 @@
-<div class="home container">
-  <tabset>
-    <tab heading="Tasks">
-      <app-tasks></app-tasks>
-    </tab>
-    <tab  *ngIf="isProjectManager" heading="Users">
-      <app-users></app-users>
-    </tab>
-    <tab  *ngIf="isProjectManager" heading="Projects">
-      <app-projects-table></app-projects-table>
-    </tab>
-  </tabset>
+<div class="wrapper pt-3">
+  <div class="home container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <tabset class="p-0 m-0">
+          <tab heading="Tasks">
+            <app-tasks-table></app-tasks-table>
+          </tab>          
+          <tab heading="Projects">
+            <app-projects-table></app-projects-table>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
 </div>
-    
-
-
-
-                                                                                                                                   

@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { Task } from '../../models/Task';
 import { Comment } from '../../models/Comment';
 import { ActivatedRoute } from '@angular/router';
-import { TaskService } from 'src/app/_services/task.service';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
-import { CommentService } from 'src/app/_services/comment.service';
-import { ProjectService } from 'src/app/_services/project.service';
+import { TaskService } from 'src/app/services/task.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { CommentService } from 'src/app/services/comment.service';
+import { ProjectService } from 'src/app/services/project.service';
 import { Project } from 'src/app/modules/project/models/Project';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { AddFileModalComponent } from 'src/app/modules/file/component/add-file-modal/add-file-modal.component';
 import { projectionDef } from '@angular/core/src/render3';
 import { NewTaskModalComponent } from '../new-task-modal/new-task-modal.component';
+import { FileService } from 'src/app/services/file.service';
+import { FileListComponent } from 'src/app/modules/file/component/file-list/file-list.component';
 
 @Component({
   selector: 'app-task-detail',
@@ -19,6 +21,8 @@ import { NewTaskModalComponent } from '../new-task-modal/new-task-modal.componen
 })
 export class TaskDetailComponent implements OnInit {
 
+  @ViewChild(FileListComponent)
+  private fileListComponent: FileListComponent;
   task: Task;
   project: Project;
   public modalRef: BsModalRef;
@@ -34,7 +38,8 @@ export class TaskDetailComponent implements OnInit {
     private projectService: ProjectService,
     private taskService: TaskService,
     private authenticationService: AuthenticationService,
-    private modalService: BsModalService,) {
+    private modalService: BsModalService,
+    private fileService: FileService) {
     
   } 
 
@@ -108,13 +113,20 @@ export class TaskDetailComponent implements OnInit {
     this.updateComments();
   }
 
-  _openFileModal() {  
-    
+  _openFileModal() { 
     const initialState = {     
       taskId: this.task.id,
       projectId: this.task.projectId
     };
-    this.modalRef = this.modalService.show(AddFileModalComponent, {initialState});      
+    this.modalRef = this.modalService.show(AddFileModalComponent, {initialState});
+    this.modalRef.content.uploadFiles.subscribe(data => {
+      for(const file of data){
+        this.fileService.saveFile(file, this.task.id, this.task.projectId).subscribe(()=>{
+          this.fileListComponent._updateFileList(); 
+        }) 
+      }
+      
+    })     
   }
 
 }

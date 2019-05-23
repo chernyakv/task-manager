@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from 'src/app/_services/user.service';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { UserService } from 'src/app/services/user.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { first } from 'rxjs/operators';
 
 
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-  
+
   invalidLogin: boolean = false;
 
   constructor(
@@ -34,25 +34,21 @@ export class LoginComponent implements OnInit {
   _onSubmit() {
     this.submitted = true;
 
-    
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
-        return;
+      return;
     }
 
     this.loading = true;
     this.authenticationService.login(this.f.username.value, this.f.password.value)
-        .pipe(first())
-        .subscribe(
-            data => {
-		console.log(123);
-                this.router.navigate([this.returnUrl]);
-		
-            },
-            error => {
-                this.error = error;
-                this.loading = false;
-              });
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]);
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
   }
 
   ngOnInit() {

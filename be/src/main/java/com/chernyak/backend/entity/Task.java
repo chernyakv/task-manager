@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 
@@ -20,10 +21,12 @@ public class Task extends BaseEntity {
     @JoinColumn(name = "project_id")
     private Project projectId;
 
+    @NotNull(message = "Task priority is required")
     @Column(name = "priority")
     @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
+    @NotNull(message = "Task status is required")
     @Column(name = "task_status")
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
@@ -48,7 +51,7 @@ public class Task extends BaseEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "ticket_code")
+    @Column(name = "ticket_code", nullable = false)
     private String ticketCode;
 
     @JsonIgnore

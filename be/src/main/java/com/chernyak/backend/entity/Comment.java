@@ -13,6 +13,7 @@ import java.util.Date;
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Comment extends BaseEntity{
 
+
     @Column(name = "description")
     private String description;
 

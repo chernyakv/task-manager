@@ -93,7 +93,7 @@ public class DtoConverter {
         TaskDto taskDto = new TaskDto();
         taskDto.setId(task.getId());
         taskDto.setProjectId(task.getProjectId().getId().toString());
-        taskDto.setTicketCode("Code-XXX");
+        taskDto.setTicketCode(task.getTicketCode());
         taskDto.setAssignee(task.getAssigneeId().getUsername());
         taskDto.setReporter(task.getReporterId().getUsername());
         taskDto.setPriority(task.getPriority().name());
@@ -111,17 +111,17 @@ public class DtoConverter {
         Task task = new Task();
         task.setProjectId(projectRepository.findById(Long.parseLong(taskDto.getProjectId())).orElse(null));
         task.setId(taskDto.getId());
-        task.setTicketCode(taskDto.getTicketCode());
         task.setAssigneeId(userRepository.findByUsername(taskDto.getAssignee()).get());
         task.setReporterId(userRepository.findByUsername(taskDto.getReporter()).get());
         task.setPriority(TaskPriority.valueOf(taskDto.getPriority()));
         task.setTaskStatus(TaskStatus.valueOf(taskDto.getTaskStatus()));
-        //task.setCreated(Long.parseLong(taskDto.getCreated()));
-        //task.setUpdated(Long.parseLong(taskDto.getUpdated()));
         task.setDueDate(Long.parseLong(taskDto.getDueDate()));
         task.setEstimation(Long.parseLong(taskDto.getEstimation()));
         task.setDescription(taskDto.getDescription());
         task.setTitle(taskDto.getTitle());
+        if(taskDto.getTicketCode()!=null){
+            task.setTicketCode(taskDto.getTicketCode());
+        }
         return task;
     }
 

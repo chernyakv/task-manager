@@ -1,4 +1,4 @@
-<div class="container" *ngIf="ready">
+<div class="container-fluid" *ngIf="ready">
   <div class="row ">
     <div class="col-md-12 content">
       <div class="task-header">
@@ -19,6 +19,7 @@
         <div class="row">
           <div class="col-md-6">
             <p class="task-info-header">People</p>
+            <hr/>
             <div class="row mb-1">
               <div class="col-md-4 label">Reoprter:</div>
               <div class="col-md-8">{{task.reporter}}</div>
@@ -28,7 +29,7 @@
               <div class="col-md-8">{{task.assignee}}</div>
             </div>
             <p class="task-info-header">Details</p>
-            <hr>
+            <hr/>
             <div class="row">
               <div class="col-md-4 label">Priority:</div>
               <div class="col-md-8">{{task.priority}}</div>
@@ -40,6 +41,7 @@
           </div>
           <div class="col-md-6">
             <p class="task-info-header">Dates and Times</p>
+            <hr/>
             <div class="row">
               <div class="col-md-4 label">Create:</div>
               <div class="col-md-8">{{task.created | date : "medium"}}</div>

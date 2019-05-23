@@ -18,6 +18,10 @@ export class FileService {
     return this.http.post<any>(`${environment.apiUrl}/api/v1/files/file?taskId=${taskId}&projectId=${projectId}`, formData);
   }
 
+  download(filename: string, taskId: string, projectId: string) {    
+    return this.http.get(`${environment.apiUrl}/api/v1/files/file/${filename}?taskId=${taskId}&projectId=${projectId}`,  {observe: 'response', responseType: 'blob' as 'json'});
+  }
+
 
   getFiles(taskId: string, projectId: string): Observable<String[]> {    
     return this.http.get<String[]>(`${environment.apiUrl}/api/v1/files?taskId=${taskId}&projectId=${projectId}`);

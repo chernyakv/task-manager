@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.swing.text.html.Option;
 import java.util.Arrays;
@@ -63,6 +65,10 @@ public class UserServiceImpl implements UserService {
         if(user.getRoles()!=null){
             user.getRoles().forEach(role->
                     role.setId(roleRepository.findByName(role.getName()).getId()));
+        }
+        if(userRepository.findByUsername(user.getUsername()).isPresent()){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "User with email '" + user.getUsername() + "' already exists");
         }
 
         return userRepository.save(user);

@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,11 +48,10 @@ public class FileServiceImpl implements FileService {
         Path path = Paths.get(uploadsDir);
         File folder = new File(path.toUri());
         final String[] list = folder.list();
-        List<String> test =  Arrays.stream(list)
-                .map(file->loadFileAsResource(file, path))
-                .map(Resource::getFilename)
-                .collect(Collectors.toList());
-        return  test;
+        if(list == null) {
+            return Collections.emptyList();
+        }
+        return  Arrays.stream(list).collect(Collectors.toList());
     }
 
     @Override

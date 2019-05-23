@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FileService } from 'src/app/_services/file.service';
+import { FileService } from 'src/app/services/file.service';
 import { TaskDetailComponent } from 'src/app/modules/task/components/task-detail/task-detail.component';
+import { HttpResponse } from '@angular/common/http';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-file-list',
@@ -19,10 +21,21 @@ export class FileListComponent implements OnInit {
   constructor(private fileService: FileService) { }
 
   ngOnInit() {
-    this.fileService.getFiles(this.taskId,this.projectId).subscribe(data=>{
-      this.files = data;
-      console.log(this.files);
+    this._updateFileList();
+  }
+
+  _onClick(file:string){
+    this.fileService.download(file, this.taskId, this.projectId).subscribe((data: HttpResponse<Blob>) => { 
+      const fileName = decodeURIComponent(file);
+      saveAs(data.body, fileName);
     })
   }
 
+  _updateFileList() {
+    this.fileService.getFiles(this.taskId,this.projectId).subscribe(data=>{
+      this.files = data;
+    })
+  }
+
+  
 }
