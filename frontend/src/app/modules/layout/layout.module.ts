@@ -14,6 +14,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ProjectModule } from '../project/project.module';
 import { TabsModule, BsDropdownModule } from 'ngx-bootstrap';
 
+
 @NgModule({
   declarations: [
     NotFoundComponent,
@@ -22,7 +23,7 @@ import { TabsModule, BsDropdownModule } from 'ngx-bootstrap';
     AdminComponent,
     HeaderComponent,
     FooterComponent],
-  imports: [    
+  imports: [
     CommonModule,
     TaskModule,
     ProjectModule,

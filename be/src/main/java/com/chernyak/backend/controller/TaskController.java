@@ -61,9 +61,10 @@ public class TaskController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
             @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "order") String order,
             @PathVariable String username) {
 
-        Page<Task> tasks = taskService.getTaskByAsigneeUsername(page, size, sort, username);
+        Page<Task> tasks = taskService.getTaskByAsigneeUsername(page, size, sort, order, username);
 
         if(tasks == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -77,9 +78,10 @@ public class TaskController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
             @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "order") String order,
             @PathVariable Long id) {
 
-        Page<Task> tasks = taskService.getTasksByProjectId(page, size, sort, id);
+        Page<Task> tasks = taskService.getTasksByProjectId(page, size, sort, order, id);
 
         if(tasks == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

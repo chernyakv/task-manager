@@ -21,18 +21,14 @@ export class ErrorInterceptor implements HttpInterceptor {
                     this.authenticationService.logout();
                     this.router.navigate(['/login']);
                 } else {
-                    console.log('notRefresh');
                     return this.authenticationService.refreshToken(this.authenticationService.tokenValue.refreshToken).pipe(
                         mergeMap(() => {
                             const secRequest = this.cloneRequestAndAddHeader(request);
                             return next.handle(secRequest);
                         })
                     )
-                }  
-                // this.authenticationService.logout();
-                // location.reload(true);
+                }    
             }
-
             const error = err.error.message || err.statusText;
             console.log(error);
             return throwError(error);

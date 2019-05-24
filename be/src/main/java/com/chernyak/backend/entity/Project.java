@@ -21,7 +21,7 @@ public class Project extends BaseEntity {
     @Column(name = "project_code", nullable = false, unique = true)
     private String projectCode;
 
-    @Size(min = 3, max = 5, message = "Project name size must be between 3 and 20 symbols")
+    @Size(min = 3, max = 20, message = "Project name size must be between 3 and 20 symbols")
     @NotBlank(message = "Project name is required")
     @Column(name = "name")
     private String name;

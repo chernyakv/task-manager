@@ -32,8 +32,9 @@ public class TaskController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
             @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "order") String order,
             @PathVariable String username){
-        return taskService.getAllTasksByUsername(page, size, sort, username);
+        return taskService.getAllTasksByUsername(page, size, sort, order, username);
     }
 
     @GetMapping(value = "/byProject/{id}")
@@ -41,8 +42,9 @@ public class TaskController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
             @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "order") String order,
             @PathVariable Long id){
-        return taskService.getAllTasksByProjectId(page, size, sort, id);
+        return taskService.getAllTasksByProjectId(page, size, sort, order, id);
     }
 
     @PostMapping(value = "")

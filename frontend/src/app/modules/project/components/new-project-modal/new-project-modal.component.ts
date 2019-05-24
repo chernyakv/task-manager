@@ -5,6 +5,7 @@ import { Project } from '../../models/Project';
 import { ProjectService } from 'src/app/services/project.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-new-project-modal',
@@ -21,7 +22,8 @@ export class NewProjectModalComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private modalRef: BsModalRef,
     private projectService: ProjectService,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService,
+    private alertService: AlertService) { }
 
   ngOnInit() {
     if(!this.project){
@@ -46,9 +48,13 @@ export class NewProjectModalComponent implements OnInit {
     if(this.newProjectForm.valid){
       this.project.manager = this.authenticationService.currentUsername;
       this.subscriptions.push(this.projectService.createProject(this.project).subscribe(()=>{
-
+        this.modalRef.hide();
+        this.alertService.success('Project has been created');
+      }, (err) => {
+        this.alertService.danger(err);
+        
       }))
-      this.modalRef.hide();
+      
     }    
   }
 

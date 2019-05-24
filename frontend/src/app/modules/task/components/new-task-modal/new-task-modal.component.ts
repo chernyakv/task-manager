@@ -8,6 +8,7 @@ import { Task } from '../../models/Task';
 import { Project } from 'src/app/modules/project/models/Project';
 import { TaskService } from 'src/app/services/task.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AlertService } from 'ngx-alerts';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class NewTaskModalComponent implements OnInit {
               private modalRef: BsModalRef,
               private userService: UserService,
               private taskService: TaskService,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private alertService: AlertService) {
 
   }
 
@@ -71,6 +73,7 @@ export class NewTaskModalComponent implements OnInit {
     this.task.taskStatus = this.editMode ? this.task.taskStatus : 'OPEN';
     this.taskService.saveTask(this.task).subscribe(() => {
       this.submmited = true;
+      this.alertService.success('Task created');
       this.modalRef.hide();
     });
   }

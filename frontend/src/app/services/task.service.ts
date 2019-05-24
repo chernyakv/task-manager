@@ -12,15 +12,21 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getAllByUsername(username: String, currentPage: number, pageSize: number, sort: string): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/api/v1/tasks/byUsername/${username}?page=${currentPage}&size=${pageSize}&sort=${sort}`);
-  }  
-
-  getAllByProjectId(projectId: String, currentPage: number, pageSize: number, sort: string): Observable<any> {
+  getAllByUsername(username: String, currentPage: number, pageSize: number, sort: string, order: string): Observable<any> {
     let params = new HttpParams()
       .set('page', `${currentPage}`)
       .set('size', `${pageSize}`)
-      .set('sort', `${sort}`);
+      .set('sort', `${sort}`)
+      .set('order', `${order}`);
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/tasks/byUsername/${username}`, {params});
+  }  
+
+  getAllByProjectId(projectId: String, currentPage: number, pageSize: number, sort: string, order: string): Observable<any> {
+    let params = new HttpParams()
+      .set('page', `${currentPage}`)
+      .set('size', `${pageSize}`)
+      .set('sort', `${sort}`)
+      .set('order', `${order}`);
     return this.http.get<any>(`${environment.apiUrl}/api/v1/tasks/byProject/${projectId}`, {params});
   }
 

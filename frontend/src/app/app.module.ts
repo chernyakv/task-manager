@@ -11,6 +11,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {InputEditorModule} from 'angular-inline-editors';
 import { SelectEditorModule } from 'angular-inline-editors';
 import { FileSizePipe } from './pipes/file-size.pipe';
+import { AlertModule } from 'ngx-alerts';
 
 
 
@@ -28,6 +29,7 @@ import { FileSizePipe } from './pipes/file-size.pipe';
     TypeaheadModule.forRoot(),
     InputEditorModule.forRoot(),
     SelectEditorModule.forRoot(),
+    AlertModule.forRoot({maxMessages: 5, timeout: 7000, position: 'right'}),
     HttpClientModule
   ],
   providers: [

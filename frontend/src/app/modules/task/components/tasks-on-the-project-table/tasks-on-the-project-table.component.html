@@ -2,15 +2,15 @@
   <table class="table table-hover table-borderless">
     <thead>
       <tr>
-        <td>Task</td>
-        <td>Title</td>
-        <td>Priority</td>
-        <td>Status</td>
-        <td>Due Date</td>
+        <td><a (click)="onSortClick('id')">Task <i class="icon-sort"></i></a></td>
+        <td><a (click)="onSortClick('title')">Title <i class="icon-sort"></i></a></td>
+        <td><a (click)="onSortClick('priority')">Priority <i class="icon-sort"></i></a></td>
+        <td><a (click)="onSortClick('taskStatus')">Satuts <i class="icon-sort"></i></a></td>
+        <td><a (click)="onSortClick('dueDate')">Due Date <i class="icon-sort"></i></a></td>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let task of tasks" (click)="taskOpen(task.id)">
+      <tr *ngFor="let task of tasks" (click)="onTaskClick(task.id)">
         <td>{{task.id}}</td>
         <td>{{task.title}} </td>
         <td>
@@ -30,7 +30,7 @@
                     'badge-danger' : task.taskStatus === 'CLOSED'
                   }">{{task.taskStatus}}</span>
         </td>
-        <td>{{task.dueDate | date:'MM/dd/yy'}}</td>
+        <td class="dueDate">{{task.dueDate | date:'MMM d'}}</td>
       </tr>
     </tbody>
   </table>

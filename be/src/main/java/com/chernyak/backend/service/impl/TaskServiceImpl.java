@@ -38,15 +38,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<Task> getTaskByAsigneeUsername(int page, int count, String sort, String username) {
-        Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
+    public Page<Task> getTaskByAsigneeUsername(int page, int count, String sort, String order, String username) {
+        Sort.Direction direction = Sort.Direction.fromString(order);
+        Pageable pageRequest = PageRequest.of(page, count, Sort.by(direction, sort));
         Optional<User> user = userRepository.findByUsername(username);
         return taskRepository.findAllByAssigneeId(pageRequest, user.get());
     }
 
     @Override
-    public Page<Task> getTasksByProjectId(int page, int count, String sort, Long id) {
-        Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
+    public Page<Task> getTasksByProjectId(int page, int count, String sort, String order, Long id) {
+        Sort.Direction direction = Sort.Direction.fromString(order);
+        Pageable pageRequest = PageRequest.of(page, count, Sort.by(direction, sort));
         return taskRepository.findAllByProjectIdId(pageRequest, id);
     }
 

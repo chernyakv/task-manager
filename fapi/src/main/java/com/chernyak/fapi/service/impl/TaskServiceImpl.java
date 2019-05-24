@@ -23,16 +23,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Object getAllTasksByUsername(int page, int size, String sort, String username) {
+    public Object getAllTasksByUsername(int page, int size, String sort, String order, String username) {
         RestTemplate restTemplate = new RestTemplate();
-        Object taskResponse = restTemplate.getForObject(backendServerUrl + "/byAssignee/" + username + "?" + "page=" + page + "&size=" + size + "&sort=" + sort, Object.class);
+        Object taskResponse = restTemplate.getForObject(backendServerUrl + "/byAssignee/" + username + "?" + "page=" + page + "&size=" + size + "&sort=" + sort + "&order=" + order , Object.class);
         return  taskResponse;
     }
 
     @Override
-    public Object getAllTasksByProjectId(int page, int size, String sort, Long projectId) {
+    public Object getAllTasksByProjectId(int page, int size, String sort, String order, Long projectId) {
         RestTemplate restTemplate = new RestTemplate();
-        Object taskResponse = restTemplate.getForObject(backendServerUrl + "/byProject/" + projectId + "?" + "page=" + page + "&size=" + size + "&sort=" + sort, Object.class);
+        Object taskResponse = restTemplate.getForObject(backendServerUrl + "/byProject/" + projectId + "?" + "page=" + page + "&size=" + size + "&sort=" + sort + "&order=" + order, Object.class);
         return  taskResponse;
     }
 

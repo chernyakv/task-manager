@@ -19,18 +19,17 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class TasksTableComponent implements OnInit {
 
-  public tasks: Task[];
-  public modalRef: BsModalRef;
-  public currentUser: string;
-  public username: string;
+  public tasks: Task[]; 
 
   public pageSize = 8;
   public currentPage = 0;
   public totalItems = 0;
+  public sort = "id";
+  public direction = 'asc';
+  public isAscDirection = true;
 
   constructor(
     private router: Router,
-    private modalService: BsModalService,
     private authenticationService: AuthenticationService,
     private tasksService: TaskService
   ) {}
@@ -39,23 +38,28 @@ export class TasksTableComponent implements OnInit {
     this.updateTasks();   
   }
 
-  pageChanged(event: any): void {    
-    this.currentPage = event.page - 1;
-    this.updateTasks();
-  }
-
   updateTasks() {
-    this.tasksService.getAllByUsername(this.authenticationService.currentUsername, this.currentPage, this.pageSize, 'id').subscribe(data => {
-      this.tasks = data.content;
-      this.totalItems = data.totalElements;  
+    this.direction = this.isAscDirection ? 'asc' : 'desc';
+    this.tasksService.getAllByUsername(this.authenticationService.currentUsername, this.currentPage, this.pageSize, this.sort, this.direction).subscribe(data => {
+      this.tasks = data.content;     
+      this.totalItems = data.totalElements;
+        
     });
   }
 
-  taskOpen(taskId: string) {
-    this.router.navigate(['/task-details', taskId]);
+  onPageChanged(event: any): void {    
+    this.currentPage = event.page - 1;
+    this.updateTasks();
+  } 
+
+  onSortClick(sort: string) {         
+    this.isAscDirection = sort === this.sort ? !this.isAscDirection : true;
+    this.sort = sort;
+    this.currentPage = 0;
+    this.updateTasks();
   }
 
-  public _closeModal() {
-    this.modalRef.hide();
+  onTaskClick(taskId: string) {
+    this.router.navigate(['/task-details', taskId]);
   }
 }

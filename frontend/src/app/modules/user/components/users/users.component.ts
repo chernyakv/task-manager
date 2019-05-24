@@ -6,6 +6,7 @@ import { User } from '../../models/User';
 import { UserService } from 'src/app/services/user.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { NewUserModalComponent } from '../new-user-modal/new-user-modal.component';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-users',
@@ -26,7 +27,8 @@ export class UsersComponent implements OnInit {
 
 
   constructor(private userService: UserService,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService,
+    private alertService: AlertService) { }
 
   ngOnInit() {
     this.updateUsers();
@@ -45,8 +47,10 @@ export class UsersComponent implements OnInit {
     this.modalRef = this.modalService.show(NewUserModalComponent);
     this.modalRef.content.addUser.subscribe(data => {
       this.userService.saveUser(data).subscribe(() => {
+        this.alertService.success("User has been added");
         this.updateUsers();
-      });
+      },
+      (err) => this.alertService.danger(err));
     })
   }
 
