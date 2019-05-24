@@ -19,10 +19,9 @@
     <tbody>
       <tr *ngFor="let project of projects">
         <td class="align-middle">{{project.id}}</td>
-        <td class="align-middle"><a [routerLink]="['/project-details', project.id]">{{project.projectCode}}</a></td>
+        <td class="align-middle"><a [routerLink]="['/project-details', project.id]">{{project.code}}</a></td>
         <td class="align-middle">{{project.name}}</td>
-        <td class="align-middle">{{project.manager}}</td>  
-                         
+        <td class="align-middle">{{project.manager}}</td>                           
         <td class="align-middle"> 
           <button type="button" class="btn btn-success btn-sm" (click)="_deleteProject(project.id)">Delete</button>              
         </td>

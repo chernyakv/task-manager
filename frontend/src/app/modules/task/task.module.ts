@@ -12,6 +12,7 @@ import { NewTaskModalComponent } from './components/new-task-modal/new-task-moda
 import { TasksOnTheProjectTableComponent } from './components/tasks-on-the-project-table/tasks-on-the-project-table.component';
 import { FileModule } from '../file/file.module';
 import { AddFileModalComponent } from '../file/component/add-file-modal/add-file-modal.component';
+import { CommentModule } from '../comment/comment.module';
 
 
 
@@ -24,6 +25,7 @@ import { AddFileModalComponent } from '../file/component/add-file-modal/add-file
     TasksOnTheProjectTableComponent     
   ],
   imports: [
+    CommentModule,
     FileModule,
     CommonModule,
     BrowserModule,

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { TaskService } from 'src/app/services/task.service';
 import { Task } from '../../models/Task';
 import { Observable } from 'rxjs';

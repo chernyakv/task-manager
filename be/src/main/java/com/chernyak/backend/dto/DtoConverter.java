@@ -38,7 +38,7 @@ public class DtoConverter {
     public Project toProject(ProjectDto projectDto){
         Project project = new Project();
         project.setId(projectDto.getId());
-        project.setProjectCode(projectDto.getProjectCode());
+        project.setCode(projectDto.getCode());
         project.setName(projectDto.getName());
         project.setSummary(projectDto.getSummary());
         project.setManager(userRepository.findByUsername(projectDto.getManager()).get());
@@ -48,7 +48,7 @@ public class DtoConverter {
     public ProjectDto fromProject(Project project){
         ProjectDto projectDto = new ProjectDto();
         projectDto.setId(project.getId());
-        projectDto.setProjectCode(project.getProjectCode());
+        projectDto.setCode(project.getCode());
         projectDto.setSummary(project.getSummary());
         projectDto.setManager(project.getManager().getUsername());
         projectDto.setName(project.getName());

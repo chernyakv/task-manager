@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.sql.Array;
 import java.util.*;
@@ -48,9 +49,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object getAllUsersByProject(int page, int size, String sort, Long projectId) {
+    public Object getAllUsersByProject(int page, int size, String sort, List<String> roles, Long projectId) {
         RestTemplate restTemplate = new RestTemplate();
-        Object usersResponse = restTemplate.getForObject(backendServerUrl + "/byProject/" + projectId + "?page=" + page + "&size=" + size + "&sort=" + sort , Object.class);
+        UriComponentsBuilder uri = UriComponentsBuilder
+                .fromHttpUrl(backendServerUrl + "/byProject/" + projectId);
+
+        for (String role : roles) {
+            uri.queryParam("roles", role);
+        }
+        uri.queryParam("page", page);
+        uri.queryParam("size", size);
+        uri.queryParam("sort", sort);
+
+        Object usersResponse = restTemplate.getForObject(uri.toUriString(), Object.class);
         return usersResponse;
     }
 

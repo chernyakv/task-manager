@@ -82,13 +82,14 @@ public class UserController {
     }
 
     @GetMapping(value = "/byProject/{id}")
-    public ResponseEntity<Page<UserDto>> getAllUsersByProject(
+    public ResponseEntity<Page<UserDto>> getAllUsersByProjectAndRoles(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
             @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "roles") List<String> roles,
             @PathVariable Long id){
 
-        Page<User> users = userService.getAllUsersByProject(page, size, sort, id);
+        Page<User> users = userService.getAllUsersByProjectAndRolesIn(page, size, sort, roles, id);
 
         if(users == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

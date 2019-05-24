@@ -6,6 +6,8 @@ import { CommentsListComponent } from './comments-list/comments-list.component';
   declarations: [CommentsListComponent],
   imports: [
     CommonModule
-  ]
+  ],
+
+  exports: [CommentsListComponent],
 })
 export class CommentModule { }

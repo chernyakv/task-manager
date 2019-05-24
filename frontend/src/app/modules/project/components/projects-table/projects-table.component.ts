@@ -47,10 +47,7 @@ export class ProjectsTableComponent implements OnInit {
   }
 
   public _openProjectModal(){   
-    this.modalRef = this.modalService.show(NewProjectModalComponent); 
-    this.modalRef.content.onHide.subscribe(() => {
-      this.updateProjects();
-    })   
+    this.modalRef = this.modalService.show(NewProjectModalComponent);      
   }
 
 }

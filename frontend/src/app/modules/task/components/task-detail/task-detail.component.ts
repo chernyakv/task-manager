@@ -3,7 +3,7 @@ import { Task } from '../../models/Task';
 import { Comment } from '../../models/Comment';
 import { ActivatedRoute } from '@angular/router';
 import { TaskService } from 'src/app/services/task.service';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AuthService } from 'src/app/services/authentication.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { Project } from 'src/app/modules/project/models/Project';
@@ -37,7 +37,7 @@ export class TaskDetailComponent implements OnInit {
     private commentService: CommentService,
     private projectService: ProjectService,
     private taskService: TaskService,
-    private authenticationService: AuthenticationService,
+    private authService: AuthService,
     private modalService: BsModalService,
     private fileService: FileService) {
     
@@ -48,7 +48,7 @@ export class TaskDetailComponent implements OnInit {
 
     this.taskService.getById(id).subscribe(data => {  
       this.task = data;
-      this.itMyTask = this.authenticationService.currentUsername == this.task.assignee ? true : false;
+      this.itMyTask = this.authService.currentUsername == this.task.assignee ? true : false;
       this.updateComments();
       this.projectService.getById(this.task.projectId).subscribe(data => {
         this.project = data;
@@ -62,7 +62,7 @@ export class TaskDetailComponent implements OnInit {
    
     
 
-    this.role = this.authenticationService.currentUsersRole;    
+    this.role = this.authService.currentUsersRole;    
   }
 
   updateComments() {
@@ -91,7 +91,7 @@ export class TaskDetailComponent implements OnInit {
   _readyForTestClick(){
     this.task.taskStatus = "READY_FOR_TEST";
     this.task.assignee = "che";
-    this.itMyTask = this.authenticationService.currentUsername == this.task.assignee ? true : false;
+    this.itMyTask = this.authService.currentUsername == this.task.assignee ? true : false;
     this.taskService.updateTask(this.task).subscribe( data => {         
     });
   }
@@ -104,7 +104,7 @@ export class TaskDetailComponent implements OnInit {
 
   _submitClick(){
     this.newComment = new Comment(); 
-    this.newComment.author = this.authenticationService.currentUsername;
+    this.newComment.author = this.authService.currentUsername;
     this.newComment.description = this.text;
     this.newComment.taskId = this.task.id;
     this.commentService.saveComment(this.newComment).subscribe(()=>{

@@ -1,6 +1,7 @@
 package com.chernyak.backend.repository;
 
 import com.chernyak.backend.entity.Project;
+import com.chernyak.backend.entity.Role;
 import com.chernyak.backend.entity.User;
 
 import org.springframework.data.domain.Page;
@@ -15,6 +16,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long > {
     Optional<User> findByUsername(String username);
     Page<User> findAll(Pageable pageable);
-    Page<User> findAllByProjectId(Pageable pageable, Long id);
+    Page<User> findAllByProjectIdAndRolesIn(Pageable pageable, Long id, List<Role> roles);
     Page<User> findAllByProjectIsNull(Pageable pageable);
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AuthService } from 'src/app/services/authentication.service';
 import { first } from 'rxjs/operators';
 
 
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private userService: UserService,
-    private authenticationService: AuthenticationService,
+    private authService: AuthService,
     private route: ActivatedRoute
 
   ) { }
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
+    this.authService.login(this.f.username.value, this.f.password.value)
       .pipe(first())
       .subscribe(
         data => {
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.authenticationService.logout();
+    this.authService.logout();
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }

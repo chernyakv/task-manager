@@ -1,6 +1,7 @@
 package com.chernyak.backend.service.impl;
 
 import com.chernyak.backend.entity.Project;
+import com.chernyak.backend.entity.Role;
 import com.chernyak.backend.entity.User;
 import com.chernyak.backend.repository.RoleRepository;
 import com.chernyak.backend.repository.UserRepository;
@@ -15,9 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,9 +52,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getAllUsersByProject(int page, int count, String sort, Long projectId) {
+    public Page<User> getAllUsersByProjectAndRolesIn(int page, int count, String sort, List<String> roles, Long projectId) {
         Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
-        return userRepository.findAllByProjectId(pageRequest, projectId);
+        List<Role> convertedRoles = roles.stream().map(role->{
+            return roleRepository.findByName(role);
+        }).collect(Collectors.toList());
+
+        return userRepository.findAllByProjectIdAndRolesIn(pageRequest, projectId, convertedRoles);
     }
 
     @Override

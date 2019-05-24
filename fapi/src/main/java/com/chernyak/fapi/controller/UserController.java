@@ -49,8 +49,9 @@ public class UserController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
             @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "roles") List<String> roles,
             @PathVariable Long id) {
-        return new ResponseEntity<>(userService.getAllUsersByProject(page, size, sort, id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getAllUsersByProject(page, size, sort, roles, id), HttpStatus.OK);
     }
 
     @GetMapping(value = "/withoutProject")

@@ -19,7 +19,7 @@ public class Project extends BaseEntity {
     @Size(min = 3, max = 5, message = "Project code size must be between 3 and 5 symbols")
     @NotBlank(message = "Project code is required")
     @Column(name = "project_code", nullable = false, unique = true)
-    private String projectCode;
+    private String code;
 
     @Size(min = 3, max = 20, message = "Project name size must be between 3 and 20 symbols")
     @NotBlank(message = "Project name is required")
@@ -33,12 +33,12 @@ public class Project extends BaseEntity {
     @JoinColumn(name = "manager_id")
     private User manager;
 
-    public String getProjectCode() {
-        return projectCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setProjectCode(String projectCode) {
-        this.projectCode = projectCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {

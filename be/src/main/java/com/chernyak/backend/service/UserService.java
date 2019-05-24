@@ -11,7 +11,7 @@ public interface UserService {
     Optional<User> getUserById(Long id);
     Optional<User> getUserByUsername(String username);
     Page<User> getAllUsers(int page, int count, String sort);
-    Page<User> getAllUsersByProject(int page, int count, String sort, Long projectId);
+    Page<User> getAllUsersByProjectAndRolesIn(int page, int count, String sort, List<String> roles, Long projectId);
     Page<User> getAllUsersWithoutProject(int page, int count, String sort);
     User saveUser(User user);
     void deleteUser(Long id);

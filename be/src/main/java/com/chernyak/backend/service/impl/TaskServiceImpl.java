@@ -59,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
             if(!project.isPresent()){
                 throw new RuntimeException("Project not found");
             }
-            task.setTicketCode(project.get().getProjectCode() + "-" + taskRepository.countByProjectId(project.get()));
+            task.setTicketCode(project.get().getCode() + "-" + (taskRepository.countByProjectId(project.get()) + 1));
         }
         return taskRepository.save(task);
     }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../modules/user/models/User';
@@ -19,8 +19,13 @@ export class UserService {
     return this.http.get<any>(`${environment.apiUrl}/api/v1/users/?page=${currentPage}&size=${pageSize}&sort=${sort}`);
   }
 
-  getAllByProjectId(id: string, currentPage: number, pageSize: number, sort: string ): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/api/v1/users/byProject/${id}?page=${currentPage}&size=${pageSize}&sort=${sort}`);
+  getAllByProjectId(id: string, roles: string[], currentPage: number, pageSize: number, sort: string ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', `${currentPage}`)
+      .set('size', `${pageSize}`)
+      .set('sort', `${sort}`);
+    roles.forEach((role) => params = params.append('roles', '' + role));
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/users/byProject/${id}`, {params});
   }
 
   getAllWithoutProject(currentPage: number, pageSize: number, sort: string ): Observable<any> {

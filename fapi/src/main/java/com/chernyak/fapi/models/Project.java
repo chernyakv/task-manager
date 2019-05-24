@@ -3,7 +3,7 @@ package com.chernyak.fapi.models;
 public class Project {
 
     private Long id;
-    private String projectCode;
+    private String code;
     private String name;
     private String summary;
     private String manager;
@@ -16,12 +16,12 @@ public class Project {
         this.id = id;
     }
 
-    public String getProjectCode() {
-        return projectCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setProjectCode(String projectCode) {
-        this.projectCode = projectCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {

@@ -12,6 +12,7 @@ import {InputEditorModule} from 'angular-inline-editors';
 import { SelectEditorModule } from 'angular-inline-editors';
 import { FileSizePipe } from './pipes/file-size.pipe';
 import { AlertModule } from 'ngx-alerts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -21,6 +22,7 @@ import { AlertModule } from 'ngx-alerts';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     LayoutModule,
     BsDropdownModule.forRoot(),

@@ -10,7 +10,7 @@ import { JwtToken } from '../modules/user/models/jwt-token';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
-export class AuthenticationService {
+export class AuthService {
     private tokenSubject: BehaviorSubject<JwtToken>;
     public token: Observable<JwtToken>;
 

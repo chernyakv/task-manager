@@ -6,7 +6,7 @@ import { TaskModule } from '../task/task.module';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AuthService } from 'src/app/services/authentication.service';
 import { AdminComponent } from './admin/admin.component';
 import { HeaderComponent } from './header/header.component';
 import { UserModule } from '../user/user.module';
@@ -33,7 +33,7 @@ import { TabsModule, BsDropdownModule } from 'ngx-bootstrap';
     BsDropdownModule.forRoot()
   ],  
   exports:[HeaderComponent, LoginComponent, HomeComponent, FooterComponent],
-  providers: [UserService, AuthenticationService]
+  providers: [UserService, AuthService]
   
 })
 export class LayoutModule { }

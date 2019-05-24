@@ -8,7 +8,7 @@
   <form [formGroup]="newTaskForm">
     <div class="form-group">
       <label>Title</label>
-      <input class="form-control" [(ngModel)]="task.title" formControlName="title" />
+      <input class="form-control" formControlName="title" />
       <div *ngIf="submmited && f.title.errors" class="invalid-feedback">
         <div *ngIf="f.title.errors.required">>>required</div>
       </div>
@@ -16,7 +16,7 @@
 
     <div class="form-group">
       <label>Description</label>
-      <input class="form-control" [(ngModel)]="task.description" formControlName="description" />
+      <input class="form-control" formControlName="description" />
       <div *ngIf="submmited && f.description.errors" class="invalid-feedback">
         <div *ngIf="f.description.errors.required">>>required</div>
       </div>
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="role">
       <label for="inputState">Priority</label>
       <select class="form-control" formControlName="priority">
         <option value="BLOCKER">Blocker</option>
@@ -50,5 +50,5 @@
 </div>
 <div class="modal-footer">
   <button class="btn btn btn-primary" [disabled]="newTaskForm.invalid" (click)="_onSubmit()">Save</button>
-  <button class="btn btn-danger" (click)="_closeModal()">Close</button>
+  <button class="btn btn-danger" (click)="_onClose()">Close</button>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, TemplateRef, Input, Output } from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AuthService } from 'src/app/services/authentication.service';
 import { User } from 'src/app/modules/user/models/User';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NewProjectModalComponent } from 'src/app/modules/project/components/new-project-modal/new-project-modal.component';
@@ -30,7 +30,7 @@ export class TasksTableComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
+    private authService: AuthService,
     private tasksService: TaskService
   ) {}
 
@@ -40,7 +40,7 @@ export class TasksTableComponent implements OnInit {
 
   updateTasks() {
     this.direction = this.isAscDirection ? 'asc' : 'desc';
-    this.tasksService.getAllByUsername(this.authenticationService.currentUsername, this.currentPage, this.pageSize, this.sort, this.direction).subscribe(data => {
+    this.tasksService.getAllByUsername(this.authService.currentUsername, this.currentPage, this.pageSize, this.sort, this.direction).subscribe(data => {
       this.tasks = data.content;     
       this.totalItems = data.totalElements;
         

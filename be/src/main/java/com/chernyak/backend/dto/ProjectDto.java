@@ -11,7 +11,7 @@ public class ProjectDto {
 
     private Long id;
     private String manager;
-    private String projectCode;
+    private String code;
     private String summary;
     private String name;
 
@@ -32,12 +32,12 @@ public class ProjectDto {
         this.manager = manager;
     }
 
-    public String getProjectCode() {
-        return projectCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setProjectCode(String projectCode) {
-        this.projectCode = projectCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {

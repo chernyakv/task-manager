@@ -42,7 +42,7 @@ export class UsersOnTheProjectTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getAllByProjectId(this.project.id, this.currentPage, this.pageSize, 'id').subscribe(data => {
+    this.userService.getAllByProjectId(this.project.id, ['DEVELOPER', 'TESTER'], this.currentPage, this.pageSize, 'id').subscribe(data => {
       this.users = data.content;
       this.totalItems = data.totalElements;
     });
@@ -58,7 +58,7 @@ export class UsersOnTheProjectTableComponent implements OnInit {
       const user = data;
       user.projectId = this.project.id;
       this.userService.saveUser(user).subscribe(data => {
-        this.userService.getAllByProjectId(this.project.id, this.currentPage, this.pageSize, 'id').subscribe(data => {
+        this.userService.getAllByProjectId(this.project.id,['DEVELOPER'], this.currentPage,  this.pageSize, 'id').subscribe(data => {
           this.users = data.content;
           this.totalItems = data.totalElements;
         });

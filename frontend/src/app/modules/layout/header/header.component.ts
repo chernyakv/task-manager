@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AuthService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,16 +14,16 @@ export class HeaderComponent implements OnInit {
   
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService) { }
+    private authService: AuthService) { }
 
   ngOnInit() { 
      
   }
 
   public isLoggedTest() {
-    const token = this.authenticationService.tokenValue;
+    const token = this.authService.tokenValue;
     if (token) {
-        this.username = this.authenticationService.currentUsername; 
+        this.username = this.authService.currentUsername; 
         this.isLogged = true;  
         return true;
     } 
@@ -31,12 +31,12 @@ export class HeaderComponent implements OnInit {
   }
 
   public logOut(){    
-    this.authenticationService.logout(); 
+    this.authService.logout(); 
     this.isLogged = false;  
     location.reload(true);
   }
 
   public viewUserProfile() {
-    this.router.navigate(['/user-details', this.authenticationService.currentUsername]);
+    this.router.navigate(['/user-details', this.authService.currentUsername]);
   }
 }

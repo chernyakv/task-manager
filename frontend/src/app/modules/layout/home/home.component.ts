@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AuthService } from 'src/app/services/authentication.service';
 import { AlertService } from 'ngx-alerts';
 
 
@@ -12,11 +12,11 @@ export class HomeComponent implements OnInit {
 
   isProjectManager = false ;
    
-  constructor(private authenticationService: AuthenticationService,
+  constructor(private authService: AuthService,
     private alertService: AlertService) { }
 
   ngOnInit() {
-    if(this.authenticationService.currentUsersRole == "PROJECT_MANAGER") {
+    if(this.authService.currentUsersRole == "PROJECT_MANAGER") {
       this.isProjectManager = true;
     }   
   }
