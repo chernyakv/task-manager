@@ -6,6 +6,7 @@ import com.chernyak.backend.dto.TaskDto;
 import com.chernyak.backend.dto.UserDto;
 import com.chernyak.backend.entity.Task;
 import com.chernyak.backend.entity.enums.TaskStatus;
+import com.chernyak.backend.repository.Specifications.TaskSpecifications;
 import com.chernyak.backend.service.TaskService;
 import com.chernyak.backend.service.UserService;
 import jdk.nashorn.internal.runtime.options.Option;
@@ -64,7 +65,30 @@ public class TaskController {
             @RequestParam(value = "order") String order,
             @PathVariable String username) {
 
+        Specification<Task> spec = TaskSpecifications.filter("OPEN", "NORMAL");
+        Page<Task> tasks1 = taskService.findAll(page, size, sort, order, spec);
+
         Page<Task> tasks = taskService.getTaskByAsigneeUsername(page, size, sort, order, username);
+
+        if(tasks == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(tasks.map(task -> dtoConverter.fromTask(task)), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/test")
+    public ResponseEntity<Page<TaskDto>> findAll(
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "priority", required = false) String priority,
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "order") String order,
+            @PathVariable Long id) {
+
+        Specification<Task> spec = TaskSpecifications.filter(status, priority);
+        Page<Task> tasks = taskService.findAll(page, size, sort, order, spec);
 
         if(tasks == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -20,6 +20,7 @@ import { TaskService } from 'src/app/services/task.service';
 export class TasksTableComponent implements OnInit {
 
   public tasks: Task[]; 
+  public checkTasks = false;
 
   public pageSize = 8;
   public currentPage = 0;
@@ -43,7 +44,7 @@ export class TasksTableComponent implements OnInit {
     this.tasksService.getAllByUsername(this.authService.currentUsername, this.currentPage, this.pageSize, this.sort, this.direction).subscribe(data => {
       this.tasks = data.content;     
       this.totalItems = data.totalElements;
-        
+      this.checkTasks = this.tasks.length > 0 ? true : false;      
     });
   }
 

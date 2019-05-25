@@ -2,6 +2,7 @@ package com.chernyak.backend.service;
 
 import com.chernyak.backend.entity.Task;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 
 import javax.swing.text.html.Option;
 import java.util.List;
@@ -13,4 +14,6 @@ public interface TaskService {
     Page<Task> getTasksByProjectId(int page, int count, String sort, String order, Long projectId);
     Task saveTask(Task task);
     void deleteTask(Long id);
+
+    Page<Task> findAll(int page, int count, String sort, String order, Specification<Task> spec);
 }

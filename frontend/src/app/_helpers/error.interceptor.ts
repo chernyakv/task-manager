@@ -5,6 +5,7 @@ import { catchError, mergeMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/authentication.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { AlertService } from 'ngx-alerts';
 
 
 
@@ -12,7 +13,8 @@ import { Router } from '@angular/router';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService,
-        private router: Router) { }
+        private router: Router,
+        private alertService: AlertService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
@@ -28,6 +30,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                         })
                     )
                 }    
+            }
+            if ([500].indexOf(err.status) !== -1) {       
+                this.alertService.danger(err.error.message);
             }
             const error = err.error.message || err.statusText;
             console.log(error);

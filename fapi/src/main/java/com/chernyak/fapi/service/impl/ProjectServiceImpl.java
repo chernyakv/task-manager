@@ -5,6 +5,7 @@ import com.chernyak.fapi.service.ProjectService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -23,10 +24,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Object getAllProjects(int page, int size, String sort) {
+    public Object getAllProjects(int page, int size, String sort, String order) {
         RestTemplate restTemplate = new RestTemplate();
-        Object projectResponse = restTemplate.getForObject(backendServerUrl + "?page=" + page + "&size=" + size + "&sort=" + sort, Object.class);
-        return  projectResponse;
+        UriComponentsBuilder uri = UriComponentsBuilder
+                .fromHttpUrl(backendServerUrl);
+        uri.queryParam("page", page);
+        uri.queryParam("size", size);
+        uri.queryParam("sort", sort);
+        uri.queryParam("order", order);
+        return  restTemplate.getForObject(uri.toUriString(), Object.class);
     }
 
     @Override

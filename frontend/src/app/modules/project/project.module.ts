@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectsTableComponent } from './components/projects-table/projects-table.component';
-import { PaginationModule, TabsModule } from 'ngx-bootstrap';
+import { PaginationModule, TabsModule, TypeaheadModule } from 'ngx-bootstrap';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import { UserModule } from '../user/user.module';
 import { TaskModule } from '../task/task.module';
@@ -28,8 +28,8 @@ import { NewTaskModalComponent } from '../task/components/new-task-modal/new-tas
     RouterModule,  
     HttpClientModule,
     PaginationModule.forRoot(),
-    TabsModule.forRoot()
-    
+    TabsModule.forRoot(),
+    TypeaheadModule.forRoot()    
   ],
   exports: [ProjectsTableComponent],
   entryComponents: [

@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByUsername(String username) {
+
         Optional<User> user = userRepository.findByUsername(username);
         return user;
     }
@@ -73,10 +74,10 @@ public class UserServiceImpl implements UserService {
             user.getRoles().forEach(role->
                     role.setId(roleRepository.findByName(role.getName()).getId()));
         }
-        if(userRepository.findByUsername(user.getUsername()).isPresent()){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "User with email '" + user.getUsername() + "' already exists");
-        }
+        //if(userRepository.findByUsername(user.getUsername()).isPresent()){
+        //    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+        //            "User with email '" + user.getUsername() + "' already exists");
+        //}
 
         return userRepository.save(user);
     }

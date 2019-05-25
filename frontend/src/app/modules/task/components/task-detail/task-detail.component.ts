@@ -90,7 +90,7 @@ export class TaskDetailComponent implements OnInit {
 
   _readyForTestClick(){
     this.task.taskStatus = "READY_FOR_TEST";
-    this.task.assignee = "che";
+    this.task.assignee = null;
     this.itMyTask = this.authService.currentUsername == this.task.assignee ? true : false;
     this.taskService.updateTask(this.task).subscribe( data => {         
     });

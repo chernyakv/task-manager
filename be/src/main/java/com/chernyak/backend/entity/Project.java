@@ -16,7 +16,7 @@ import java.util.List;
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Project extends BaseEntity {
 
-    @Size(min = 3, max = 5, message = "Project code size must be between 3 and 5 symbols")
+    @Size(min = 3, max = 10, message = "Project code size must be between 3 and 10 symbols")
     @NotBlank(message = "Project code is required")
     @Column(name = "project_code", nullable = false, unique = true)
     private String code;

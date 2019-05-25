@@ -30,13 +30,24 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label>Estimation(h)</label>
+      <input class="form-control" type="number" formControlName="estimation">
+      <div *ngIf="submmited && f.estimation.errors" class="invalid-feedback">
+        <div *ngIf="f.estimation.errors.required">>>required</div>
+      </div>
+    </div>
+
+   
+
     <div class="form-group" *ngIf="role">
       <label for="inputState">Priority</label>
       <select class="form-control" formControlName="priority">
-        <option value="BLOCKER">Blocker</option>
-        <option value="MAJOR">Major manager</option>
-        <option value="NORMAL">Normal</option>
-        <option value="CRITICAL">Critical</option>
+        <option value="BLOCKER">Highest</option>
+        <option value="CRITICAL">High</option>
+        <option value="MAJOR">Medium</option>
+        <option value="NORMAL">Low</option>
+        <option value="MINOR">Lowset</option>
       </select>
     </div>
 

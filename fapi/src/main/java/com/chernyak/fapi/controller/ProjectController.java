@@ -30,8 +30,9 @@ public class ProjectController {
     public Object getAllProjects(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
-            @RequestParam(value = "sort") String sort) {
-        return projectService.getAllProjects(page, size, sort);
+            @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "order") String order) {
+        return projectService.getAllProjects(page, size, sort, order);
     }
 
     @PostMapping(value = "")

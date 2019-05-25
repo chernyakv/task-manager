@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProjectService {
     Project getProjectById(Long id);
-    Object getAllProjects(int page, int count, String sort);
+    Object getAllProjects(int page, int size, String sort, String order);
     Project saveProject(Project project);
     Project updateProject(Project project);
     void deleteProject(Long id);

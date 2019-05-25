@@ -13,6 +13,7 @@ import { UserModule } from '../user/user.module';
 import { FooterComponent } from './footer/footer.component';
 import { ProjectModule } from '../project/project.module';
 import { TabsModule, BsDropdownModule } from 'ngx-bootstrap';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { TabsModule, BsDropdownModule } from 'ngx-bootstrap';
     ProjectModule,
     ReactiveFormsModule,
     UserModule,
+    RouterModule, 
     TabsModule.forRoot(),
     BsDropdownModule.forRoot()
   ],  

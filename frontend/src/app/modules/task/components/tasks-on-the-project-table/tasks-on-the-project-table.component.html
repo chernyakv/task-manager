@@ -6,6 +6,7 @@
         <td><a (click)="onSortClick('title')">Title <i class="icon-sort"></i></a></td>
         <td><a (click)="onSortClick('priority')">Priority <i class="icon-sort"></i></a></td>
         <td><a (click)="onSortClick('taskStatus')">Satuts <i class="icon-sort"></i></a></td>
+        <td><a (click)="onSortClick('estimation')">time est. <i class="icon-sort"></i></a></td>
         <td><a (click)="onSortClick('dueDate')">Due Date <i class="icon-sort"></i></a></td>
       </tr>
     </thead>
@@ -14,22 +15,14 @@
         <td>{{task.id}}</td>
         <td>{{task.title}} </td>
         <td>
-          <span class="badge ">
-            <i [ngClass]="{        
-                'text-danger icon-long-arrow-up' : task.priority === 'CRITICAL',
-                'text-warning icon-long-arrow-up' : task.priority === 'NORMAL'
-                }"></i>
-            {{task.priority}}
-          </span>
+          <app-task-priority-view [priority]="task.priority">
+          </app-task-priority-view>
         </td>
         <td>
-          <span class="badge" [ngClass]="{
-                    'badge-success' : task.taskStatus === 'OPEN',
-                    'badge-primary' : task.taskStatus === 'IN_PROGRESS',
-                    'badge-warning' : task.taskStatus === 'READY_FOR_TEST',
-                    'badge-danger' : task.taskStatus === 'CLOSED'
-                  }">{{task.taskStatus}}</span>
+          <app-task-status-view [status]="task.taskStatus">
+          </app-task-status-view>
         </td>
+        <td class="dueDate">{{task.estimation}} h</td>
         <td class="dueDate">{{task.dueDate | date:'MMM d'}}</td>
       </tr>
     </tbody>

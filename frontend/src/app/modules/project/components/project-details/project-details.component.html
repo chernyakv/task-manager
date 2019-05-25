@@ -1,25 +1,33 @@
 <div *ngIf="ready" class="test container-fluid pt-3">
   <div class="row">
     <div class="col-md-3">
-      <div class="card">
+      <div class="card mb-2">
         <div class="card-header">
           <div class="modal-title pull-left">#{{project.code}}</div>
-          <div class="buttons pull-right">
-            <button *ngIf="isMyProject" type="button" class=" btn " (click)=" _onEditProjectClick()">
-              <i class="icon-edit"></i>
-            </button>
-            <button *ngIf="isMyProject" type="button" class=" btn " (click)=" _onDeleteProjectClick()">
-              <i class="icon-trash"></i>
-            </button>
-          </div>
+
         </div>
         <div class="card-body">
           {{project.summary}}
         </div>
+        <div class="card-footer text-center">
+          <div class="buttons">
+              <button *ngIf="isMyProject" type="button" class="btn btn-sm " (click)="_openTaskModal()">
+                  <i class="icon-plus icon-2x"></i>
+                </button>
+            <button *ngIf="isMyProject" type="button" class=" btn " (click)=" _onEditProjectClick()">
+              <i class="icon-edit icon-2x"></i>
+            </button>
+            <button *ngIf="isMyProject" type="button" class=" btn " (click)=" _onDeleteProjectClick()">
+              <i class="icon-trash icon-2x"></i>
+            </button>            
+          </div>
+        </div>
       </div>
-      <button class="btn btn-primary m-2" (click)="_openTaskModal()">New Task</button>
-      <button class="btn btn-primary m-2">Add user</button>
 
+      <input [(ngModel)]="selectedUser" placeholder="Invite user by username" [typeahead]="usersWithoutProject"
+        typeaheadOptionField="username" [typeaheadItemTemplate]="customItemTemplate" (typeaheadOnSelect)="typeaheadOnSelect($event)"
+        class="form-control">      
+      <button class="btn btn-sm btn-primary m-2 pull-right" (click)="onInviteClick()">Invite</button>
     </div>
     <div *ngIf="ready" class="col-md-9">
       <tabset>
@@ -35,3 +43,8 @@
     </div>
   </div>
 </div>
+
+<ng-template #customItemTemplate let-model="item" let-index="index">
+  <div>{{model.firstName}} {{model.lastName}}</div>
+  <small>{{model.role}}</small>
+</ng-template>

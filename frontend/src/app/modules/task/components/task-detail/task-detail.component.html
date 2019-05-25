@@ -17,8 +17,8 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
+      <div class="row info-row">
+        <div class="col-md-6">
           <p class="task-info-header">People</p>
           <hr />
           <div class="row mb-1">
@@ -29,41 +29,55 @@
             <div class="col-md-4 label">Assignee:</div>
             <div class="col-md-8">{{task.assignee}}</div>
           </div>
+        </div>
+        <div class="col-md-6">
           <p class="task-info-header">Details</p>
           <hr />
           <div class="row">
             <div class="col-md-4 label">Priority:</div>
-            <div class="col-md-8">{{task.priority}}</div>
+            <div class="col-md-8">
+              <app-task-priority-view [priority]="task.priority">
+              </app-task-priority-view>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-4 label">Status:</div>
-            <div class="col-md-8">{{task.taskStatus}}</div>
+            <div class="col-md-8">
+              <app-task-status-view [status]="task.taskStatus">
+              </app-task-status-view>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row info-row">
         <div class="col-md-12">
           <p class="task-info-header">Dates and Times</p>
           <hr />
           <div class="row">
-            <div class="col-md-4 label">Create:</div>
-            <div class="col-md-8">{{task.created | date : "medium"}}</div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 label">Update:</div>
-            <div class="col-md-8">{{task.updated | date : "medium"}}</div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 label">Due date:</div>
-            <div class="col-md-8">{{task.dueDate | date : "medium"}}</div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 label">Estimation:</div>
-            <div class="col-md-8">{{task.estimation | date : "medium"}}</div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-4 label">Create:</div>
+                <div class="col-md-8">{{task.created | date : 'MMM d, h:mm'}}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 label">Update:</div>
+                <div class="col-md-8">{{task.updated | date : 'MMM d, h:mm'}}</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-4 label">Due date:</div>
+                <div class="col-md-8">{{task.dueDate | date : 'MMM d, h:mm'}}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 label">Estimation:</div>
+                <div class="col-md-8">{{task.estimation | date : 'MMM d, h:mm'}}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row info-row">
         <div class="col-md-12">
           <p class="task-info-header">Description</p>
           <div class="description" style="min-height: 50px">
@@ -71,7 +85,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row info-row">
         <div class="col-md-12">
           <p class="task-info-header">Attachments</p>
           <div class="attachments" style="min-height: 100px">

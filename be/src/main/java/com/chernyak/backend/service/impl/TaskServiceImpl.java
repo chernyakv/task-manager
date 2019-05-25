@@ -7,15 +7,14 @@ import com.chernyak.backend.repository.ProjectRepository;
 import com.chernyak.backend.repository.TaskRepository;
 import com.chernyak.backend.repository.UserRepository;
 import com.chernyak.backend.service.TaskService;
-import com.chernyak.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,6 +49,13 @@ public class TaskServiceImpl implements TaskService {
         Sort.Direction direction = Sort.Direction.fromString(order);
         Pageable pageRequest = PageRequest.of(page, count, Sort.by(direction, sort));
         return taskRepository.findAllByProjectIdId(pageRequest, id);
+    }
+
+    @Override
+    public Page<Task> findAll(int page, int count, String sort, String order, Specification<Task> spec) {
+        Sort.Direction direction = Sort.Direction.fromString(order);
+        Pageable pageRequest = PageRequest.of(page, count, Sort.by(direction, sort));
+        return taskRepository.findAll(spec, pageRequest);
     }
 
     @Override

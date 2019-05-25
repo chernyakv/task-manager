@@ -59,6 +59,7 @@ public class UserController {
 
         Optional<User> result = this.userService.getUserByUsername(username);
 
+
         if(result.isPresent()) {
             return new ResponseEntity<>(dtoConverter.fromUser(result.get()), HttpStatus.OK);
         } else {

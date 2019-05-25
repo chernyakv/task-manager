@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 
@@ -15,6 +16,7 @@ public class Comment extends BaseEntity{
 
 
     @Column(name = "description")
+    @NotBlank(message = "Description is required")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

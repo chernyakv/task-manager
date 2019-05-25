@@ -2,12 +2,14 @@ package com.chernyak.fapi.controller;
 
 import com.chernyak.fapi.models.User;
 import com.chernyak.fapi.service.UserService;
+import com.chernyak.fapi.validators.UserValid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +25,17 @@ public class UserController {
         return new BCryptPasswordEncoder();
     }
 
+
+    private final UserService userService;
+    private final UserValid userValidator;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService,
+                          UserValid userValidator) {
+        this.userService = userService;
+        this.userValidator = userValidator;
+    }
+
 
     @GetMapping(value = "/{id}")
     public  ResponseEntity<User> getUserById(@PathVariable Long id) {
@@ -63,7 +74,13 @@ public class UserController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<?> saveUser(@RequestBody User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+
+        //if(bindingResult.hasErrors()){
+        //    Object object = bindingResult.getAllErrors();
+        //    return  new ResponseEntity(HttpStatus.BAD_REQUEST);
+        //}
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 

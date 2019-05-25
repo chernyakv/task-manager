@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../modules/user/models/User';
@@ -16,12 +16,17 @@ export class ProjectService {
     return this.http.post<Project>(`${environment.apiUrl}/api/v1/projects`, project);
   }
 
-  getAllProjects(): Observable<Project[]> {
+  getAllProjects(): Observable<Project[]> {    
     return this.http.get<Project[]>(`${environment.apiUrl}/api/v1/projects`);
   } 
 
-  getProjectsPage(currentPage: number, pageSize: number, sort: string): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/api/v1/projects?page=${currentPage}&size=${pageSize}&sort=${sort}`);
+  getProjectsPage(currentPage: number, pageSize: number, sort: string, order: string): Observable<any> {
+    let params = new HttpParams()
+      .set('page', `${currentPage}`)
+      .set('size', `${pageSize}`)
+      .set('sort', `${sort}`)
+      .set('order', `${order}`);
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/projects`, {params});
   }
 
   deleteProject(id: string): Observable<void> {    

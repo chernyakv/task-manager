@@ -7,6 +7,7 @@ import { AdminComponent } from './modules/layout/admin/admin.component';
 import { ProjectDetailsComponent } from './modules/project/components/project-details/project-details.component';
 import { TaskDetailComponent } from './modules/task/components/task-detail/task-detail.component';
 import { UserDetailComponent } from './modules/user/components/user-detail/user-detail.component';
+import { NotFoundComponent } from './modules/layout/not-found/not-found.component';
 
 
 
@@ -39,7 +40,10 @@ const routes: Routes = [
     path: 'user-details/:username',
     component: UserDetailComponent
   },
-  { path: '**', redirectTo: '' }
+  {
+     path: '**',
+     component: NotFoundComponent
+  }
 
 ];
 

@@ -13,76 +13,44 @@ import { TypeaheadMatch } from 'ngx-bootstrap';
   styleUrls: ['./users-on-the-project-table.component.less']
 })
 export class UsersOnTheProjectTableComponent implements OnInit {
+  @Input() project: Project;
 
+  public selectedUser: string
+  usersWithoutProject: User[];;
+  public users: User[];
+
+  public pageSize = 10;
+  public currentPage = 0;
+  public totalItems = 0;
 
   asyncSelected: string;
   typeaheadLoading: boolean;
   typeaheadNoResults: boolean;
-  dataSource: Observable<User[]>;
+  isSelected = false;
 
-
-  @Input() project: Project;
-
-  public selectedUser: string;
-  public users: User[];
-  public usersWithoutProject: User[];
-
-  public pageSize = 10;
-  public currentPage = 0;
-  public totalItems;
-
-  constructor(private userService: UserService) {
-    this.dataSource = Observable.create((observer: any) => {
-      // Runs on every search
-      observer.next(this.asyncSelected);
-    })
-      .pipe(
-        mergeMap((token: string) => this.getStatesAsObservable(token))
-      );
+  constructor(private userService: UserService) {   
   }
 
-  ngOnInit() {
-    this.userService.getAllByProjectId(this.project.id, ['DEVELOPER', 'TESTER'], this.currentPage, this.pageSize, 'id').subscribe(data => {
-      this.users = data.content;
-      this.totalItems = data.totalElements;
-    });
-
+  ngOnInit() {    
+    this.updateUsers();
     this.userService.getAllWithoutProject(this.currentPage, this.pageSize, 'id').subscribe(data => {
       this.usersWithoutProject = data.content;
       this.totalItems = data.totalElements;
     });
   }
 
-  _addUser() {
-    this.userService.getUserByUsername(this.selectedUser).subscribe(data => {
-      const user = data;
-      user.projectId = this.project.id;
-      this.userService.saveUser(user).subscribe(data => {
-        this.userService.getAllByProjectId(this.project.id,['DEVELOPER'], this.currentPage,  this.pageSize, 'id').subscribe(data => {
-          this.users = data.content;
-          this.totalItems = data.totalElements;
-        });
-      });
-
+  updateUsers() {
+    this.userService.getAllByProjectId(this.project.id, ['DEVELOPER', 'TESTER'], this.currentPage, this.pageSize, 'id').subscribe(data => {
+      this.users = data.content;
+      this.totalItems = data.totalElements;
     });
-  }
-
-  _openUserModal() {
-    console.log(this.project);
-  }
-
-
-  getStatesAsObservable(token: string): Observable<User[]> {
-    const query = new RegExp(token, 'i');
-
-    return of(
-      this.users.filter((state: User) => {
-        return query.test(state.username);
-      })
-    );
-  }
+  } 
 
   changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;
+  }
+
+  typeaheadOnSelect(e: TypeaheadMatch): void {
+    this.isSelected = true;
   }
 }

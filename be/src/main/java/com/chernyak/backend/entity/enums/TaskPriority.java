@@ -4,5 +4,6 @@ public enum TaskPriority {
     BLOCKER,
     CRITICAL,
     MAJOR,
-    NORMAL
+    NORMAL,
+    MINOR
 }

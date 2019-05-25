@@ -17,7 +17,10 @@ export class ProjectsTableComponent implements OnInit {
   
   public pageSize = 8;
   public currentPage = 0;
-  public totalItems;
+  public totalItems = 0;
+  public sort = "id";
+  public direction = 'asc';
+  public isAscDirection = true;
 
   constructor(private projectService: ProjectService,
     private modalService: BsModalService,) { }
@@ -32,7 +35,8 @@ export class ProjectsTableComponent implements OnInit {
   }
 
   updateProjects() {
-    this.projectService.getProjectsPage(this.currentPage, this.pageSize, "id").subscribe(data => {
+    this.projectService.getProjectsPage(this.currentPage, this.pageSize, this.sort, this.direction).subscribe(data => {
+      this.direction = this.isAscDirection ? 'asc' : 'desc';
       this.projects = data.content;
       this.totalItems = data.totalElements;
     })
@@ -44,6 +48,13 @@ export class ProjectsTableComponent implements OnInit {
         this.updateProjects();
       });;
     }
+  }
+
+  onSortClick(sort: string) {         
+    this.isAscDirection = sort === this.sort ? !this.isAscDirection : true;
+    this.sort = sort;
+    this.currentPage = 0;
+    this.updateProjects();
   }
 
   public _openProjectModal(){   

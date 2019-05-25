@@ -13,6 +13,8 @@ import { TasksOnTheProjectTableComponent } from './components/tasks-on-the-proje
 import { FileModule } from '../file/file.module';
 import { AddFileModalComponent } from '../file/component/add-file-modal/add-file-modal.component';
 import { CommentModule } from '../comment/comment.module';
+import { TaskStatusViewComponent } from './components/task-status-view/task-status-view.component';
+import { TaskPriorityViewComponent } from './components/task-priority-view/task-priority-view.component';
 
 
 
@@ -22,7 +24,9 @@ import { CommentModule } from '../comment/comment.module';
     TasksTableComponent,
     TaskDetailComponent,
     NewTaskModalComponent,
-    TasksOnTheProjectTableComponent     
+    TasksOnTheProjectTableComponent,
+    TaskStatusViewComponent,
+    TaskPriorityViewComponent     
   ],
   imports: [
     CommentModule,

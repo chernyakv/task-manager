@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { BsModalRef } from 'ngx-bootstrap';
@@ -18,6 +18,7 @@ import { AlertService } from 'ngx-alerts';
 })
 export class NewTaskModalComponent implements OnInit {
 
+  @Output() taskUpdated = new EventEmitter();
   projectId: any;
   role;
   users: User[];
@@ -47,6 +48,7 @@ export class NewTaskModalComponent implements OnInit {
         title: [this.task.title, Validators.required],
         description: [this.task.description, Validators.required],
         dueDate: [new Date(Number(this.task.dueDate))],
+        estimation: [Number(this.task.estimation), Validators.required],
         assignee: [this.task.assignee],
         priority: [this.task.priority]
       });
@@ -56,6 +58,7 @@ export class NewTaskModalComponent implements OnInit {
         title: ['', Validators.required],
         description: ['', Validators.required],
         dueDate: ['', Validators.required],
+        estimation: ['', Validators.required],
         assignee: [''],
         priority: ['']
       });
@@ -74,12 +77,13 @@ export class NewTaskModalComponent implements OnInit {
     this.task.dueDate = this.f.dueDate.value.getTime();    
     this.task.priority = this.f.priority.value;
     this.task.assignee = this.f.assignee.value;    
-    this.task.estimation = this.f.dueDate.value.getTime();
+    this.task.estimation = this.f.estimation.value;
     this.task.projectId = this.projectId;
     this.task.reporter = this.editMode ? this.task.reporter : this.authService.currentUsername;    
     this.task.taskStatus = this.editMode ? this.task.taskStatus : 'OPEN';
     this.taskService.saveTask(this.task).subscribe(() => {
-      const alertsMessage = this.editMode ? 'Task updated' : 'Task created';
+      this.taskUpdated.emit();
+      const alertsMessage = this.editMode ? 'Task has been updated' : 'Task created';
       this.alertService.success(alertsMessage);
       this.modalRef.hide();
     });

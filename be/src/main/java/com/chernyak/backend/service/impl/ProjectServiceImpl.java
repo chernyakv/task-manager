@@ -29,8 +29,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Page<Project> getAllProjects(int page, int count, String sort) {
-        Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
+    public Page<Project> getAllProjects(int page, int count, String sort, String order) {
+        Sort.Direction direction = Sort.Direction.fromString(order);
+        Pageable pageRequest = PageRequest.of(page, count, Sort.by(direction, sort));
         return projectRepository.findAll(pageRequest);
     }
 

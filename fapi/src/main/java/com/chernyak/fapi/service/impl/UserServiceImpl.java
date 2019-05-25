@@ -44,8 +44,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Object getAllUsers(int page, int size, String sort) {
         RestTemplate restTemplate = new RestTemplate();
-        Object usersResponse = restTemplate.getForObject(backendServerUrl + "?page=" + page + "&size=" + size + "&sort=" + sort , Object.class);
-        return usersResponse;
+        UriComponentsBuilder uri = UriComponentsBuilder
+                .fromHttpUrl(backendServerUrl);
+        uri.queryParam("page", page);
+        uri.queryParam("size", size);
+        uri.queryParam("sort", sort);
+        return restTemplate.getForObject(uri.toUriString(), Object.class);
     }
 
     @Override
@@ -53,23 +57,24 @@ public class UserServiceImpl implements UserService {
         RestTemplate restTemplate = new RestTemplate();
         UriComponentsBuilder uri = UriComponentsBuilder
                 .fromHttpUrl(backendServerUrl + "/byProject/" + projectId);
-
         for (String role : roles) {
             uri.queryParam("roles", role);
         }
         uri.queryParam("page", page);
         uri.queryParam("size", size);
         uri.queryParam("sort", sort);
-
-        Object usersResponse = restTemplate.getForObject(uri.toUriString(), Object.class);
-        return usersResponse;
+        return restTemplate.getForObject(uri.toUriString(), Object.class);
     }
 
     @Override
     public Object getAllUsersWithoutProject(int page, int size, String sort) {
         RestTemplate restTemplate = new RestTemplate();
-        Object usersResponse = restTemplate.getForObject(backendServerUrl + "/withoutProject?" + "page=" + page + "&size=" + size + "&sort=" + sort , Object.class);
-        return usersResponse;
+        UriComponentsBuilder uri = UriComponentsBuilder
+                .fromHttpUrl(backendServerUrl + "/withoutProject");
+        uri.queryParam("page", page);
+        uri.queryParam("size", size);
+        uri.queryParam("sort", sort);
+        return restTemplate.getForObject(uri.toUriString(), Object.class);
     }
 
     @Override

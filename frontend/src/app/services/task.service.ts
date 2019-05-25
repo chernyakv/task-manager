@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../modules/user/models/User';
 import { Task } from '../modules/task/models/Task';
+import { map } from 'rxjs/operators';
 
 
 
@@ -18,7 +19,7 @@ export class TaskService {
       .set('size', `${pageSize}`)
       .set('sort', `${sort}`)
       .set('order', `${order}`);
-    return this.http.get<any>(`${environment.apiUrl}/api/v1/tasks/byUsername/${username}`, {params});
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/tasks/byUsername/${username}`, {params});     
   }  
 
   getAllByProjectId(projectId: String, currentPage: number, pageSize: number, sort: string, order: string): Observable<any> {

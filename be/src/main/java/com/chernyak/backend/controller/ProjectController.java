@@ -50,9 +50,10 @@ public class ProjectController {
     public ResponseEntity<Page<ProjectDto>> findAllProjects(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
-            @RequestParam(value = "sort") String sort) {
+            @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "order") String order) {
 
-        Page<Project> result = projectService.getAllProjects(page, size, sort);
+        Page<Project> result = projectService.getAllProjects(page, size, sort, order);
 
         if(result == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

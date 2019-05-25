@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ProjectService {
     Optional<Project> getProjectById(Long id);
-    Page<Project> getAllProjects(int page, int count, String sort);
+    Page<Project> getAllProjects(int page, int count, String sort, String order);
     Project saveProject(Project project);
     void deleteProject(Long id);
 }
