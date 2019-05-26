@@ -75,6 +75,7 @@ public class UserController {
 
         Page<User> users = userService.getAllUsers(page, size, sort);
 
+        users.filter(user -> user.getRoles().get(0).getName() != "ADMIN");
         if(users == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

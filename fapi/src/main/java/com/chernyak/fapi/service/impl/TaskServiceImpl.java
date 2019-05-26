@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,15 +26,25 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Object getAllTasksByUsername(int page, int size, String sort, String order, String username) {
         RestTemplate restTemplate = new RestTemplate();
-        Object taskResponse = restTemplate.getForObject(backendServerUrl + "/byAssignee/" + username + "?" + "page=" + page + "&size=" + size + "&sort=" + sort + "&order=" + order , Object.class);
-        return  taskResponse;
+        UriComponentsBuilder uri = UriComponentsBuilder
+                .fromHttpUrl(backendServerUrl + "/byAssignee/" + username);
+        uri.queryParam("page", page);
+        uri.queryParam("size", size);
+        uri.queryParam("sort", sort);
+        uri.queryParam("order", order);
+        return  restTemplate.getForObject(uri.toUriString(), Object.class);
     }
 
     @Override
     public Object getAllTasksByProjectId(int page, int size, String sort, String order, Long projectId) {
         RestTemplate restTemplate = new RestTemplate();
-        Object taskResponse = restTemplate.getForObject(backendServerUrl + "/byProject/" + projectId + "?" + "page=" + page + "&size=" + size + "&sort=" + sort + "&order=" + order, Object.class);
-        return  taskResponse;
+        UriComponentsBuilder uri = UriComponentsBuilder
+                .fromHttpUrl(backendServerUrl + "/byProject/" + projectId);
+        uri.queryParam("page", page);
+        uri.queryParam("size", size);
+        uri.queryParam("sort", sort);
+        uri.queryParam("order", order);
+        return  restTemplate.getForObject(uri.toUriString(), Object.class);
     }
 
     @Override

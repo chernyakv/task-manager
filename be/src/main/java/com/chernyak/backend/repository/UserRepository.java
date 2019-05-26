@@ -17,7 +17,7 @@ import java.util.Optional;
 @Component
 public interface UserRepository extends JpaRepository<User, Long >{
     Optional<User> findByUsername(String username);
-    Page<User> findAll(Pageable pageable);
+    Page<User> findAllByRolesIn(Pageable pageable, List<Role> roles);
     Page<User> findAllByProjectIdAndRolesIn(Pageable pageable, Long id, List<Role> roles);
     Page<User> findAllByProjectIsNull(Pageable pageable);
     Page<Object> findAllByProjectIsNull(Specification spec,Pageable pageable);

@@ -23,9 +23,12 @@ public class UserServiceImpl implements UserService {
 
     @Value("${backend.server.url}api/v1/users")
     private String backendServerUrl;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    public UserServiceImpl(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     public User getUserById(Long id) {

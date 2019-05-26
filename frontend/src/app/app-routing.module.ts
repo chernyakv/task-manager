@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './modules/layout/home/home.component';
 import { LoginComponent } from './modules/layout/login/login.component';
-import { AuthGuard } from './_helpers/AuthGuard';
+import { AuthGuard } from './interceptors/AuthGuard';
 import { AdminComponent } from './modules/layout/admin/admin.component';
 import { ProjectDetailsComponent } from './modules/project/components/project-details/project-details.component';
 import { TaskDetailComponent } from './modules/task/components/task-detail/task-detail.component';

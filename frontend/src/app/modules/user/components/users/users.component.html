@@ -1,9 +1,9 @@
 <div class="table-wrapper">
-  <div class="table-title" >
+  <div class="table-title">
     <div class="row align-items-center mt-10 mb-10">
-        <div class="col-sm-7">              
-          <button *ngIf="isProjectManager" type="button" class="btn btn-primary" (click)="_openUserModal()">+ Add User</button>                    					
-        </div>                 			
+      <div class="col-sm-7">
+        <button *ngIf="isProjectManager" type="button" class="btn btn-primary" (click)="_openUserModal()">+ Add User</button>
+      </div>
     </div>
   </div>
   <table class="table table-hover table-borderless">
@@ -13,34 +13,35 @@
         <td>Username</td>
         <td>First Name</td>
         <td>Last Name</td>
-        <td>Email</td>          
-        <td>Role</td>      
+        <td>Email</td>
+        <td>Role</td>
         <td>Action</td>
-      </tr>     
+      </tr>
     </thead>
     <tbody>
       <tr *ngFor="let user of users">
-          <td class="align-middle">{{user.id}}</td>
-          <td class="align-middle">{{user.username}}</td>
-          <td class="align-middle">{{user.firstName}}</td>
-          <td class="align-middle">{{user.lastName}}</td>
-          <td class="align-middle">{{user.email}}</td>            
-          <td class="align-middle">{{user.role}}</td>                  
-          <td class="align-middle"> 
-            <button type="button" class="btn btn-success btn-sm" (click)="_deleteUser(user.id)">Delete</button>              
-          </td>
+        <td class="align-middle">{{user.id}}</td>
+        <td class="align-middle">{{user.username}}</td>
+        <td class="align-middle">{{user.firstName}}</td>
+        <td class="align-middle">{{user.lastName}}</td>
+        <td class="align-middle">{{user.email}}</td>
+        <td class="align-middle">{{user.role}}</td>
+        <td class="align-middle">
+          <button type="button" class="btn" (click)="_onEditProjectClick()">
+            <i class="icon-edit"></i>
+          </button>
+          <button type="button" class="btn" (click)="_deleteUser(user.id)">
+            <i class="icon-trash"></i>
+          </button>
+        </td>
       </tr>
-    </tbody>     
+    </tbody>
   </table>
 </div>
 <div class="row">
   <div class="col-xs-12 col-12">
-    <pagination
-     [itemsPerPage]="pageSize"
-     [totalItems]="totalItems"
-     [(ngModel)]="currentPage"
-     (pageChanged)="_pageChanged($event)"
-     [maxSize]="5">
+    <pagination class="pagination-sm" [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="currentPage"
+      (pageChanged)="_pageChanged($event)" [maxSize]="5">
     </pagination>
   </div>
 </div>

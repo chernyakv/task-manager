@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByUsername(String username) {
-
         Optional<User> user = userRepository.findByUsername(username);
         return user;
     }
@@ -49,16 +48,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> getAllUsers(int page, int count, String sort) {
         Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
-        return userRepository.findAll(pageRequest);
+
+        List<String> roles = Arrays.asList("DEVELOPER", "TESTER", "PROJECT_MANAGER");
+        List<Role> convertedRoles = roles.stream()
+                .map(role->roleRepository.findByName(role))
+                .collect(Collectors.toList());
+        return userRepository.findAllByRolesIn(pageRequest, convertedRoles);
     }
 
     @Override
     public Page<User> getAllUsersByProjectAndRolesIn(int page, int count, String sort, List<String> roles, Long projectId) {
         Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
-        List<Role> convertedRoles = roles.stream().map(role->{
-            return roleRepository.findByName(role);
-        }).collect(Collectors.toList());
-
+        List<Role> convertedRoles = roles.stream()
+                .map(role->roleRepository.findByName(role))
+                .collect(Collectors.toList());
         return userRepository.findAllByProjectIdAndRolesIn(pageRequest, projectId, convertedRoles);
     }
 
