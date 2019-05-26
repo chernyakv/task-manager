@@ -13,6 +13,7 @@ import { projectionDef } from '@angular/core/src/render3';
 import { NewTaskModalComponent } from '../new-task-modal/new-task-modal.component';
 import { FileService } from 'src/app/services/file.service';
 import { FileListComponent } from 'src/app/modules/file/component/file-list/file-list.component';
+import { AssigneeModalComponent } from '../assignee-modal/assignee-modal.component';
 
 @Component({
   selector: 'app-task-detail',
@@ -25,13 +26,15 @@ export class TaskDetailComponent implements OnInit {
   private fileListComponent: FileListComponent;
   task: Task;
   project: Project;
-  public modalRef: BsModalRef;
-  ready: boolean = false;
-  role: string;
-  itMyTask: boolean;
+  public modalRef: BsModalRef;  
+  role: string;  
   comments: Comment[];
   text: string;
   newComment: Comment;
+
+  ready = false;
+  itMyTask = false;
+
 
   constructor(private activateRoute: ActivatedRoute,
     private commentService: CommentService,
@@ -43,9 +46,13 @@ export class TaskDetailComponent implements OnInit {
     
   } 
 
-  ngOnInit() {
-    const id = this.activateRoute.snapshot.params['id'];
+  ngOnInit() {    
+    this.updateTask();     
+    this.role = this.authService.currentUsersRole;    
+  }
 
+  updateTask() {
+    const id = this.activateRoute.snapshot.params['id'];
     this.taskService.getById(id).subscribe(data => {  
       this.task = data;
       this.itMyTask = this.authService.currentUsername == this.task.assignee ? true : false;
@@ -57,12 +64,7 @@ export class TaskDetailComponent implements OnInit {
     },
     error => {
       console.log('error');
-    }); 
-
-   
-    
-
-    this.role = this.authService.currentUsersRole;    
+    });
   }
 
   updateComments() {
@@ -85,15 +87,28 @@ export class TaskDetailComponent implements OnInit {
       editMode: true
     };
     this.modalRef = this.modalService.show(NewTaskModalComponent, {initialState});
-    this.modalRef.content.project = this.project; 
+    this.modalRef.content.updateTask.subscribe(() => {
+      this.taskService.updateTask(this.task).subscribe( data => {         
+      });
+    })
   }
 
   _readyForTestClick(){
-    this.task.taskStatus = "READY_FOR_TEST";
-    this.task.assignee = null;
-    this.itMyTask = this.authService.currentUsername == this.task.assignee ? true : false;
-    this.taskService.updateTask(this.task).subscribe( data => {         
-    });
+
+    const initialState = {     
+      role: 'DEVELOPER',
+      projectId: this.task.projectId
+    };
+    this.modalRef = this.modalService.show(AssigneeModalComponent, {initialState});
+    this.modalRef.content.assigneeSelected.subscribe(data=>{
+      this.task.taskStatus = "READY_FOR_TEST";
+      this.task.assignee = data;
+      this.itMyTask = this.authService.currentUsername == this.task.assignee ? true : false;
+      this.taskService.updateTask(this.task).subscribe( data => {         
+      });
+    })
+  
+  
   }
 
   _closedClick(){
@@ -124,9 +139,11 @@ export class TaskDetailComponent implements OnInit {
         this.fileService.saveFile(file, this.task.id, this.task.projectId).subscribe(()=>{
           this.fileListComponent._updateFileList(); 
         }) 
-      }
-      
+      }      
     })     
   }
 
+  isPm() {
+    return this.authService.currentUsersRole === 'PROJECT_MANAGER' ? true : false;
+  }
 }

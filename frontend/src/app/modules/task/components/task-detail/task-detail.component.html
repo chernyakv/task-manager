@@ -4,15 +4,29 @@
       <div class="task-header">
         <div class="row">
           <div class="col-md-6">
-            <small>{{project.name}} / {{project.projectCode}}</small>
+            <small>{{project.name}} / {{project.code}}</small>
             <div class="task-title">{{task.title}}</div>
           </div>
           <div class="col-md-6">
-            <div class="btn-group" role="group" aria-label="First group">
+            <div *ngIf="itMyTask || isPm()" class="btn-group pull-right" role="group" aria-label="First group">
               <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit task"
                 (click)="_editTask(task)"><i class="icon-edit"></i></button>
               <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add attachments"
                 (click)="_openFileModal()"><i class="icon-paper-clip"></i></button>
+              <div [ngSwitch]="role" *ngIf="itMyTask">
+                <div *ngSwitchCase="'DEVELOPER'">
+                  <div [ngSwitch]="task.taskStatus">
+                    <div *ngSwitchCase="'OPEN'" class="btn btn btn-primary" (click)="_inProgressClick()">In progress</div>
+                    <div *ngSwitchCase="'IN_PROGRESS'" class="btn btn btn-primary" (click)="_readyForTestClick()">Ready
+                      for
+                      test</div>
+                  </div>
+                </div>
+                <div *ngSwitchCase="'TESTER'">
+                  <div class="btn btn btn-primary" (click)="_closedClick()">CLOSED</div>
+                  <div class="btn btn btn-primary" (click)="_reopenClick()">REOPEN</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -21,11 +35,11 @@
         <div class="col-md-6">
           <p class="task-info-header">People</p>
           <hr />
-          <div class="row mb-1">
+          <div class="row">
             <div class="col-md-4 label">Reoprter:</div>
             <div class="col-md-8">{{task.reporter}}</div>
           </div>
-          <div class="row mb-1">
+          <div class="row">
             <div class="col-md-4 label">Assignee:</div>
             <div class="col-md-8">{{task.assignee}}</div>
           </div>
@@ -52,7 +66,7 @@
       <div class="row info-row">
         <div class="col-md-12">
           <p class="task-info-header">Dates and Times</p>
-          <hr />
+          <hr/>
           <div class="row">
             <div class="col-md-6">
               <div class="row">
@@ -71,7 +85,7 @@
               </div>
               <div class="row">
                 <div class="col-md-4 label">Estimation:</div>
-                <div class="col-md-8">{{task.estimation | date : 'MMM d, h:mm'}}</div>
+                <div class="col-md-8">{{task.estimation}} h.</div>
               </div>
             </div>
           </div>
@@ -80,7 +94,7 @@
       <div class="row info-row">
         <div class="col-md-12">
           <p class="task-info-header">Description</p>
-          <div class="description" style="min-height: 50px">
+          <div class="description">
             {{task.description}}
           </div>
         </div>
@@ -88,7 +102,7 @@
       <div class="row info-row">
         <div class="col-md-12">
           <p class="task-info-header">Attachments</p>
-          <div class="attachments" style="min-height: 100px">
+          <div class="attachments">
             <app-file-list [taskId]="task.id" [projectId]="task.projectId">
             </app-file-list>
           </div>
@@ -106,21 +120,6 @@
             <button class="btn btn-primary pull-right" type="button" (click)="_submitClick()">Share</button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div [ngSwitch]="role" *ngIf="itMyTask">
-      <div class="card-footer justify-content-end" *ngSwitchCase="'DEVELOPER'">
-        <div [ngSwitch]="task.taskStatus">
-          <div *ngSwitchCase="'OPEN'" class="btn btn btn-primary" (click)="_inProgressClick()">In progress</div>
-          <div *ngSwitchCase="'IN_PROGRESS'" class="btn btn btn-primary" (click)="_readyForTestClick()">Ready for
-            test</div>
-        </div>
-      </div>
-      <div class="card-footer" *ngSwitchCase="'TESTER'">
-        <div class="btn btn btn-primary" (click)="_closedClick()">CLOSED</div>
-        <div class="btn btn btn-primary" (click)="_reopenClick()">REOPEN</div>
       </div>
     </div>
   </div>

@@ -104,9 +104,10 @@ public class UserController {
     public ResponseEntity<Page<UserDto>> getAllUsersWithoutProject(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
-            @RequestParam(value = "sort") String sort) {
+            @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "roles") List<String> roles) {
 
-        Page<User> users = userService.getAllUsersWithoutProject(page, size, sort);
+        Page<User> users = userService.getAllUsersWithoutProject(page, size, sort, roles);
 
         if(users == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -66,9 +66,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getAllUsersWithoutProject(int page, int count, String sort) {
+    public Page<User> getAllUsersWithoutProject(int page, int count, String sort, List<String> roles) {
         Pageable pageRequest = PageRequest.of(page, count, Sort.by(sort));
-        return userRepository.findAllByProjectIsNull(pageRequest);
+        List<Role> convertedRoles = roles.stream()
+                .map(role->roleRepository.findByName(role))
+                .collect(Collectors.toList());
+        return userRepository.findAllByProjectIsNullAndRolesIn(pageRequest, convertedRoles);
     }
 
     @Override

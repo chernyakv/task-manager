@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpErrorResponse, HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, throwError, merge } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/authentication.service';
@@ -17,25 +17,31 @@ export class ErrorInterceptor implements HttpInterceptor {
         private alertService: AlertService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(err => {
-            if ([401, 403].indexOf(err.status) !== -1) {                 
+        return next.handle(request).pipe(catchError((err : HttpErrorResponse) => {
+            if ([401, 403].indexOf(err.status) !== -1) {   
                 if(request.url === `${environment.apiUrl}/token/refresh-token`) {
                     this.authService.logout();
                     this.router.navigate(['/login']);
                 } else {
-                    return this.authService.refreshToken(this.authService.tokenValue.refreshToken).pipe(
-                        mergeMap(() => {
-                            const secRequest = this.cloneRequestAndAddHeader(request);
-                            return next.handle(secRequest);
-                        })
-                    )
+                    if(err.error.message != 'Incorrect username or password.') {
+                        return this.authService.refreshToken(this.authService.tokenValue.refreshToken).pipe(
+                            mergeMap(() => {
+                                const secRequest = this.cloneRequestAndAddHeader(request);
+                                return next.handle(secRequest);
+                            })
+                        )
+                    }                   
                 }    
             }
-            if ([500].indexOf(err.status) !== -1) {       
+            if ([500].indexOf(err.status) !== -1) {    
+                console.log(err)   
                 this.alertService.danger(err.error.message);
             }
+            if ([400].indexOf(err.status) !== -1) {    
+                console.log(err);  ; 
+                this.alertService.danger('test');
+            }
             const error = err.error.message || err.statusText;
-            console.log(error);
             return throwError(error);
         }));
     }

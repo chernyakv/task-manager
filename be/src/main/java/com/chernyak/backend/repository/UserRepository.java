@@ -19,7 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long >{
     Optional<User> findByUsername(String username);
     Page<User> findAllByRolesIn(Pageable pageable, List<Role> roles);
     Page<User> findAllByProjectIdAndRolesIn(Pageable pageable, Long id, List<Role> roles);
-    Page<User> findAllByProjectIsNull(Pageable pageable);
+    Page<User> findAllByProjectIsNullAndRolesIn(Pageable pageable, List<Role> roles);
+    List<User> getAllByProjectId(Long id);
     Page<Object> findAllByProjectIsNull(Specification spec,Pageable pageable);
 
     @Query("select u.lastName, t.title from User u inner join Task t on t.assigneeId=u.id")

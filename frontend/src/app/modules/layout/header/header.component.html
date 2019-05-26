@@ -1,6 +1,8 @@
 <div class="navbar bg-primary">
-  <div class="logo"><i class="icon-tasks"></i> Task <b>Manager</b></div>
-  <div *ngIf="isLoggedTest()" class="btn-group" dropdown>      
+  <a [routerLink]="['']">
+    <div class="logo"><i class="icon-tasks"></i> Task <b>Manager</b></div>
+  </a>
+  <div *ngIf="isLoggedTest()" class="btn-group" dropdown>
     <a dropdownToggle class="dropdown-toggle a" href="javascript:void(0);" aria-controls="dropdown-alignment">
       {{username}}<span class="caret"></span>
     </a>

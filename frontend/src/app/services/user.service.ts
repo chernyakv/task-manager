@@ -29,7 +29,13 @@ export class UserService {
   }
 
   getAllWithoutProject(currentPage: number, pageSize: number, sort: string ): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/api/v1/users/withoutProject?page=${currentPage}&size=${pageSize}&sort=${sort}`);
+    let params = new HttpParams()
+    .set('page', `${currentPage}`)
+    .set('size', `${pageSize}`)
+    .set('sort', `${sort}`);
+    params = params.append('roles', '' + 'DEVELOPER');
+    params = params.append('roles', '' + 'TESTER');
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/users/withoutProject`, {params});
   }  
 
   deleteUser(id: string): Observable<void> {    

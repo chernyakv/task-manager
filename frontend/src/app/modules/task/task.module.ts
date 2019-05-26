@@ -15,6 +15,7 @@ import { AddFileModalComponent } from '../file/component/add-file-modal/add-file
 import { CommentModule } from '../comment/comment.module';
 import { TaskStatusViewComponent } from './components/task-status-view/task-status-view.component';
 import { TaskPriorityViewComponent } from './components/task-priority-view/task-priority-view.component';
+import { AssigneeModalComponent } from './components/assignee-modal/assignee-modal.component';
 
 
 
@@ -26,7 +27,8 @@ import { TaskPriorityViewComponent } from './components/task-priority-view/task-
     NewTaskModalComponent,
     TasksOnTheProjectTableComponent,
     TaskStatusViewComponent,
-    TaskPriorityViewComponent     
+    TaskPriorityViewComponent,
+    AssigneeModalComponent     
   ],
   imports: [
     CommentModule,
@@ -41,7 +43,7 @@ import { TaskPriorityViewComponent } from './components/task-priority-view/task-
     PaginationModule.forRoot(), 
   ],
   exports: [TasksTableComponent, TaskDetailComponent, TasksOnTheProjectTableComponent],
-  entryComponents:[NewTaskModalComponent, AddFileModalComponent]
+  entryComponents:[NewTaskModalComponent, AddFileModalComponent, AssigneeModalComponent]
   
 })
 export class TaskModule { }

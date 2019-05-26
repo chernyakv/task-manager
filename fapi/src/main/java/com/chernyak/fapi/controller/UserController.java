@@ -69,18 +69,18 @@ public class UserController {
     public ResponseEntity<Object>  getAllUsersWithoutProject(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
-            @RequestParam(value = "sort") String sort) {
-        return new ResponseEntity<>(userService.getAllUsersWithoutProject(page, size, sort), HttpStatus.OK);
+            @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "roles") List<String> roles) {
+        return new ResponseEntity<>(userService.getAllUsersWithoutProject(page, size, sort, roles), HttpStatus.OK);
     }
 
     @PostMapping(value = "")
     public ResponseEntity<?> saveUser(@RequestBody User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
-
-        //if(bindingResult.hasErrors()){
-        //    Object object = bindingResult.getAllErrors();
-        //    return  new ResponseEntity(HttpStatus.BAD_REQUEST);
-        //}
+        if(bindingResult.hasErrors()){
+            Object object = bindingResult.getAllErrors();
+            return  ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 

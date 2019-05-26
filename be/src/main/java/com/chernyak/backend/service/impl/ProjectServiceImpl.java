@@ -1,7 +1,9 @@
 package com.chernyak.backend.service.impl;
 
 import com.chernyak.backend.entity.Project;
+import com.chernyak.backend.entity.User;
 import com.chernyak.backend.repository.ProjectRepository;
+import com.chernyak.backend.repository.UserRepository;
 import com.chernyak.backend.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,10 +19,12 @@ import java.util.Optional;
 public class ProjectServiceImpl implements ProjectService {
 
     private ProjectRepository projectRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository) {
         this.projectRepository = projectRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -42,6 +46,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void deleteProject(Long id) {
+        List<User> user = userRepository.getAllByProjectId(id);
+
         projectRepository.deleteById(id);
     }
 }

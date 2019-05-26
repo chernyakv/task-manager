@@ -85,7 +85,6 @@ public class DtoConverter {
         if(user.getProject() != null) {
             userDto.setProjectId(user.getProject().getId().toString());
         }
-
         return userDto;
     }
 

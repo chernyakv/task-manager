@@ -8,7 +8,7 @@ public interface UserService {
     User getUserByUsername(String username);
     Object getAllUsers(int page, int count, String sort);
     Object getAllUsersByProject(int page, int count, String sort, List<String> roles, Long projectId);
-    Object getAllUsersWithoutProject(int page, int count, String sort);
+    Object getAllUsersWithoutProject(int page, int count, String sort, List<String> roles);
     User saveUser(User user);
     void deleteUser(Long id);
 }

@@ -23,12 +23,10 @@ public class UserServiceImpl implements UserService {
 
     @Value("${backend.server.url}api/v1/users")
     private String backendServerUrl;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Override
     public User getUserById(Long id) {
@@ -70,10 +68,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object getAllUsersWithoutProject(int page, int size, String sort) {
+    public Object getAllUsersWithoutProject(int page, int size, String sort, List<String> roles) {
         RestTemplate restTemplate = new RestTemplate();
         UriComponentsBuilder uri = UriComponentsBuilder
                 .fromHttpUrl(backendServerUrl + "/withoutProject");
+        for (String role : roles) {
+            uri.queryParam("roles", role);
+        }
         uri.queryParam("page", page);
         uri.queryParam("size", size);
         uri.queryParam("sort", sort);

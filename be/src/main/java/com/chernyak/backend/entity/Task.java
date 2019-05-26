@@ -14,10 +14,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tasks")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Task extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id")
     private Project projectId;
 

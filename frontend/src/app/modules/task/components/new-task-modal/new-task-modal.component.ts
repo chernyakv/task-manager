@@ -47,7 +47,7 @@ export class NewTaskModalComponent implements OnInit {
       this.newTaskForm = this.formBuilder.group({
         title: [this.task.title, Validators.required],
         description: [this.task.description, Validators.required],
-        dueDate: [new Date(Number(this.task.dueDate))],
+        dueDate: [new Date(Number(this.task.dueDate)), Validators.required],
         estimation: [Number(this.task.estimation), Validators.required],
         assignee: [this.task.assignee],
         priority: [this.task.priority]
@@ -69,14 +69,14 @@ export class NewTaskModalComponent implements OnInit {
     return this.newTaskForm.controls;
   }
 
-  _onSubmit() {
+  onSubmit() {
     this.submmited = true;
-
+    console.log(this.f.assignee.value);
     this.task.title = this.f.title.value;
-    this.task.description = this.f.title.value;
+    this.task.description = this.f.description.value;
     this.task.dueDate = this.f.dueDate.value.getTime();    
     this.task.priority = this.f.priority.value;
-    this.task.assignee = this.f.assignee.value;    
+    this.task.assignee = this.f.assignee.value === 'toMe' ? this.authService.currentUsername : this.f.assignee.value ;    
     this.task.estimation = this.f.estimation.value;
     this.task.projectId = this.projectId;
     this.task.reporter = this.editMode ? this.task.reporter : this.authService.currentUsername;    
@@ -89,7 +89,7 @@ export class NewTaskModalComponent implements OnInit {
     });
   }
 
-  _onClose(): void {
+  onClose(): void {
     this.modalRef.hide();
   }
 }

@@ -12,7 +12,7 @@ public interface UserService {
     Optional<User> getUserByUsername(String username);
     Page<User> getAllUsers(int page, int count, String sort);
     Page<User> getAllUsersByProjectAndRolesIn(int page, int count, String sort, List<String> roles, Long projectId);
-    Page<User> getAllUsersWithoutProject(int page, int count, String sort);
+    Page<User> getAllUsersWithoutProject(int page, int count, String sort, List<String> roles);
     User saveUser(User user);
     void deleteUser(Long id);
 }
