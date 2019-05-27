@@ -71,7 +71,17 @@ export class NewTaskModalComponent implements OnInit {
 
   onSubmit() {
     this.submmited = true;
+    if(this.newTaskForm.invalid){
+      return;
+    }
+    
     console.log(this.f.assignee.value);
+    if(this.f.assignee.value){
+      console.log('est');
+    }
+    else{
+      console.log('net');
+    }
     this.task.title = this.f.title.value;
     this.task.description = this.f.description.value;
     this.task.dueDate = this.f.dueDate.value.getTime();    

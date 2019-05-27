@@ -33,6 +33,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Optional<Project> getProjectByCode(String code) {
+        return projectRepository.findByCode(code);
+    }
+
+    @Override
     public Page<Project> getAllProjects(int page, int count, String sort, String order) {
         Sort.Direction direction = Sort.Direction.fromString(order);
         Pageable pageRequest = PageRequest.of(page, count, Sort.by(direction, sort));

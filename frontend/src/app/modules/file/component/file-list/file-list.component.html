@@ -1,11 +1,11 @@
 <div class="box">
     <div class="file-item" *ngFor="let file of files">
         <div class="div">
-          <a href="javascript:void(0);" (click)="_onClick(file)"><i class="icon-file icon-3x"></i></a>         
+          <a href="javascript:void(0);" (click)="_onClick(file)"><i class="icon-file icon-3x"></i></a>
+          <a href="javascript:void(0);" (click)="onDelete(file)"><i class="icon-trash icon-3x"></i></a>           
         </div>    
         <div class="file-name">
                 {{file}}     
         </div>     
     </div>
-
 </div>

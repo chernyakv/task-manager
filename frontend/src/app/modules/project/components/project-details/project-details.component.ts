@@ -14,6 +14,7 @@ import { User } from 'src/app/modules/user/models/User';
 import { UserService } from 'src/app/services/user.service';
 import { UsersOnTheProjectTableComponent } from 'src/app/modules/user/components/users-on-the-project-table/users-on-the-project-table.component';
 import { TasksOnTheProjectTableComponent } from 'src/app/modules/task/components/tasks-on-the-project-table/tasks-on-the-project-table.component';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-project-details',
@@ -48,7 +49,8 @@ export class ProjectDetailsComponent implements OnInit {
               private tasksService: TaskService,
               private authService: AuthService,
               private router: Router,
-              private userService: UserService) {
+              private userService: UserService,
+              private alertService: AlertService) {
   }  
 
   ngOnInit() {
@@ -73,9 +75,12 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   _onDeleteProjectClick() {
-    this.projectService.deleteProject(this.projectId).subscribe(() => {
-      this.router.navigate(['']);
-     })
+    if(confirm("Are you sure you want to delete this ?")){    
+      this.projectService.deleteProject(this.projectId).subscribe(() => {
+        this.alertService.success('Project has been deleted');
+        this.router.navigate(['']);     
+       })    
+    }    
   }
 
   _onEditProjectClick() {
@@ -104,12 +109,12 @@ export class ProjectDetailsComponent implements OnInit {
     this.userService.getUserByUsername(this.selectedUser).subscribe(data => {
       const user = data;
       user.projectId = this.project.id;
-      this.userService.saveUser(user).subscribe(data => {
+      this.userService.updateUser(user).subscribe(data => {
         this.userTable.updateUsers();
+        this.alertService.success('User has been invited');
       });
     });
   }
-
 
   changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;

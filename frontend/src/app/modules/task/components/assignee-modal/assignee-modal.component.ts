@@ -14,14 +14,13 @@ import { Task } from '../../models/Task';
 export class AssigneeModalComponent implements OnInit {
 
   @Output() assigneeSelected = new EventEmitter<string>();
-  @Input() role: string;
+  role: string;
+  roles: string[] = [];
   projectId: any;
   users: User[];
-  mySentences: string[];
-  task: Task;
+ 
   formGroup: FormGroup;
   submmited = false;
-  editMode = false;
 
   constructor(private formBuilder: FormBuilder,
     private modalRef: BsModalRef,
@@ -30,9 +29,8 @@ export class AssigneeModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-    
-    this.userService.getAllByProjectId(this.projectId, ['TESTER'], 0, 10, "id").subscribe(data => {
+    this.roles.push(this.role);
+    this.userService.getAllByProjectId(this.projectId,this.roles , 0, 15, "id").subscribe(data => {
       this.users = data.content;
     });
 

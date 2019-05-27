@@ -29,21 +29,21 @@ public class UserValid implements Validator {
         User user = (User) o;
         Matcher matcher = Pattern.compile("^(.+)@(.+)$").matcher(user.getEmail());
         if (!matcher.matches()) {
-            errors.rejectValue("email", "not email");
+            errors.rejectValue("email", "inv_email is invalid");
         }
         User usercheck = userService.getUserByUsername(user.getUsername());
         if (!(usercheck == null)) {
-            errors.rejectValue("username", "User with username - " + usercheck.getUsername() + "already exists");
+            errors.rejectValue("username", "inv_" + user.getUsername() + " already exists");
         }
         if (user.getPassword().length() < 6) {
-            errors.rejectValue("password", "password length should be > 6 ");
+            errors.rejectValue("password", "inv_password length should be > 6 ");
         }
         String userRole = user.getRole();
         if (!(userRole.equals("ADMIN")
                 || userRole.equals("PROJECT_MANAGER")
                 || userRole.equals("DEVELOPER")
                 || userRole.equals("TESTER"))) {
-            errors.rejectValue("role", "role doesn't exist");
+            errors.rejectValue("role", "role is invalid");
         }
     }
 }

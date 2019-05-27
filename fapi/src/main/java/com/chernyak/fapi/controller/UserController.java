@@ -84,6 +84,12 @@ public class UserController {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
+    @PutMapping(value = "")
+    public ResponseEntity<?> updateUser(@RequestBody User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?>  delete(@PathVariable Long id) {
         userService.deleteUser(id);

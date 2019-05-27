@@ -16,26 +16,27 @@ export class ProjectsTableComponent implements OnInit {
   public modalRef: BsModalRef;
   
   public pageSize = 8;
-  public currentPage = 0;
+  public currentPage = 1;
   public totalItems = 0;
   public sort = "id";
   public direction = 'asc';
   public isAscDirection = true;
 
   constructor(private projectService: ProjectService,
-    private modalService: BsModalService,) { }
+    private modalService: BsModalService) { }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.updateProjects();
   }
 
-  pageChanged(event: any): void {    
-    this.currentPage = event.page - 1;    
-    this.updateProjects();    
+  pageChanged(event: any): void { 
+          
+    this.currentPage = event.page;    
+    this.updateProjects();  
   }
 
   updateProjects() {
-    this.projectService.getProjectsPage(this.currentPage, this.pageSize, this.sort, this.direction).subscribe(data => {
+    this.projectService.getProjectsPage(this.currentPage - 1, this.pageSize, this.sort, this.direction).subscribe(data => {
       this.direction = this.isAscDirection ? 'asc' : 'desc';
       this.projects = data.content;
       this.totalItems = data.totalElements;
@@ -50,15 +51,19 @@ export class ProjectsTableComponent implements OnInit {
     }
   }
 
-  onSortClick(sort: string) {         
+  onSortClick(sort: string) {     
     this.isAscDirection = sort === this.sort ? !this.isAscDirection : true;
     this.sort = sort;
-    this.currentPage = 0;
+    this.currentPage = 1;
     this.updateProjects();
   }
 
-  public _openProjectModal(){   
-    this.modalRef = this.modalService.show(NewProjectModalComponent);      
+  onNewProjectClick(){  
+    console.log(this.currentPage);    
+    this.modalRef = this.modalService.show(NewProjectModalComponent);
+    this.modalRef.content.projectUpdated.subscribe(()=>{
+      this.updateProjects();
+    })      
   }
 
 }

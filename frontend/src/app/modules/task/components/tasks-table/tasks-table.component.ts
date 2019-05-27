@@ -23,7 +23,7 @@ export class TasksTableComponent implements OnInit {
   public checkTasks = false;
 
   public pageSize = 8;
-  public currentPage = 0;
+  public currentPage = 1;
   public totalItems = 0;
   public sort = "id";
   public direction = 'asc';
@@ -41,7 +41,7 @@ export class TasksTableComponent implements OnInit {
 
   updateTasks() {
     this.direction = this.isAscDirection ? 'asc' : 'desc';
-    this.tasksService.getAllByUsername(this.authService.currentUsername, this.currentPage, this.pageSize, this.sort, this.direction).subscribe(data => {
+    this.tasksService.getAllByUsername(this.authService.currentUsername, this.currentPage - 1, this.pageSize, this.sort, this.direction).subscribe(data => {
       this.tasks = data.content;     
       this.totalItems = data.totalElements;
       this.checkTasks = this.tasks.length > 0 ? true : false;      
@@ -49,14 +49,14 @@ export class TasksTableComponent implements OnInit {
   }
 
   onPageChanged(event: any): void {    
-    this.currentPage = event.page - 1;
+    this.currentPage = event.page;
     this.updateTasks();
   } 
 
   onSortClick(sort: string) {         
     this.isAscDirection = sort === this.sort ? !this.isAscDirection : true;
     this.sort = sort;
-    this.currentPage = 0;
+    this.currentPage = 1;
     this.updateTasks();
   }
 

@@ -24,6 +24,8 @@ export class TaskStatusViewComponent implements OnInit {
         return 'Ready for tes';
       case 'CLOSED':
         return 'Closed';
+      case 'REOPEN':
+        return 'Reopen';
     }
   }
 
@@ -37,6 +39,8 @@ export class TaskStatusViewComponent implements OnInit {
         return 'badge-warning';
       case 'CLOSED':
         return 'badge-danger';
+      case 'REOPEN':
+        return 'badge-info';
     }
   }
 

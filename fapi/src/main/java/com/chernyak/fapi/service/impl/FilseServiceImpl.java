@@ -59,4 +59,11 @@ public class FilseServiceImpl implements FileService {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.postForEntity(backendServerUrl + "?taskId=" + taskId + "&projectId=" + projectId, request, String.class).getBody();
     }
+
+    @Override
+    public void deleteFile(String filename, String taskId, String projectId) throws IOException {
+        RestTemplate restTemplate = new RestTemplate();
+        String requestUri = backendServerUrl + "/" + filename + "?taskId=" + taskId + "&projectId=" + projectId;
+        restTemplate.delete(requestUri);
+    }
 }

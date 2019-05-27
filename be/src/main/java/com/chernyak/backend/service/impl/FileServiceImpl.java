@@ -57,8 +57,6 @@ public class FileServiceImpl implements FileService {
     @Override
     public void saveFile(MultipartFile file, String taskId, String projectId) throws IOException {
         String uploadsDir = "./files/" + projectId + "/" + taskId + "/";
-
-
         if(! new File(uploadsDir).exists()){
             try{
                 new File(uploadsDir).mkdirs();
@@ -67,9 +65,15 @@ public class FileServiceImpl implements FileService {
                 //handle it
             }
         }
-
         String filePath = uploadsDir + file.getOriginalFilename();
         Path path = Paths.get(filePath);
         Files.write(path, file.getBytes());
+    }
+
+    public void delete(String filename, String taskId, String projectId) throws IOException {
+        Path path = Paths.get("./files/" + projectId + "/" + taskId + "/" + filename);
+        if (Files.exists(path)) {
+            Files.delete(path);
+        }
     }
 }

@@ -14,6 +14,7 @@ import { NewTaskModalComponent } from '../new-task-modal/new-task-modal.componen
 import { FileService } from 'src/app/services/file.service';
 import { FileListComponent } from 'src/app/modules/file/component/file-list/file-list.component';
 import { AssigneeModalComponent } from '../assignee-modal/assignee-modal.component';
+import { CommentsListComponent } from 'src/app/modules/comment/comments-list/comments-list.component';
 
 @Component({
   selector: 'app-task-detail',
@@ -24,11 +25,12 @@ export class TaskDetailComponent implements OnInit {
 
   @ViewChild(FileListComponent)
   private fileListComponent: FileListComponent;
+  @ViewChild(CommentsListComponent)
+  private commentsListComponent: CommentsListComponent;
   task: Task;
   project: Project;
   public modalRef: BsModalRef;  
-  role: string;  
-  comments: Comment[];
+  role: string; 
   text: string;
   newComment: Comment;
 
@@ -56,7 +58,6 @@ export class TaskDetailComponent implements OnInit {
     this.taskService.getById(id).subscribe(data => {  
       this.task = data;
       this.itMyTask = this.authService.currentUsername == this.task.assignee ? true : false;
-      this.updateComments();
       this.projectService.getById(this.task.projectId).subscribe(data => {
         this.project = data;
         this.ready = true;  
@@ -64,19 +65,6 @@ export class TaskDetailComponent implements OnInit {
     },
     error => {
       console.log('error');
-    });
-  }
-
-  updateComments() {
-    this.commentService.getAllByTaskId(this.task.id, 0, 10, "id").subscribe(data => {
-      this.comments = data.content;
-      console.log(this.comments);
-    })
-  }
-
-  _inProgressClick(){
-    this.task.taskStatus = "IN_PROGRESS";
-    this.taskService.updateTask(this.task).subscribe(() => {     
     });
   }
 
@@ -93,10 +81,15 @@ export class TaskDetailComponent implements OnInit {
     })
   }
 
-  _readyForTestClick(){
+  onInProgressClick(){
+    this.task.taskStatus = "IN_PROGRESS";
+    this.taskService.updateTask(this.task).subscribe(() => {     
+    });
+  }
 
+  onReadyForTestClick(){
     const initialState = {     
-      role: 'DEVELOPER',
+      role: 'TESTER',
       projectId: this.task.projectId
     };
     this.modalRef = this.modalService.show(AssigneeModalComponent, {initialState});
@@ -106,12 +99,25 @@ export class TaskDetailComponent implements OnInit {
       this.itMyTask = this.authService.currentUsername == this.task.assignee ? true : false;
       this.taskService.updateTask(this.task).subscribe( data => {         
       });
-    })
-  
-  
+    }) 
   }
 
-  _closedClick(){
+  onReopenClick(){
+    const initialState = {     
+      role: 'DEVELOPER',
+      projectId: this.task.projectId
+    };
+    this.modalRef = this.modalService.show(AssigneeModalComponent, {initialState});
+    this.modalRef.content.assigneeSelected.subscribe(data=>{
+      this.task.taskStatus = "REOPEN";
+      this.task.assignee = data;
+      this.itMyTask = this.authService.currentUsername == this.task.assignee ? true : false;
+      this.taskService.updateTask(this.task).subscribe( data => {         
+      });
+    }) 
+  }
+
+  onClosedClick(){
     this.task.taskStatus = "CLOSED";
     this.taskService.updateTask(this.task).subscribe(() => {     
     });
@@ -122,10 +128,11 @@ export class TaskDetailComponent implements OnInit {
     this.newComment.author = this.authService.currentUsername;
     this.newComment.description = this.text;
     this.newComment.taskId = this.task.id;
+    this.text = '';
     this.commentService.saveComment(this.newComment).subscribe(()=>{
-
+      this.commentsListComponent.updateComments();
     })
-    this.updateComments();
+    
   }
 
   _openFileModal() { 
@@ -144,6 +151,10 @@ export class TaskDetailComponent implements OnInit {
   }
 
   isPm() {
-    return this.authService.currentUsersRole === 'PROJECT_MANAGER' ? true : false;
+    if(this.authService.currentUsersRole === 'PROJECT_MANAGER'
+      && this.authService.currentUsername === this.project.manager){
+      return true;
+    }
+    return false;
   }
 }

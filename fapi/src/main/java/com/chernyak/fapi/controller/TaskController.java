@@ -2,10 +2,12 @@ package com.chernyak.fapi.controller;
 
 import com.chernyak.fapi.models.Task;
 import com.chernyak.fapi.service.TaskService;
+import com.chernyak.fapi.validators.TaskValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,10 +18,12 @@ import java.util.List;
 public class TaskController {
 
     private TaskService taskService;
+    private TaskValidator taskValidator;
 
     @Autowired
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, TaskValidator taskValidator) {
         this.taskService = taskService;
+        this.taskValidator = taskValidator;
     }
 
     @GetMapping(value = "/{id}")
@@ -48,7 +52,11 @@ public class TaskController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<Task> saveTask(@RequestBody Task task) {
+    public ResponseEntity<?> saveTask(@RequestBody Task task, BindingResult bindingResult) {
+        taskValidator.validate(task, bindingResult);
+        if(bindingResult.hasErrors()){
+            return  ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
         return new ResponseEntity<>(taskService.saveTask(task), HttpStatus.OK);
     }
 

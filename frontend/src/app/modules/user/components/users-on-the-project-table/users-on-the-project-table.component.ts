@@ -20,7 +20,7 @@ export class UsersOnTheProjectTableComponent implements OnInit {
   public users: User[];
 
   public pageSize = 10;
-  public currentPage = 0;
+  public currentPage = 1;
   public totalItems = 0;
 
   asyncSelected: string;
@@ -33,24 +33,21 @@ export class UsersOnTheProjectTableComponent implements OnInit {
 
   ngOnInit() {    
     this.updateUsers();
-    this.userService.getAllWithoutProject(this.currentPage, this.pageSize, 'id').subscribe(data => {
+    this.userService.getAllWithoutProject(this.currentPage - 1, this.pageSize, 'id').subscribe(data => {
       this.usersWithoutProject = data.content;
       this.totalItems = data.totalElements;
     });
   }
 
   updateUsers() {
-    this.userService.getAllByProjectId(this.project.id, ['DEVELOPER', 'TESTER'], this.currentPage, this.pageSize, 'id').subscribe(data => {
+    this.userService.getAllByProjectId(this.project.id, ['DEVELOPER', 'TESTER'], this.currentPage - 1, this.pageSize, 'id').subscribe(data => {
       this.users = data.content;
       this.totalItems = data.totalElements;
     });
   } 
 
-  changeTypeaheadLoading(e: boolean): void {
-    this.typeaheadLoading = e;
-  }
-
-  typeaheadOnSelect(e: TypeaheadMatch): void {
-    this.isSelected = true;
+  public _pageChanged(event: any): void {
+    this.currentPage = event.page;
+    this.updateUsers();
   }
 }

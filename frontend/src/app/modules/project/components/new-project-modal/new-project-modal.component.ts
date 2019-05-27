@@ -33,16 +33,40 @@ export class NewProjectModalComponent implements OnInit {
     if(this.editMode){
       this.editableProject = Project.cloneBase(this.project);
       this.formGroup = this.formBuilder.group({
-        projectCode: [this.project.code, Validators.required],
-        summary: [this.project.summary, Validators.required],
-        name: [this.project.name, Validators.required]
+        projectCode: [this.project.code,[
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(10)
+        ]],
+        summary: [this.project.summary, [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100)
+        ]],
+        name: [this.project.name,[
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30)
+        ]]
       })
     } else{
       this.editableProject = new Project();
       this.formGroup = this.formBuilder.group({
-        projectCode: ['', Validators.required],
-        summary: ['', Validators.required],
-        name: ['', Validators.required]
+        projectCode: ['', [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(10)
+        ]],
+        summary: ['', [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100)
+        ]],
+        name: ['', [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30)
+        ]]
       })
     }  
   }
@@ -52,8 +76,8 @@ export class NewProjectModalComponent implements OnInit {
   }
 
   _onSubmit() {
-    if(this.formGroup.invalid) {
-      this.submmited = true;
+    this.submmited = true;
+    if(this.formGroup.invalid) {      
       return;
     }
 

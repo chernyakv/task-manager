@@ -18,7 +18,7 @@ export class TasksOnTheProjectTableComponent implements OnInit {
 
   public tasks: Task[];
   public pageSize = 13;
-  public currentPage = 0;
+  public currentPage = 1;
   public totalItems = 0;
   public sort = "id";
   public direction = 'asc';
@@ -40,7 +40,7 @@ export class TasksOnTheProjectTableComponent implements OnInit {
 
   updateTasks(){
     this.direction = this.isAscDirection ? 'asc' : 'desc';
-    this.tasksService.getAllByProjectId(this.project.id, this.currentPage, this.pageSize, this.sort, this.direction).subscribe(data=>{
+    this.tasksService.getAllByProjectId(this.project.id, this.currentPage - 1, this.pageSize, this.sort, this.direction).subscribe(data=>{
       this.tasks = data.content;
       this.totalItems = data.totalElements;
     })
@@ -49,7 +49,7 @@ export class TasksOnTheProjectTableComponent implements OnInit {
   onSortClick(sort: string) {         
     this.isAscDirection = sort === this.sort ? !this.isAscDirection : true;
     this.sort = sort;
-    this.currentPage = 0;
+    this.currentPage = 1;
     this.updateTasks();
   }
 

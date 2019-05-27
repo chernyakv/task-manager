@@ -46,6 +46,22 @@ public class ProjectController {
         }
     }
 
+    @GetMapping(value = "/code/{code}")
+    public ResponseEntity<ProjectDto> getByCode(@PathVariable String code){
+
+        if(code == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Project> result = projectService.getProjectByCode(code);
+
+        if(result.isPresent()) {
+            return new ResponseEntity<>(dtoConverter.fromProject(result.get()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
     @GetMapping(value = "")
     public ResponseEntity<Page<ProjectDto>> findAllProjects(
             @RequestParam(value = "page") int page,

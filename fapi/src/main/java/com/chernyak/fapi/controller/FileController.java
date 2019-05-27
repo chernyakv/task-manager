@@ -72,4 +72,13 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(response.getBody());
     }
+
+    @DeleteMapping("/file/{fileName}")
+    public ResponseEntity<?> delete(@PathVariable String fileName,
+                                                 @RequestParam(value = "taskId") String taskId,
+                                                 @RequestParam(value = "projectId") String projectId) throws IOException {
+
+       fileService.deleteFile(fileName, taskId, projectId);
+       return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -1,6 +1,7 @@
 package com.chernyak.backend.controller;
 
 import com.chernyak.backend.service.FileService;
+import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -85,6 +86,13 @@ public class FileController {
                 .body(new ByteArrayResource(data));
     }
 
+    @DeleteMapping("/{fileName}")
+    public ResponseEntity<?> delete(
+            @PathVariable String fileName,
+            @RequestParam(value = "taskId") String taskId,
+            @RequestParam(value = "projectId") String projectId) throws  IOException {
 
-
+        fileService.delete(fileName,taskId, projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

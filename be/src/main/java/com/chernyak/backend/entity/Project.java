@@ -22,7 +22,7 @@ public class Project extends BaseEntity {
     @Column(name = "project_code", nullable = false, unique = true)
     private String code;
 
-    @Size(min = 3, max = 20, message = "Project name size must be between 3 and 20 symbols")
+    @Size(min = 3, max = 30, message = "Project name size must be between 3 and 30 symbols")
     @NotBlank(message = "Project name is required")
     @Column(name = "name")
     private String name;

@@ -24,6 +24,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Project getProjectByCode(String code) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(backendServerUrl + "/code/" + code, Project.class);
+    }
+
+    @Override
     public Object getAllProjects(int page, int size, String sort, String order) {
         RestTemplate restTemplate = new RestTemplate();
         UriComponentsBuilder uri = UriComponentsBuilder

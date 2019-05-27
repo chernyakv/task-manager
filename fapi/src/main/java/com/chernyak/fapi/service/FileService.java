@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface FileService {
     void uploadFile(MultipartFile file, String taskId, String projectId) throws IOException;
+    void deleteFile(String filename, String taskId, String projectId) throws IOException;
     ResponseEntity<ByteArrayResource> downloadFile(String filename, String taskId, String projectId);
     List<String> allFiles(String taskId, String projectId);
  }

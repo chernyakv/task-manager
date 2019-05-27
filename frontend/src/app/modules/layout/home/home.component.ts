@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/services/authentication.service';
 import { AlertService } from 'ngx-alerts';
 
@@ -10,7 +10,8 @@ import { AlertService } from 'ngx-alerts';
 })
 export class HomeComponent implements OnInit {
 
-  isProjectManager = false ;
+  @Output() projectUpdated = new EventEmitter()
+  isProjectManager = false ;  
    
   constructor(private authService: AuthService,
     private alertService: AlertService) { }
@@ -20,5 +21,9 @@ export class HomeComponent implements OnInit {
       this.isProjectManager = true;
     }   
   }
+  onNewProjectClick(){ 
+    this.projectUpdated.emit();         
+  }
+
 
 }

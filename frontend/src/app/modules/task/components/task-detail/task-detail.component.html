@@ -16,15 +16,16 @@
               <div [ngSwitch]="role" *ngIf="itMyTask">
                 <div *ngSwitchCase="'DEVELOPER'">
                   <div [ngSwitch]="task.taskStatus">
-                    <div *ngSwitchCase="'OPEN'" class="btn btn btn-primary" (click)="_inProgressClick()">In progress</div>
-                    <div *ngSwitchCase="'IN_PROGRESS'" class="btn btn btn-primary" (click)="_readyForTestClick()">Ready
+                    <button *ngSwitchCase="'OPEN'" class="btn btn btn-primary" (click)="onInProgressClick()">In progress</button>
+                    <button *ngSwitchCase="'REOPEN'" class="btn btn btn-primary" (click)="onInProgressClick()">In progress</button>
+                    <button *ngSwitchCase="'IN_PROGRESS'" class="btn btn btn-primary" (click)="onReadyForTestClick()">Ready
                       for
-                      test</div>
+                      test</button>
                   </div>
                 </div>
                 <div *ngSwitchCase="'TESTER'">
-                  <div class="btn btn btn-primary" (click)="_closedClick()">CLOSED</div>
-                  <div class="btn btn btn-primary" (click)="_reopenClick()">REOPEN</div>
+                  <div class="btn btn btn-primary" (click)="onClosedClick()">Closed</div>
+                  <div class="btn btn btn-primary" (click)="onReopenClick()">Reopen</div>
                 </div>
               </div>
             </div>

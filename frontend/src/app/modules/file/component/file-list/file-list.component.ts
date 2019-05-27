@@ -20,7 +20,7 @@ export class FileListComponent implements OnInit {
 
   constructor(private fileService: FileService) { }
 
-  ngOnInit() {
+  ngOnInit() {    
     this._updateFileList();
   }
 
@@ -30,6 +30,12 @@ export class FileListComponent implements OnInit {
       saveAs(data.body, fileName);
     })
   }
+
+  onDelete(file:string) {
+    this.fileService.delete(file, this.taskId, this.projectId).subscribe((data) => { 
+      this._updateFileList();
+    })
+  }  
 
   _updateFileList() {
     this.fileService.getFiles(this.taskId,this.projectId).subscribe(data=>{

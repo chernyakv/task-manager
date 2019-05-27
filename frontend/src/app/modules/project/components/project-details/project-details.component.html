@@ -9,25 +9,28 @@
         <div class="card-body">
           {{project.summary}}
         </div>
-        <div class="card-footer text-center">
+        <div *ngIf="isMyProject" class="card-footer text-center">
           <div class="buttons">
-              <button *ngIf="isMyProject" type="button" class="btn btn-sm " (click)="_openTaskModal()">
-                  <i class="icon-plus icon-2x"></i>
-                </button>
-            <button *ngIf="isMyProject" type="button" class=" btn " (click)=" _onEditProjectClick()">
+            <button type="button" class="btn btn-sm " (click)="_openTaskModal()">
+              <i class="icon-plus icon-2x"></i>
+            </button>
+            <button type="button" class=" btn " (click)=" _onEditProjectClick()">
               <i class="icon-edit icon-2x"></i>
             </button>
-            <button *ngIf="isMyProject" type="button" class=" btn " (click)=" _onDeleteProjectClick()">
+            <button type="button" class=" btn " (click)=" _onDeleteProjectClick()">
               <i class="icon-trash icon-2x"></i>
-            </button>            
+            </button>
           </div>
         </div>
       </div>
+      <div *ngIf="isMyProject" class="div">
+        <input [(ngModel)]="selectedUser" placeholder="Invite user by username" [typeahead]="usersWithoutProject"
+          typeaheadOptionField="username" [typeaheadItemTemplate]="customItemTemplate" (typeaheadOnSelect)="typeaheadOnSelect($event)"
+          class="form-control">
+        <button class="btn btn-sm btn-primary m-2 pull-right" (click)="onInviteClick()">Invite</button>
+      </div>
 
-      <input [(ngModel)]="selectedUser" placeholder="Invite user by username" [typeahead]="usersWithoutProject"
-        typeaheadOptionField="username" [typeaheadItemTemplate]="customItemTemplate" (typeaheadOnSelect)="typeaheadOnSelect($event)"
-        class="form-control">      
-      <button class="btn btn-sm btn-primary m-2 pull-right" (click)="onInviteClick()">Invite</button>
+
     </div>
     <div *ngIf="ready" class="col-md-9">
       <tabset>

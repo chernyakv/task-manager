@@ -37,9 +37,11 @@ export class ErrorInterceptor implements HttpInterceptor {
                 console.log(err)   
                 this.alertService.danger(err.error.message);
             }
-            if ([400].indexOf(err.status) !== -1) {    
-                console.log(err);  ; 
-                this.alertService.danger('test');
+            
+            if (err.error[0].code !== undefined) {                
+                if(err.error[0].code.substr(0,3) === `inv`){
+                    this.alertService.danger(err.error[0].code.substr(4));    
+                }                            
             }
             const error = err.error.message || err.statusText;
             return throwError(error);

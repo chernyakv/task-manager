@@ -26,4 +26,8 @@ export class FileService {
   getFiles(taskId: string, projectId: string): Observable<String[]> {    
     return this.http.get<String[]>(`${environment.apiUrl}/api/v1/files?taskId=${taskId}&projectId=${projectId}`);
   }
+
+  delete(filename: string, taskId: string, projectId: string) {
+    return this.http.delete(`${environment.apiUrl}/api/v1/files/file/${filename}?taskId=${taskId}&projectId=${projectId}`);
+  }
 }
